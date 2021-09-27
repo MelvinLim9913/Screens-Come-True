@@ -4,41 +4,128 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script type="text/javascript" src="login.js"></script>
+    <title>Login / Register</title>
     <style>
+        .content {
+            height: 500px;
+            width: 800px;
+            margin: auto;
+        } 
+        td {
+            width: 400px;
+            height: 500px;
+            vertical-align: top;
+            text-align: left;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+
+        }
+        .tablinks {
+            display: block;
+            width: 50%;
+            border: none;
+            background-color: #04AA6D;
+            padding: 14px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+            /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;   
+        }
+
+            /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+            /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+            /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border: none;
+        }
         form {
             text-align: right;
-            font-size: 120%;
+        }
+        input {
+            height:30px;
+            width: 200px;
+            font-size:12pt;
+        }
+        #submitbtn {
+
         }
     </style>
 </head>
-<body>
-    <div>
+<body onload="document.getElementById('defaultOpen').click();">
+    <div class="content">
         <table border="1">
-            <tr colspan="20" style="height: 500px;">
-                <td style="width: 400px;">
-                    
+            <tr>
+                <td>
+                    <img src="../img/Screens%20Come%20True.png" alt="title" height="500" width="400" class="title">
                 </td>
-                <td style="width: 400px;">
-                    <div>
-                        <form action="" >
-                            <label for="name">Name:</label>
-                            <input type="text" name="name" id="name" placeholder="Enter your name here" size="30px" required> <br><br>
-                            <label for="phone">Phone Number:</label>
-                            <input type="text" name="phone" id="phone" placeholder="Enter your phone number here" size="30px" required> <br><br>
-                            <label for="email"></label>E-mail:</label>
-                            <input type="email" name="email" id="email" placeholder="Enter your Email-ID here" size="30px" required> <br><br>
-                            <label for="password">Password:</label>
-                            <input type="password" name="password" id="password" placeholder="Enter your password here" size="30px" required> <br><br>
-                            <label for="confirmpassword">Confirm Password:</label>
-                            <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Enter your confirm password here" size="30px" required> <br><br>
-                        </form>
+                <td >
+                    <div class="rightcontent">
+                        <!-- Tab links -->
+                        <div class="tab">
+                            <button class="tablinks" type="button" onclick="openTab(event, 'login')" id="defaultOpen">Login</button>
+                            <button class="tablinks" type="button" onclick="openTab(event, 'register')">Register</button>
+                        </div>
+                        
+                        <!-- Tab content -->
+                        <div id="login" class="tabcontent">
+                            <h3>Welcome back to (Cinema Name)!</h3>
+                            <form action="" >
+                                <label for="emailorphone">Email/Phone Number:</label>
+                                <input type="text" name="phone" id="emailorphone" size="30px" required> <br><br>
+                                <label for="password">Password:</label>
+                                <input type="password" name="password" id="password" size="30px" required> <br><br>
+                                <input type="submit" value="Login">
+                            </form>
+                        </div>
+                        
+                        <div id="register" class="tabcontent">
+                            <h3>Join Us Today!</h3>
+                            <form action="">
+                                <label for="name">Name:</label>
+                                <input type="text" name="name" id="name" size="30px" required> <br><br>
+                                <label for="phone">Phone Number:</label>
+                                <input type="text" name="phone" id="phone" size="30px" required> <br><br>
+                                <label for="email"></label>E-mail:</label>
+                                <input type="email" name="email" id="email" size="30px" required> <br><br>
+                                <label for="password">Password:</label>
+                                <input type="password" name="password" id="password" size="30px" required> <br><br>
+                                <label for="confirmpassword">Confirm Password:</label>
+                                <input type="password" name="confirmpassword" id="confirmpassword" size="30px" required> <br><br>
+                                <input type="submit" value="Register" id="submitbtn">
+                            </form>
+                        </div>
                     </div>
                 </td>
             </tr>
-
         </table>
+
     </div>
-    
+
 </body>
 </html>
