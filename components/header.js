@@ -54,12 +54,12 @@ headerTemplate.innerHTML = `
             color: #FFFFFF;
             font-style: normal;
             font-weight: normal;
-            font-size: 20px;
-            line-height: 40px;
+            font-size: 15px;
+            line-height: 30px;
             align-items: center;
             text-align: center;
-            height: 40px;
-            width: 180px;
+            height: 30px;
+            width: 150px;
         }
         header img {
             left: 50px;
