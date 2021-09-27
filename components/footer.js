@@ -10,15 +10,22 @@ footerTemplate.innerHTML = `
             padding-top: 10px;
             display: flex;
             justify-content: space-around;
+            width: 80%;
+            margin: auto;
+            min-width: 1000px;
         }
         #copyright {
             text-align: center;
             padding-top: 20px;
             padding-bottom: 5px;
+            width: 80%;
+            margin: auto;
+            min-width: 1000px;
         }
         footer {
             background-color: #001D3D;
             color: #FFFFFF;
+            min-width: 1000px;
         }
     </style>
     <footer>
@@ -41,7 +48,7 @@ footerTemplate.innerHTML = `
             </div>
             <div id="contact-us">
                 <a><strong>Contact Us</strong></a>
-                <p>Mobile Number: +65 8855 3311<br><a>Email Address: hello@cinema.com</a></p>
+                <p>Mobile Number: +65 8855 3311<br>Email Address: <a href="mailto:hello@cinema.com">hello@cinema.com</a></p>
             </div>
         </div>
         <div id="copyright">

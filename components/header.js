@@ -5,13 +5,16 @@ headerTemplate.innerHTML = `
         #wrapper {
             background-color: #000614;
             margin: auto;
-            width: 100%;
+            width: 80%;
             display: flex;
         }
         #menu-bar {
             background-color: #001D3D;
             height: 130px;
             display: flex;
+            width: 80%;
+            min-width: 1000px;
+            margin: auto;
             justify-content: space-around;
             align-items: center;
         }
@@ -19,10 +22,10 @@ headerTemplate.innerHTML = `
             font-size: 24px;
             font-weight: 800;
             color: #FFFFFF;
+            align-items: center;
         }
         li {
             display: inline;
-            padding: 0 20px;
             letter-spacing: 0.1em;
         }
         a:hover {
@@ -51,12 +54,12 @@ headerTemplate.innerHTML = `
             color: #FFFFFF;
             font-style: normal;
             font-weight: normal;
-            font-size: 24px;
-            line-height: 63px;
+            font-size: 20px;
+            line-height: 40px;
             align-items: center;
             text-align: center;
-            height: 62px;
-            width: 249px;
+            height: 40px;
+            width: 180px;
         }
         header img {
             left: 50px;
@@ -78,11 +81,10 @@ headerTemplate.innerHTML = `
                         <li><a><strong>Promotions</strong></a> &nbsp;&nbsp;</li>
                     </ul>
                 </div>
-          
             </nav>
             <div id="login-register-section">
-                <a>Login</a>&nbsp;|&nbsp;<a>Register</a>
-            </div>
+                <a>Log In</a>&nbsp;|&nbsp;<a>Register</a>
+            </div>            
         </div>
     </header>
     `;
