@@ -10,16 +10,18 @@ headerTemplate.innerHTML = `
         }
         #menu-bar {
             background-color: #001D3D;
-            height: 130px;
+            background-image: linear-gradient(180deg, #001D3D, #000614);
+            height: 100px;
             display: flex;
             width: 80%;
             min-width: 1000px;
             margin: auto;
             justify-content: space-around;
             align-items: center;
+            text-shadow: #0074fe 0px 0px 19px;
         }
         #navigation-bar {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 800;
             color: #FFFFFF;
             align-items: center;
@@ -64,15 +66,17 @@ headerTemplate.innerHTML = `
         header img {
             left: 50px;
             top: 35px;
+            height: 80%;
         }
         header {
             justify-content: space-between;
             background-color: #001D3D;
+            background-image: linear-gradient(180deg, #001D3D, #000614);
             }
     </style>
     <header>
         <div id="menu-bar">
-            <img src="../img/Screens%20Come%20True.png" width="225" height="101" alt="Logo">
+            <img src="../img/Screens%20Come%20True.png" alt="Logo">
             <nav>
                 <div id="navigation-bar">
                     <ul>
