@@ -68,23 +68,12 @@ headerTemplate.innerHTML = `
         header {
             justify-content: space-between;
             background-color: #001D3D;
-            }
+        }
     </style>
     <header>
         <div id="menu-bar">
-        <a href="../index.html"><img src="../img/Screens%20Come%20True.png" width="225" height="101" alt="Logo"></a>
-            <nav>
-                <div id="navigation-bar">
-                    <ul>
-                        <li><a><strong>Movies</strong></a> &nbsp;&nbsp;</li>
-                        <li><a><strong>Our Cinemas</strong></a> &nbsp;&nbsp;</li>
-                        <li><a><strong>Promotions</strong></a> &nbsp;&nbsp;</li>
-                    </ul>
-                </div>
-            </nav>
-            <div id="login-register-section">
-                <a href="../pages/login.html?user=login">Log In</a>&nbsp;|&nbsp;<a href="../pages/login.html?user=register">Register</a>
-            </div>            
+            <img src="../img/Screens%20Come%20True.png" width="225" height="101" alt="Logo">
+            <a href="#" onclick="javascript:window.history.back(-1);return false;"><img src="../img/cancel.svg" width="120" height="40" alt="Logo"></a>
         </div>
     </header>
     `;

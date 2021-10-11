@@ -1,0 +1,42 @@
+.button {
+    background-color: #FFD60A;
+    border: 2px solid #000614;
+    border-radius: 20px;
+    box-shadow: #000614 4px 4px 0 0;
+    color: #000614;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 0 18px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+.button:hover {
+    transform: scale(1.05) rotate(-1deg);
+    background-color: #FFFFFF;
+}
+.button:active {
+    box-shadow: #422800 2px 2px 0 0;
+    transform: translate(2px, 2px);
+}
+@media (min-width: 768px) {
+    .button {
+        min-width: 120px;
+        padding: 0 25px;
+    }
+}
+#wrapper {
+    background-color: #000614;
+    color: #FFFFFF;
+    min-width: 1000px;
+}
+.content {
+    width: 80%;
+    min-width: 1000px;
+    margin: auto;
+}
