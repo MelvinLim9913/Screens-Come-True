@@ -3,13 +3,13 @@ const footerTemplate = document.createElement('template')
 footerTemplate.innerHTML = `
     <style>
         #wrapper {
-            background-color: #000614;
+            background-color: #000000;
             color: #FFFFFF;
         }
         #footer {
             padding-top: 10px;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             width: 80%;
             margin: auto;
             min-width: 1000px;
@@ -23,38 +23,57 @@ footerTemplate.innerHTML = `
             min-width: 1000px;
         }
         footer {
-            background-color: #001D3D;
+            background-color: #000000;
             color: #FFFFFF;
             min-width: 1000px;
         }
         a {
+            font-family: Tahoma, Trebuchet MS;
             color: #FFFFFF;
             text-decoration: None;
         }
+        a:hover {
+            color: #EA2127;
+            -moz-transition: all .3s ease-in;
+            -o-transition: all .3s ease-in;
+            -webkit-transition: all .3s ease-in;
+            transition: all .3s ease-in;
+        }
         #email-address {
             text-decoration: #FFFFFF;
+        }
+        .title {
+            font-size: 20px
+        }
+        img {
+            vertical-align: bottom;
         }
     </style>
     <footer>
         <div id="footer">
             <div id="movies">
-                <a><strong>Movies</strong></a>
+                <img src="../img/movie.png" alt="title" height="30" width="30">
+                <a class="title"><strong>Movies</strong></a>
                 <p><a>Now Showing</a><br><a>Coming Soon</a></p>
             </div>
             <div id="cinemas">
-                <a><strong>Cinemas</strong></a>
+                <img src="../img/cinema.png" alt="title" height="30" width="30">
+                <a class="title"><strong>Cinemas</strong></a>
                 <p><a>Discover Our Cinemas</a><br><a>Cinema Experience</a></p>
             </div>
             <div id="promotions">
-                <a><strong>Promotions</strong></a>
+            <img src="../img/promotions.png" alt="title" height="30" width="30">
+                <a class="title"><strong>Promotions</strong></a>
                 <p><a>Food & Beverages</a><br><a>Merchandise</a></p>
             </div>
             <div id="support-us">
-                <a><strong>Support Us</strong></a>
+                <img src="../img/support.png" alt="title" height="30" width="30">
+                <a class="title"><strong>Support Us</strong></a>
                 <p><a href="pages/feedback.html">Provide Feedback</a></p>
             </div>
             <div id="contact-us">
-                <a><strong>Contact Us</strong></a>
+                <img src="../img/contact.png" alt="title" height="30" width="30">
+                <a class="title"><strong>Contact Us</strong></a>
                 <p>Mobile Number: +65 8855 3311<br>Email Address: <a href="mailto:hello@cinema.com" class="email-address">hello@cinema.com</a></p>
             </div>
         </div>
