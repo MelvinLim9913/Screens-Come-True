@@ -27,6 +27,13 @@ footerTemplate.innerHTML = `
             color: #FFFFFF;
             min-width: 1000px;
         }
+        a {
+            color: #FFFFFF;
+            text-decoration: None;
+        }
+        #email-address {
+            text-decoration: #FFFFFF;
+        }
     </style>
     <footer>
         <div id="footer">
@@ -44,11 +51,11 @@ footerTemplate.innerHTML = `
             </div>
             <div id="support-us">
                 <a><strong>Support Us</strong></a>
-                <p><a>Provide Feedback</a></p>
+                <p><a href="pages/feedback.html">Provide Feedback</a></p>
             </div>
             <div id="contact-us">
                 <a><strong>Contact Us</strong></a>
-                <p>Mobile Number: +65 8855 3311<br>Email Address: <a href="mailto:hello@cinema.com">hello@cinema.com</a></p>
+                <p>Mobile Number: +65 8855 3311<br>Email Address: <a href="mailto:hello@cinema.com" class="email-address">hello@cinema.com</a></p>
             </div>
         </div>
         <div id="copyright">
