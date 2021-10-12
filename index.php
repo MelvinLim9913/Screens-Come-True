@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Screens Come True</title>
     <?php
     session_start();
   if (isset($_SESSION['valid_user']))
@@ -56,6 +56,8 @@
         }
         .bolt-quicksearch img {
             object-fit: fill;
+            height: 40px;
+            width: 30px;
         }
         .quicksearch-selection-bar-with-button {
             margin-left: auto;
@@ -290,11 +292,6 @@
             slides[slidePosition-1].style.display = "block";
             circles[slidePosition-1].className += " enable";
         }
-
-        var nxtButton = document.getElementsByClassName("next-photo");
-        setInterval(function() {
-            nxtButton.click();
-        }, 3000);
         // var slidePosition = 0;
         // SlideShow();
         //
@@ -310,7 +307,7 @@
         //     setTimeout(SlideShow, 2000);
         // }
         function openMoviesTab(evt, movieType) {
-            var i, tabcontent, tablinks;
+            let i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
@@ -333,9 +330,9 @@
     <div class="pre-content">
         <div>
             <div class="bolt-quicksearch">
-                <img src="img/logo_lightning.png" alt="logo" height="40" width="30">
-                <img src="img/logo_lightning.png" alt="logo" height="40" width="30">
-                <img src="img/logo_lightning.png" alt="logo" height="40" width="30">
+                <img src="img/logo_lightning.png" alt="logo">
+                <img src="img/logo_lightning.png" alt="logo">
+                <img src="img/logo_lightning.png" alt="logo">
                 &nbsp;
                 <h2>Quick Search</h2>
             </div>
@@ -371,13 +368,15 @@
                                 <option value="" disabled selected>All Movies</option>
                             </select>
                         </label>
-                        <select>
-                            <option value="" disabled selected>All Theatres</option>
-                        </select>
+                        <label>
+                            <select>
+                                <option value="" disabled selected>All Theatres</option>
+                            </select>
+                        </label>
                     </form>
                     <button>SHOWTIMES</button>
                 </div>
-                <button><img alt="logo">Check Bookings</button>
+                <button><img src="" alt="logo">Check Bookings</button>
             </div>
             <br>
             <div class="slideshow-container">
@@ -409,7 +408,13 @@
         <hr><br>
         <div id="nowShowing" class="tabcontent">
             <?php
-            $query_now_showing_details = "SELECT title, releaseDate, runningTime, genre, language, imagePath FROM `Movie` WHERE releaseDate <= CURRENT_DATE() ORDER BY releaseDate DESC LIMIT 8";
+            $query_now_showing_details = "
+                SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                FROM `Movie` 
+                WHERE releaseDate <= CURRENT_DATE() 
+                ORDER BY releaseDate 
+                DESC LIMIT 8
+                ";
             $movie_details = mysqli_query($conn, $query_now_showing_details);
             $movie_poster_path = "img/movies/";
 

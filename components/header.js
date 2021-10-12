@@ -100,7 +100,7 @@ headerTemplate.innerHTML = `
                 <div id="navigation-bar">
                     <ul>
                         <li><a><strong>Movies</strong></a></li>
-                        <li><a><strong>Our Cinemas</strong></a></li>
+                        <li><a href="pages/cinema.php"><strong>Our Cinemas</strong></a></li>
                         <li><a><strong>Promotions</strong></a></li>
                     </ul>
                 </div>

@@ -4,7 +4,25 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
 #wrapper {
-    margin: 0px;
-    padding: 0px;
+    background-color: #1a1a1a;
+    color: #FFFFFF;
+    min-width: 1000px;
+}
+.content {
+    width: 80%;
+    min-width: 1000px;
+    margin: auto;
+}
+
+.current-page-breadcrumb {
+    color: red;
+}
+.other-page-breadcrumb {
+    color: #FFFFFF;
+    text-decoration: None;
+}
+.other-page-breadcrumb:visited {
+    color: #FFFFFF;
 }
