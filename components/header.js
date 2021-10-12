@@ -93,7 +93,7 @@ headerTemplate.innerHTML = `
     </style>
     <header>
         <div id="menu-bar">
-            <img src="../img/title.png" alt="Logo">
+            <img src="img/title.png" alt="Logo">
             <nav>
                 <div id="navigation-bar">
                     <ul>
