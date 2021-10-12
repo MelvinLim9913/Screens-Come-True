@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="login.js"></script>
-    <link rel="stylesheet" href="button.css">
     <title>Login / Register</title>
     <script src="../components/header_login.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="../components/color.css">
+    <link rel="stylesheet" href="../components/button.css">
 
     <style>
+        body {
+            color: #FFFFFF;
+            background-color: #1a1a1a;
+        }
         .content {
             padding-top: 100px;
         }
@@ -17,7 +20,7 @@
             height: 500px;
             width: 800px;
             margin: auto;
-            background-color: #003566;
+            background-color: #000000;
         } 
         td {
             width: 400px;
@@ -59,7 +62,7 @@
 
             /* Create an active/current tablink class */
         .tab button.active {
-            color: #FFC300;
+            color: #EA2127;
             font-weight: bold;
         }
 
@@ -76,9 +79,8 @@
         }
         input {
             height: 30px;
-            width: 158px;
+            width: 205px;
             font-size:12pt;
-            padding-right: 50px;
             border-radius: 5px;
         }
         .tabcontent .button {
@@ -87,51 +89,66 @@
         hr {
             color: #FFC300;
         }
+        a{
+            text-decoration: none;
+        }
     </style>
 </head>
 <body onload="document.getElementById('defaultOpen').click();" id="wrapper">
     <header-component></header-component>
     <div class="content" >
+       
         <div class="incontent">
             <table border="0">
                 <tr>
                     <td>
-                        <img src="../img/Screens%20Come%20True.png" alt="title" height="500" width="400" class="title">
+                        <img src="../img/header_title.png" alt="title" height="500" width="400" class="title">
                     </td>
                     <td >
                         <div class="rightcontent">
                             <!-- Tab links -->
                             <div class="tab">
-                                <button class="tablinks" type="button" onclick="openTab(event, 'login')" id="defaultOpen">Login</button>
-                                <button class="tablinks" type="button" onclick="openTab(event, 'register')">Register</button>
+                                <button class="tablinks" name="login" type="button" onclick="openTab(event, 'login')">Login</button>
+                                <button class="tablinks" name="register" type="button" onclick="openTab(event, 'register')">Register</button>
+                                <script>
+                                    var url = document.location.toString();
+                                    if (url.match('#')) { 
+                                        tab = url.split('#')[1];
+                                        if (tab == "login") {
+                                            document.getElementsByName("login")[0].id = "defaultOpen";
+                                        } else {
+                                            document.getElementsByName("register")[0].id = "defaultOpen";
+                                        }
+                                    }
+                                </script>
                             </div>
                             <hr>
                             <!-- Tab content -->
                             <div id="login" class="tabcontent">
-                                <h1 class="title">Welcome Back to <br> Screens Come True!</h3>
-                                <form action="" >
-                                    <label for="emailorphone">Email/Phone Number:</label>
-                                    <input type="text" name="phone" id="emailorphone" size="30px" required> <br><br>
+                                <h1 class="title">Welcome back! <br> </h1>
+                                <form action="login.php" method="post" id="formlogin" name="formlogin">
+                                    <label for="email">Email:</label>
+                                    <input type="text" name="loginemail" id="loginemail" size="30px" required> <br><br>
                                     <label for="password">Password:</label>
-                                    <input type="password" name="password" id="password" size="30px" required> <br><br>
-                                    <input type="submit" value="Login" class="button">
+                                    <input type="password" name="loginpassword" id="loginpassword" size="30px" required> <br><br>
+                                    <input type="submit" value="LOGIN" class="button">
                                 </form>
                             </div>
                             
                             <div id="register" class="tabcontent">
                                 <h1 class="title">Join Us Today!</h3>
-                                <form action="">
+                                <form action="register.php" method="post" id="formregister" name="formregister" onsubmit="return validateForm()">
                                     <label for="name">Name:</label>
                                     <input type="text" name="name" id="name" size="30px" required> <br><br>
+                                    <label for="email"></label>E-mail:</label>
+                                    <input type="email" name="email" id="registeremail" size="30px" required onchange="validateEmail();"> <br><br>
                                     <label for="phone">Phone Number:</label>
                                     <input type="text" name="phone" id="phone" size="30px" required> <br><br>
-                                    <label for="email"></label>E-mail:</label>
-                                    <input type="email" name="email" id="email" size="30px" required> <br><br>
                                     <label for="password">Password:</label>
-                                    <input type="password" name="password" id="password" size="30px" required> <br><br>
+                                    <input type="password" name="password" id="registerpassword" size="30px" required onchange="validateValidPassword();"> <br><br>
                                     <label for="confirmpassword">Confirm Password:</label>
-                                    <input type="password" name="confirmpassword" id="confirmpassword" size="30px" required> <br><br>
-                                    <input type="submit" value="Register" id="submitbtn" class="button">
+                                    <input type="password" name="confirmpassword" id="registerconfirmpassword" size="30px" required onchange="validatePassword();"> <br><br>
+                                    <input type="submit" value="REGISTER" id="submitbtn" class="button">
                                 </form>
                             </div>
                         </div>
