@@ -95,11 +95,11 @@ headerTemplate.innerHTML = `
     </style>
     <header>
         <div id="menu-bar">
-            <img src="img/header_title.png" alt="Logo">
+            <img src="/f32ee/Screens-Come-True/img/header_title.png" alt="Logo">
             <nav>
                 <div id="navigation-bar">
                     <ul>
-                        <li><a><strong>Movies</strong></a></li>
+                        <li><a href="pages/movies.php"><strong>Movies</strong></a></li>
                         <li><a><strong>Our Cinemas</strong></a></li>
                         <li><a><strong>Promotions</strong></a></li>
                     </ul>

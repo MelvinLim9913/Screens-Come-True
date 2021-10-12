@@ -123,7 +123,7 @@ headerTemplate_valid_user.innerHTML = `
     <header>
         <div id="menu-bar">
             <div class="header">
-                <img src="img/header_title.png" alt="Logo">
+                <img src="/f32ee/Screens-Come-True/img/header_title.png" alt="Logo">
             </div>
             <nav>
                 <div id="navigation-bar">
@@ -135,7 +135,7 @@ headerTemplate_valid_user.innerHTML = `
                 </div>
             </nav>
             <div class="dropdown">
-                <img id="validuser" src="img/valid_user.png" width="60" height="60"">   
+                <img id="validuser" src="/f32ee/Screens-Come-True/img/valid_user.png" width="60" height="60"">   
                 <div class="dropdown-content">
                     <a href="pages/feedback.html">Provide Feedback</a>
                     <a href="pages/signout.php">Sign Out</a>
