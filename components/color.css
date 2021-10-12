@@ -1,10 +1,14 @@
 body {
     font-family: Tahoma, Trebuchet MS;
     letter-spacing: 0.05em;
+<<<<<<< HEAD
     margin: 0px;
     padding: 0px;
 }
 #wrapper {
     margin: 0px;
     padding: 0px;
+=======
+    margin: 0;
+>>>>>>> origin
 }
