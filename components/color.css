@@ -1,4 +1,10 @@
 body {
     font-family: Tahoma, Trebuchet MS;
     letter-spacing: 0.05em;
+    margin: 0px;
+    padding: 0px;
+}
+#wrapper {
+    margin: 0px;
+    padding: 0px;
 }

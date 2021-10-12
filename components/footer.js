@@ -2,10 +2,6 @@ const footerTemplate = document.createElement('template')
 
 footerTemplate.innerHTML = `
     <style>
-        #wrapper {
-            background-color: #000000;
-            color: #FFFFFF;
-        }
         #footer {
             padding-top: 10px;
             display: flex;
@@ -52,27 +48,27 @@ footerTemplate.innerHTML = `
     <footer>
         <div id="footer">
             <div id="movies">
-                <img src="../img/movie.png" alt="title" height="30" width="30">
+                <img src="img/footer_movie.png" alt="title" height="30" width="30">
                 <a class="title"><strong>Movies</strong></a>
                 <p><a>Now Showing</a><br><a>Coming Soon</a></p>
             </div>
             <div id="cinemas">
-                <img src="../img/cinema.png" alt="title" height="30" width="30">
+                <img src="img/footer_cinema.png" alt="title" height="30" width="30">
                 <a class="title"><strong>Cinemas</strong></a>
                 <p><a>Discover Our Cinemas</a><br><a>Cinema Experience</a></p>
             </div>
             <div id="promotions">
-            <img src="../img/promotions.png" alt="title" height="30" width="30">
+            <img src="img/footer_promotions.png" alt="title" height="30" width="30">
                 <a class="title"><strong>Promotions</strong></a>
                 <p><a>Food & Beverages</a><br><a>Merchandise</a></p>
             </div>
             <div id="support-us">
-                <img src="../img/support.png" alt="title" height="30" width="30">
+                <img src="img/footer_support.png" alt="title" height="30" width="30">
                 <a class="title"><strong>Support Us</strong></a>
                 <p><a href="pages/feedback.html">Provide Feedback</a></p>
             </div>
             <div id="contact-us">
-                <img src="../img/contact.png" alt="title" height="30" width="30">
+                <img src="img/footer_contact.png" alt="title" height="30" width="30">
                 <a class="title"><strong>Contact Us</strong></a>
                 <p>Mobile Number: +65 8855 3311<br>Email Address: <a href="mailto:hello@cinema.com" class="email-address">hello@cinema.com</a></p>
             </div>

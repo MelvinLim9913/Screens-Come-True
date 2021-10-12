@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <?php
+    session_start();
+  if (isset($_SESSION['valid_user']))
+  {
+     ?>
+     <script src="components/header_valid_user.js" type="text/javascript" defer></script>
+     <?php 
+  }
+  else {
+    ?>
     <script src="components/header.js" type="text/javascript" defer></script>
+    <?php
+  }
+      ?>
     <script src="components/footer.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="../components/color.css">
+    <script src="pages/showModal.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="components/button.css">
+    <link rel="stylesheet" href="components/color.css">
     <style>
         #wrapper {
             background-color: #1a1a1a;
@@ -16,6 +31,10 @@
             width: 80%;
             min-width: 1000px;
             margin: auto;
+        }
+        body {
+            margin: 0px;
+            padding: 0px;
         }
     </style>
 </head>

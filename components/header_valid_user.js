@@ -1,6 +1,6 @@
-const headerTemplate = document.createElement('template');
+var headerTemplate_valid_user = document.createElement('template');
 
-headerTemplate.innerHTML = `
+headerTemplate_valid_user.innerHTML = `
     <style>
         #menu-bar {
             background-color: #000000;
@@ -65,20 +65,7 @@ headerTemplate.innerHTML = `
           width: 28px; 
           transition: width 0.3s ease-in-out;
         }
-        #login-register-section {
-            background-color: #000000;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: #FFFFFF;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 16px;
-            line-height: 40px;
-            align-items: center;
-            text-align: center;
-            height: 40px;
-            width: 180px;
-        }
-        header img {
+        header .header img {
             left: 50px;
             top: 35px;
             height: 80%;
@@ -92,10 +79,52 @@ headerTemplate.innerHTML = `
             background-color: #000000;
             background-image: linear-gradient(180deg, #000000, #000000);
             }
+
+        #validuser {
+            cursor: pointer;
+        }
+            
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            font-weight: normal;
+        }
+        
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #EA2127;
+            color: #FFFFFF;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
     </style>
     <header>
         <div id="menu-bar">
-            <img src="img/header_title.png" alt="Logo">
+            <div class="header">
+                <img src="img/header_title.png" alt="Logo">
+            </div>
             <nav>
                 <div id="navigation-bar">
                     <ul>
@@ -105,22 +134,27 @@ headerTemplate.innerHTML = `
                     </ul>
                 </div>
             </nav>
-            <div id="login-register-section">
-                <a class="login" href="pages/login.html#login" id="login">Log In</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="login" href="pages/login.html#register" id="register">Register</a>
-            </div>            
+            <div class="dropdown">
+                <img id="validuser" src="img/valid_user.png" width="60" height="60"">   
+                <div class="dropdown-content">
+                    <a href="pages/feedback.html">Provide Feedback</a>
+                    <a href="pages/signout.php">Sign Out</a>
+                </div>
+            </div>
+                      
         </div>
     </header>
     `;
 
-class Header extends HTMLElement {
+class HeaderValidUser extends HTMLElement {
     constructor() {
         super();
     }
 
     connectedCallback() {
         const shadowRoot = this.attachShadow({ mode: "closed" });
-        shadowRoot.appendChild(headerTemplate.content);
+        shadowRoot.appendChild(headerTemplate_valid_user.content);
     }
 }
 
-customElements.define('header-component', Header);
+customElements.define('header-component', HeaderValidUser);
