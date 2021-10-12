@@ -2,20 +2,14 @@ const headerTemplate = document.createElement('template');
 
 headerTemplate.innerHTML = `
     <style>
-        #wrapper {
-            background-color: #000614;
-            margin: auto;
-            width: 80%;
-            display: flex;
-        }
         #menu-bar {
-            background-color: #001D3D;
-            height: 130px;
+            background-color: #000000;
+            height: 100px;
             display: flex;
-            width: 80%;
+            width: 65%;
             min-width: 1000px;
-            margin: auto;
-            justify-content: space-around;
+            margin: 0 auto;
+            justify-content: space-between;
             align-items: center;
         }
         #navigation-bar {
@@ -67,13 +61,13 @@ headerTemplate.innerHTML = `
         }
         header {
             justify-content: space-between;
-            background-color: #001D3D;
+            background-color: #000000;
         }
     </style>
     <header>
         <div id="menu-bar">
-            <img src="../img/Screens%20Come%20True.png" width="225" height="101" alt="Logo">
-            <a href="#" onclick="javascript:window.history.back(-1);return false;"><img src="../img/cancel.svg" width="120" height="40" alt="Logo"></a>
+            <img src="../img/header_title.png" width="225" height="101" alt="Logo">
+            <a href="#" onclick="javascript:window.history.back(-1);return false;"><img src="../img/login_cancel.svg" width="120" height="40" alt="Logo"></a>
         </div>
     </header>
     `;
