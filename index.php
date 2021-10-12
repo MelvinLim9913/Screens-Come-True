@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <?php
+    session_start();
+  if (isset($_SESSION['valid_user']))
+  {
+     ?>
+     <script src="components/header_valid_user.js" type="text/javascript" defer></script>
+     <?php 
+  }
+  else {
+    ?>
     <script src="components/header.js" type="text/javascript" defer></script>
+    <?php
+  }
+      ?>
     <script src="components/footer.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="../components/color.css">
+    <link rel="stylesheet" href="components/button.css">
+    <link rel="stylesheet" href="components/color.css">
     <style>
         #wrapper {
             background-color: #1a1a1a;
@@ -23,7 +37,8 @@
             margin: auto;
         }
         body {
-            margin: 0;
+            margin: 0px;
+            padding: 0px;
             font-family: Tahoma, Trebuchet MS, serif;
             letter-spacing: 0.05em;
         }
@@ -318,7 +333,7 @@
         <div id="nowShowing" class="tabcontent">
             <div class="movie-posters">
                 <div class="movie-posters-container">
-                    <img src="img/The_Boss_Baby_Family_Business.jpg" alt="movie-poster">
+                    <img src="img/movies/The_Boss_Baby_Family_Business.jpg" alt="movie-poster">
                     <div class="overlay-text">
                         <h4>English</h4>
                         <h4>Cartoon</h4>
