@@ -26,3 +26,7 @@ body {
 .other-page-breadcrumb:visited {
     color: #FFFFFF;
 }
+a {
+    text-decoration: None;
+    color: #FFFFFF;
+}

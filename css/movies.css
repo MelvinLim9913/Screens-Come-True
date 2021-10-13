@@ -75,6 +75,9 @@ hr {
     display: flex;
     align-items: center;
 }
+#pointer a:hover {
+    color: #ffd701;
+}
 #pointer:after {
     content: "";
     position: absolute;
@@ -99,26 +102,4 @@ hr {
 }
 .movie-running-time {
     color: #8c8c8c;
-}
-.view-more-movies {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 50px;
-    align-items: center;
-}
-.arrow-in-circle {
-    background: red;
-    text-decoration:none; /* Remove that ugly underlining */
-    border-radius: 50%;
-    display: block;
-    height: 80px;
-    width: 80px;
-}
-.arrow-in-circle::after {
-    content:"\2192";   /* The code for the arrow : see the reference */
-    display: block;
-    color: white;
-    font-weight: bold;
-    font-size: 60px; /* Adjust for your needs */
-    text-align: center;
 }

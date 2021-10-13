@@ -1,0 +1,93 @@
+h2 {
+    color: #ffd701;
+}
+.movie-content {
+    height: 420px;
+}
+.movie-posters {
+    display: block;
+    float: left;
+    width: 330px;
+    
+}
+.movie-details{
+    overflow: hidden;
+    padding-left: 30px;
+}
+.movie-details table { 
+    width: 45%;
+    display: inline-block; 
+    margin-right: 30px;
+    vertical-align: top;
+    border-spacing: 0 1em;
+} 
+
+.movie-details td {
+    vertical-align: top;
+    padding-right: 20px;
+}
+.details-title {
+    color: #999;
+    font-size: 14px;
+}
+.details-description {
+    font-size: 14px;
+}
+.movie-details h4 {
+    margin: 0px;
+    color: #ffd701;
+}
+.date-content table {
+    width: 100%;
+}
+.date-content table td {
+    padding: 10px;
+    color: #a0a0a0;
+    text-align: center;
+    background-color: #302c2d;
+}
+.date-content table td a {
+    color: #a0a0a0;
+}
+.date-content table td:hover {
+    background-color: #EA2127;
+}
+.date-content table td.active{
+    background-color: #EA2127;
+}
+.date-content table td.active a{
+    color: #FFFFFF;
+}
+.showtimes-content table {
+    width: 100%;
+}
+.showtimes-content table {
+    border: 2px solid #1a1a1a;
+}
+.showtimes-content td {
+    background-color: #302c2d;
+}
+.showtimes-content td:first-child {
+    background-color: #1a1a1a;
+    padding-left: 10px;
+    width: 20%;
+}
+.showtimes-content ul {
+    list-style-type: none;
+}
+.showtimes-content ul li {
+    display: inline-block;
+    background-color: #FFFFFF;
+    color: #000000;
+    margin: 5px 10px;
+    padding: 15px 40px;
+    border-radius: 15px;
+}
+.showtimes-content ul li:hover {
+    background-color: #EA2127;
+    color: #FFFFFF;
+    -moz-transition: all .3s ease-in;
+    -o-transition: all .3s ease-in;
+    -webkit-transition: all .3s ease-in;
+    transition: all .3s ease-in;
+}
