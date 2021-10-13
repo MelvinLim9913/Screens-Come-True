@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    
+    <title>Screens Come True</title>
     <script src="components/footer.js" type="text/javascript"></script>
     <link rel="stylesheet" href="components/button.css">
     <link rel="stylesheet" href="components/color.css">
@@ -37,15 +36,15 @@
             margin: auto;
         }
         body {
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
             font-family: Tahoma, Trebuchet MS, serif;
             letter-spacing: 0.05em;
         }
         .bolt-quicksearch {
             margin-top: 20px;
             background-color: #000000;
-            color: #968c8c;
+            color: #FFFFFF;
             width: 300px;
             height: 60px;
             display: flex;
@@ -56,6 +55,8 @@
         }
         .bolt-quicksearch img {
             object-fit: fill;
+            height: 40px;
+            width: 30px;
         }
         .quicksearch-selection-bar-with-button {
             margin-left: auto;
@@ -140,7 +141,7 @@
             overflow: hidden;
         }
         .tab a {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
@@ -148,47 +149,118 @@
         .tab a:hover {
             color: #EA2127;
         }
-        .tab a:active {
-            font-size: 26px;
-            color: #EA2127;
-        }
         .tabcontent {
             display: none;
+            flex-wrap: wrap;
+            grid-template-columns: repeat(auto-fill, 340px);
+        }
+        /*.tabcontent::after{*/
+        /*    content: '';*/
+        /*    width: 340px;*/
+        /*    flex: auto;*/
+        /*}*/
+        .tablinks-current {
+            font-size: 30px;
+            color: #EA2127;
+        }
+        hr {
+            border: 1px solid #EA2127;
         }
         .movie-posters {
             height:500px;
-            width: 250px;
+            width: 300px;
+            margin-right: 20px;
+            margin-left: 20px;
         }
         .movie-posters img {
-            height: 350px;
-            width: 250px;
+            height: 400px;
+            width: 300px;
+            display: block;
         }
         .movie-posters h4 {
             margin: 5px;
         }
-        .image-overlay {
+        .movie-posters-container {
+            position: relative;
+        }
+        .movie-posters-container:hover .overlay {
+            height: 100%;
+        }
+        .overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: #008CBA;
+            background-color: rgba(17, 17, 17, 0.85);
             overflow: hidden;
             width: 100%;
             height: 0;
             transition: .5s ease;
-        }
-        .movie-posters img:hover .overlay-text {
-            height: 100%;
         }
         .overlay-text {
             color: white;
             font-size: 20px;
             position: absolute;
             top: 50%;
-            left: 50%;
+            left: 40%;
             -webkit-transform: translate(-50%, -50%);
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
+            text-align: left;
+        }
+        #pointer {
+            width: 180px;
+            height: 60px;
+            position: relative;
+            background: red;
+            display: flex;
+            align-items: center;
+        }
+        #pointer:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-top: 30px solid transparent;
+            border-bottom: 30px solid transparent;
+        }
+        #pointer:before {
+            content: "";
+            position: absolute;
+            right: -30px;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 30px solid red;
+            border-top: 30px solid transparent;
+            border-bottom: 30px solid transparent;
+        }
+        .movie-running-time {
+            color: #8c8c8c;
+        }
+        .view-more-movies {
+            display: flex;
+            justify-content: flex-end;
+            padding-bottom: 50px;
+            align-items: center;
+        }
+        .arrow-in-circle {
+            background: red;
+            text-decoration:none; /* Remove that ugly underlining */
+            border-radius: 50%;
+            display: block;
+            height: 80px;
+            width: 80px;
+        }
+        .arrow-in-circle::after {
+            content:"\2192";   /* The code for the arrow : see the reference */
+            display: block;
+            color: white;
+            font-weight: bold;
+            font-size: 60px; /* Adjust for your needs */
             text-align: center;
         }
     </style>
@@ -234,7 +306,7 @@
         //     setTimeout(SlideShow, 2000);
         // }
         function openMoviesTab(evt, movieType) {
-            var i, tabcontent, tablinks;
+            let i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
@@ -242,15 +314,16 @@
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace("active", "");
+                tablinks[i].className = tablinks[i].className.replace("tablinks-current", "");
             }
-            document.getElementById(movieType).style.display = "block";
+            document.getElementById(movieType).style.display = "grid";
+            document.getElementById(movieType).style.justifyContent = "space-around";
             evt.currentTarget.className += " active";
+            evt.currentTarget.className += " tablinks-current";
         }
-
-        document.getElementById("defaultOpen").click();
     </script>
 </head>
-<body>
+<body onload="document.getElementById('defaultOpen').click();">
 <div id="wrapper">
 <?php
     session_start();
@@ -265,9 +338,9 @@
     <div class="pre-content">
         <div>
             <div class="bolt-quicksearch">
-                <img src="img/logo_lightning.png" alt="logo" height="40" width="30">
-                <img src="img/logo_lightning.png" alt="logo" height="40" width="30">
-                <img src="img/logo_lightning.png" alt="logo" height="40" width="30">
+                <img src="img/logo_lightning.png" alt="logo">
+                <img src="img/logo_lightning.png" alt="logo">
+                <img src="img/logo_lightning.png" alt="logo">
                 &nbsp;
                 <h2>Quick Search</h2>
             </div>
@@ -303,13 +376,15 @@
                                 <option value="" disabled selected>All Movies</option>
                             </select>
                         </label>
-                        <select>
-                            <option value="" disabled selected>All Theatres</option>
-                        </select>
+                        <label>
+                            <select>
+                                <option value="" disabled selected>All Theatres</option>
+                            </select>
+                        </label>
                     </form>
                     <button>SHOWTIMES</button>
                 </div>
-                <button><img>Check Bookings</button>
+                <button><img src="" alt="logo">Check Bookings</button>
             </div>
             <br>
             <div class="slideshow-container">
@@ -335,28 +410,114 @@
     </div>
     <div class="content">
         <div class="tab">
-            <a class="tablinks" onclick="openMoviesTab(event, 'nowShowing')" id="defaultOpen">Now Showing</a>&nbsp;
+            <a class="tablinks" onclick="openMoviesTab(event, 'nowShowing')" id="defaultOpen">Now Showing</a>&nbsp;&nbsp;&nbsp;
             <a class="tablinks" onclick="openMoviesTab(event, 'comingSoon')">Coming Soon</a>
         </div>
         <hr><br>
         <div id="nowShowing" class="tabcontent">
-            <div class="movie-posters">
+            <?php
+            $query_now_showing_details = "
+                SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                FROM `Movie` 
+                WHERE releaseDate <= CURRENT_DATE() 
+                ORDER BY releaseDate 
+                DESC LIMIT 8
+                ";
+            $movie_details = mysqli_query($conn, $query_now_showing_details);
+            $movie_poster_path = "img/movies/";
+
+            while ($row = mysqli_fetch_assoc($movie_details)) {
+                echo '
+                <div class="movie-posters">
                 <div class="movie-posters-container">
-                    <img src="img/movies/The_Boss_Baby_Family_Business.jpg" alt="movie-poster">
-                    <div class="overlay-text">
-                        <h4>English</h4>
-                        <h4>Cartoon</h4>
+                    <img src="img/movies/' . $row["imagePath"]. '.jpg" alt="movie-poster">
+                    <div class="overlay">
+                        <div class="overlay-text">
+                            <a><h4>' . $row["title"]. '</h4></a>
+                            <h5>' . $row["language"]. '<br>' . $row["genre"]. '</h5>
+                            <br>
+                            <a>
+                                <div id="pointer">
+                                    <h2>&nbsp;Book Now</h2>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <h4>The Boss Baby Family Business</h4>
-                    <i>108 minutes</i>
+                    <h4>'. $row["title"]. '</h4>
+                    <i class="movie-running-time">' . $row["runningTime"] . ' minutes</i>
                 </div>
             </div>
+                ';
+            }
+            ?>
+<!--            <div class="movie-posters">-->
+<!--                <div class="movie-posters-container">-->
+<!--                    <img src="img/movies/Antlers.jpg" alt="movie-poster">-->
+<!--                    <div class="overlay">-->
+<!--                        <div class="overlay-text">-->
+<!--                            <a><h4>The Boss Baby Family Business</h4></a>-->
+<!--                            <h5>English/Adventure</h5>-->
+<!--                            <br>-->
+<!--                            <a>-->
+<!--                                <div id="pointer">-->
+<!--                                    <h2>&nbsp;Book Now</h2>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <h4>The Boss Baby Family Business</h4>-->
+<!--                    <i class="movie-running-time">108 minutes</i>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <div id="comingSoon" class="tabcontent">
-            <h3>Lohha</h3>
-            <p>Lohha from the other side.</p>
+            <?php
+            $query_now_showing_details = "
+                                        SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                                        FROM `Movie` 
+                                        WHERE releaseDate > CURRENT_DATE() 
+                                        ORDER BY releaseDate 
+                                        DESC LIMIT 8
+                                        ";
+            $movie_details = mysqli_query($conn, $query_now_showing_details);
+            $movie_poster_path = "img/movies/";
+
+            while ($row = mysqli_fetch_assoc($movie_details)) {
+                echo '
+                <div class="movie-posters">
+                <div class="movie-posters-container">
+                    <img src="img/movies/' . $row["imagePath"]. '.jpg" alt="movie-poster">
+                    <div class="overlay">
+                        <div class="overlay-text">
+                            <a><h4>' . $row["title"]. '</h4></a>
+                            <h5>' . $row["language"]. '<br>' . $row["genre"]. '</h5>
+                            <br>
+                            <a>
+                                <div id="pointer">
+                                    <h2>&nbsp;Book Now</h2>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4>'. $row["title"]. '</h4>
+                    <i class="movie-running-time">' . $row["runningTime"] . ' minutes</i>
+                </div>
+            </div>
+                ';
+            }
+            ?>
+        </div>
+        <div>
+            <a class="view-more-movies">
+                <h2>View More Movies</h2> &nbsp;&nbsp;
+                <div class="arrow-in-circle"></div>
+            </a>
         </div>
     </div>
     <?php include "components/footer.html"; ?>
