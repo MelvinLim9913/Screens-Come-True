@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/footer.css">
 
     <style>
-        ul {
+         .cinema-location {
             background-clip: border-box;
             background-color: rgb(38, 38, 38);
             background-origin: padding-box;
@@ -28,11 +28,11 @@
             width: 280px;
             padding: 15px;
         }
-        li {
+        .cinema-location li {
             list-style: none;
             box-sizing: border-box;
         }
-        li a {
+        .cinema-location li a {
             background-color: rgb(94, 94, 94);
             background-attachment: scroll;
             background-clip: border-box;
@@ -89,7 +89,7 @@
         `Cinema`
         ";
         $cinema_list = mysqli_query($conn, $query_cinema_list);
-        echo "<ul>";
+        echo "<ul class='cinema-location'>";
         while ($row = mysqli_fetch_assoc($cinema_list)) {
             echo '<li><a>Screens Come True, ' . $row["name"] . '</a>';
         }
