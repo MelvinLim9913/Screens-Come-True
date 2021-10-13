@@ -26,12 +26,15 @@
         var element
         if (url.indexOf('movies') > -1) {
             element = document.getElementById('movies');
+            element.setAttribute("class","active");
         } else if (url.indexOf('cinemas') > -1) {
             element = document.getElementById('cinemas');
+            element.setAttribute("class","active");
         }else if (url.indexOf('promotions') > -1) {
             element = document.getElementById('promotions');
+            element.setAttribute("class","active");
         }
-        element.setAttribute("class","active");
+        
     </script>
 </body>
 </html>

@@ -46,7 +46,7 @@
     display: block;
     transition: 0.3s all ease-in-out;
     }
-    li a:hover:after { 
+li a:hover:after { 
     width: 28px; 
     transition: width 0.3s ease-in-out;
     }

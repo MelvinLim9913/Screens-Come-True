@@ -1,6 +1,7 @@
 <?php
 @$dbcnx = new mysqli('localhost','f32ee','f32ee','f32ee');
 // @ to ignore error message display //
+$dbcnx -> set_charset("utf8");
 if ($dbcnx->connect_error){
 	echo "Database is not online"; 
 	exit;
