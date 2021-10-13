@@ -25,7 +25,7 @@ $result = mysqli_query($conn, $checkemail);
 if (mysqli_num_rows($result) > 0) {
     echo '<script>
             alert("Email already exist");
-            window.location.href="loginmain.php#login";
+            window.location.href="login.php#login";
         </script>';
 }
 else {
@@ -34,7 +34,7 @@ else {
     if (mysqli_query($conn, $sql)) {
         $_SESSION['valid_user'] = $email;
         echo '<script>
-                window.location.href="../index.html";
+                window.location.href="index.php";
             </script>';
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);

@@ -1,3 +1,8 @@
+section {
+    background-color: #000000;
+    justify-content: space-between;
+}
+
 #footer {
     padding-top: 10px;
     display: flex;
@@ -5,6 +10,7 @@
     width: 80%;
     margin: auto;
     min-width: 1000px;
+    background-color: #000000;
 }
 #copyright {
     text-align: center;

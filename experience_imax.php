@@ -2,67 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="../components/header.js" type="text/javascript" defer></script>
-    <script src="../components/footer.js" type="text/javascript"></script>
-    <style>
-        #wrapper {
-            background-color: #000614;
-            color: #FFFFFF;
-            min-width: 1000px;
-        }
-        body {
-            margin: 0;
-        }
-        .banner {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
-        }
-        .content {
-            width: 80%;
-            min-width: 1000px;
-            margin: auto;
-        }
-        .feature-description {
-            display: flex;
-            align-items: center;
-            padding-top: 50px;
-        }
-        .feature-description img {
-            width: 60%;
-            border-radius: 10px;
-            box-shadow: 0 6px 20px 5px #001D3D
-        }
-        .feature-description h2 {
-            color: #FFD60A;
-            font-size: 30px;
-        }
-        h2 {
-            color: #FFD60A;
-            font-size: 30px;
-        }
-        .blank-column {
-            padding-left: 40px;
-        }
-        p {
-            font-size: 25px;
-        }
-        h1 {
-            font-size: 50px;
-            color: #FFD60A;
-        }
-        li {
-            font-size: 25px;
-        }
-    </style>
+    <title>Imax</title>
+    <?php
+    session_start();
+    if (isset($_SESSION['valid_user']))
+    { ?>
+        <link rel="stylesheet" href="css/header_userloginsess.css">
+    <?php
+    }
+    else { ?>
+        <link rel="stylesheet" href="css/header.css">
+    <?php
+    }
+    ?>
+    <link rel="stylesheet" href="css/experience_imax.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
 <div id="wrapper">
-    <header-component></header-component>
+    <?php
+        if (isset($_SESSION['valid_user']))
+        {
+            include "components/header_userloginsess.html";
+        }
+        else {
+            include "components/header.html";
+        }
+    ?>
     <div class="content">
-        <img src="../img/experience_imax_banner.jpeg" class="banner">
+        <img src="img/experience/experience_imax_banner.jpeg" class="banner">
         <h1>IMAX</h1>
         <p>
             Go beyond the standard cinema experience with IMAX at GSC. Immersive, heart-pounding audio combined with
@@ -81,10 +49,10 @@
                 </p>
             </div>
             <div class="blank-column"></div>
-            <img src="../img/imax_feature1.png" height="350">
+            <img src="img/experience/imax/imax_feature1.png" height="350">
         </div>
         <div class="feature-description">
-            <img src="../img/imax_feature2.png" height="350">
+            <img src="img/experience/imax/imax_feature2.png" height="350">
             <div class="blank-column"></div>
             <div>
                 <h2>Heart-Pounding Audio</h2>
@@ -104,7 +72,7 @@
                 </p>
             </div>
             <div class="blank-column"></div>
-            <img src="../img/imax_feature3.jpg" height="350">
+            <img src="img/experience/imax/imax_feature3.jpg" height="350">
         </div>
         <br>
         <p>
@@ -122,7 +90,7 @@
         <br>
 
     </div>
-    <footer-component></footer-component>
+    <?php include "components/footer.html"; ?>
 </div>
 </body>
 </html>

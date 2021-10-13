@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="login.js"></script>
     <title>Login / Register</title>
-    <script src="../components/header_login.js" type="text/javascript" defer></script>
-    <link rel="stylesheet" href="../components/color.css">
-    <link rel="stylesheet" href="../components/button.css">
-    <link rel="stylesheet" href="../components/header_login.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/header_loginpage.css">
 
     <style>
         body {
@@ -96,14 +95,14 @@
     </style>
 </head>
 <body onload="document.getElementById('defaultOpen').click();" id="wrapper">
-    <?php include "../components/header_login.html"; ?>
+    <?php include "components/header_loginpage.html"; ?>
     <div class="content" >
        
         <div class="incontent">
             <table border="0">
                 <tr>
                     <td>
-                        <img src="../img/header_title.png" alt="title" height="500" width="400" class="title">
+                        <img src="img/header_title.png" alt="title" height="500" width="400" class="title">
                     </td>
                     <td >
                         <div class="rightcontent">
