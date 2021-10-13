@@ -36,6 +36,9 @@
             evt.currentTarget.className += " active";
             evt.currentTarget.className += " tablinks-current";
         }
+        function getMovieDetails(id) {
+            console.log(id)
+        }
     </script>
 </head>
 <body onload="document.getElementById('defaultOpen').click();">
@@ -69,7 +72,7 @@
             }
 
             $query_now_showing_details = "
-                SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                SELECT movieID, title, releaseDate, runningTime, genre, language, imagePath 
                 FROM `Movie` 
                 WHERE releaseDate <= CURRENT_DATE() 
                 ORDER BY releaseDate 
@@ -90,7 +93,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <h2>&nbsp;Book Now</h2>
+                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;Book Now</h2></a>
                                 </div>
                             </a>
                         </div>
@@ -129,7 +132,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <h2>&nbsp;Book Now</h2>
+                                    <button><h2>&nbsp;Book Now</h2></button>
                                 </div>
                             </a>
                         </div>
