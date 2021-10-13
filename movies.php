@@ -67,6 +67,7 @@
             $dbname = "f32ee";
 
             $conn = mysqli_connect($servername, $username, $password, $dbname);
+            mysqli_set_charset($conn,"utf8");
             if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
             }
@@ -76,7 +77,7 @@
                 FROM `Movie` 
                 WHERE releaseDate <= CURRENT_DATE() 
                 ORDER BY releaseDate 
-                DESC LIMIT 8
+                DESC
                 ";
             $movie_details = mysqli_query($conn, $query_now_showing_details);
             $movie_poster_path = "img/movies/";
@@ -111,11 +112,11 @@
         <div id="comingSoon" class="tabcontent">
             <?php
             $query_now_showing_details = "
-                                        SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                                        SELECT movieID, title, releaseDate, runningTime, genre, language, imagePath 
                                         FROM `Movie` 
                                         WHERE releaseDate > CURRENT_DATE() 
                                         ORDER BY releaseDate 
-                                        DESC LIMIT 8
+                                        DESC
                                         ";
             $movie_details = mysqli_query($conn, $query_now_showing_details);
             $movie_poster_path = "img/movies/";
@@ -132,7 +133,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <button><h2>&nbsp;Book Now</h2></button>
+                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;Book Now</h2></a>
                                 </div>
                             </a>
                         </div>
@@ -146,12 +147,6 @@
                 ';
             }
             ?>
-        </div>
-        <div>
-            <a class="view-more-movies">
-                <h2>View More Movies</h2> &nbsp;&nbsp;
-                <div class="arrow-in-circle"></div>
-            </a>
         </div>
     </div>
     <?php include "components/footer.html"; ?>
