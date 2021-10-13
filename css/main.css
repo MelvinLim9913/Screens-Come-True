@@ -3,6 +3,7 @@ body {
     letter-spacing: 0.05em;
     margin: 0px;
     padding: 0px;
+    min-height: 100%;
 }
 
 #wrapper {
