@@ -7,6 +7,7 @@
     <script src="../components/header_login.js" type="text/javascript" defer></script>
     <link rel="stylesheet" href="../components/color.css">
     <link rel="stylesheet" href="../components/button.css">
+    <link rel="stylesheet" href="../components/header_login.css">
 
     <style>
         body {
@@ -95,7 +96,7 @@
     </style>
 </head>
 <body onload="document.getElementById('defaultOpen').click();" id="wrapper">
-    <header-component></header-component>
+    <?php include "../components/header_login.html"; ?>
     <div class="content" >
        
         <div class="incontent">

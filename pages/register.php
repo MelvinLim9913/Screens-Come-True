@@ -25,7 +25,7 @@ $result = mysqli_query($conn, $checkemail);
 if (mysqli_num_rows($result) > 0) {
     echo '<script>
             alert("Email already exist");
-            window.location.href="login.html#login";
+            window.location.href="loginmain.php#login";
         </script>';
 }
 else {

@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    
+    <script src="../components/footer.js" type="text/javascript"></script>
     <?php
     session_start();
-  if (isset($_SESSION['valid_user']))
-  {
-     ?>
-     <script src="../components/header_valid_user.js" type="text/javascript" defer></script>
-     <?php 
-  }
-  else {
-    ?>
-    <script src="../components/header.js" type="text/javascript" defer></script>
+    if (isset($_SESSION['valid_user']))
+    { ?>
+        <link rel="stylesheet" href="../components/header_valid_user.css">
     <?php
-  }
-      ?>
-    <script src="../components/footer.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="../components/button.css">
-    <link rel="stylesheet" href="../components/color.css">
+    }
+    else { ?>
+        <link rel="stylesheet" href="../components/header.css">
+    <?php
+    }
+    ?>
+    <link rel="stylesheet" href="../components/footer.css">
+    
+    
     <style>
         #wrapper {
             background-color: #1a1a1a;
@@ -113,7 +113,16 @@
 </head>
 <body onload="document.getElementById('defaultOpen').click();">
 <div id="wrapper">
-    <header-component></header-component>
+
+<?php
+    if (isset($_SESSION['valid_user']))
+    {
+        include "../components/header_valid_user.html";
+    }
+    else {
+        include "../components/header.html";
+    }
+    ?>
     <div class="content">
         <div class="tab">
             <a class="tablinks" onclick="openMoviesTab(event, 'nowShowing')" id="defaultOpen">Now Showing</a>&nbsp;
@@ -140,7 +149,7 @@
             <p>Lohha from the other side.</p>
         </div>
     </div>
-    <footer-component></footer-component>
+    <?php include "../components/footer.html"; ?>
 </div>
 </body>
 </html>

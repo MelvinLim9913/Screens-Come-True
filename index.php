@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <?php
-    session_start();
-  if (isset($_SESSION['valid_user']))
-  {
-     ?>
-     <script src="components/header_valid_user.js" type="text/javascript" defer></script>
-     <?php 
-  }
-  else {
-    ?>
-    <script src="components/header.js" type="text/javascript" defer></script>
-    <?php
-  }
-      ?>
+    
     <script src="components/footer.js" type="text/javascript"></script>
     <link rel="stylesheet" href="components/button.css">
     <link rel="stylesheet" href="components/color.css">
+    <?php
+    session_start();
+    if (isset($_SESSION['valid_user']))
+    { ?>
+        <link rel="stylesheet" href="components/header_valid_user.css">
+    <?php
+    }
+    else { ?>
+        <link rel="stylesheet" href="components/header.css">
+    <?php
+    }
+    ?>
+    <link rel="stylesheet" href="components/footer.css">
     <style>
         #wrapper {
             background-color: #1a1a1a;
@@ -252,7 +252,16 @@
 </head>
 <body>
 <div id="wrapper">
-    <header-component></header-component>
+<?php
+    session_start();
+    if (isset($_SESSION['valid_user']))
+    {
+        include "components/header_valid_user.html";
+    }
+    else {
+        include "components/header.html";
+    }
+    ?>
     <div class="pre-content">
         <div>
             <div class="bolt-quicksearch">
@@ -350,7 +359,7 @@
             <p>Lohha from the other side.</p>
         </div>
     </div>
-    <footer-component></footer-component>
+    <?php include "components/footer.html"; ?>
 </div>
 </body>
 </html>

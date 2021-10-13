@@ -51,7 +51,7 @@ if ($result->num_rows > 0 ) {
 } else {
     echo '<script>
         alert("Invalid email or password");
-        window.location.href="login.html#login";
+        window.location.href="loginmain.php#login";
     </script>';
 }
 
