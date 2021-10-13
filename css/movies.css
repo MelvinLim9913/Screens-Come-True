@@ -76,7 +76,7 @@ hr {
     align-items: center;
 }
 #pointer a:hover {
-    color: yellow;
+    color: #ffd701;
 }
 #pointer:after {
     content: "";

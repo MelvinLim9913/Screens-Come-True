@@ -43,7 +43,6 @@
     <div class="content">
         <?php
             include "dbconnect.php";
-
             
             parse_str($_SERVER['QUERY_STRING'], $output);
             $movieID = $output['movieid'];
@@ -108,7 +107,10 @@
             <table border="0">
                 <tr>
                     <?php
-                        if ($movieID < 12) {
+                        $queryIfNowShowing = "SELECT * FROM Movie WHERE movieID='".$movieID."' AND releaseDate <= '2021-10-18'";
+                        $resultIfNowShowing = $dbcnx->query($queryIfNowShowing);
+
+                        if ($resultIfNowShowing->num_rows >0 ) {
                             $queryShowtimesDates = "SELECT DISTINCT DATE(startTime) As datelist FROM Showtime;";
                             $resultShowtimesDates = $dbcnx->query($queryShowtimesDates);
     
@@ -140,7 +142,7 @@
             <table border="0">
 
                 <?php
-                    if ($movieID < 12) {
+                    if ($resultIfNowShowing->num_rows >0 ) {
                         $queryMovieShowtimes = "SELECT cinemaHallID, startTime FROM Showtime WHERE movieID='".$movieID."' and DATE(startTime)='".$showDate."' GROUP BY 1, 2";
                         $resultMovieShowtimes = $dbcnx->query($queryMovieShowtimes);
                         $cinemaID;
