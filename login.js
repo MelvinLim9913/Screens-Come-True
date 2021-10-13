@@ -1,13 +1,5 @@
 function openTab(evt, activity) {
-  // var url = document.location.toString();
-  // console.log(url)
-  // var tab;
-  // if (url.match('#')) { 
-  //   tab = url.split('#')[1];
-  //   if (tab == "register") {}
-  //     activity = tab;
-  //   }
-  // }
+
     // Declare all variables
     var i, tabcontent, tablinks;
     // activity = tab;

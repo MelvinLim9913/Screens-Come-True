@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <section class="header">
+        <div id="menu-bar">
+            <div class="logo">
+                <a href="index.php"><img src="img/header_title.png" alt="Logo"></a>
+            </div>
+
+            <nav>
+                <div id="navigation-bar">
+                    <ul>
+                        <li><a id="movies" href="movies.php"><strong>Movies</strong></a></li>
+                        <li><a id="cinemas" href="cinemas.php"><strong>Our Cinemas</strong></a></li>
+                        <li><a id="promotions" href="#"><strong>Promotions</strong></a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="dropdown">
+                <img id="validuser" src="img/valid_user.png" width="60" height="60">   
+                <div class="dropdown-content">
+                    <a href="feedback.html">Provide Feedback</a>
+                    <a href="signout.php">Sign Out</a>
+                </div>
+            </div>       
+        </div>
+    </section>
+    <script>
+        document.getElementById('movies').removeAttribute("class");
+        document.getElementById('cinemas').removeAttribute("class");
+        document.getElementById('promotions').removeAttribute("class");
+        const url = window.location.pathname;
+        var element
+        if (url.indexOf('movies') > -1) {
+            element = document.getElementById('movies');
+        } else if (url.indexOf('cinemas') > -1) {
+            element = document.getElementById('cinemas');
+        }else if (url.indexOf('promotions') > -1) {
+            element = document.getElementById('promotions');
+        }
+        element.setAttribute("class","active");
+    </script>
+</body>
+</html>

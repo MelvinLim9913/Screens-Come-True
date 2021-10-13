@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Our Cinema</title>
-    <script src="../components/header.js" type="text/javascript" defer></script>
-    <link rel="stylesheet" href="../components/color.css">
-    <script src="../components/footer.js" type="text/javascript"></script>
+    <?php
+    session_start();
+    if (isset($_SESSION['valid_user']))
+    { ?>
+        <link rel="stylesheet" href="css/header_userloginsess.css">
+    <?php
+    }
+    else { ?>
+        <link rel="stylesheet" href="css/header.css">
+    <?php
+    }
+    ?>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/footer.css">
+
     <style>
         ul {
             background-clip: border-box;
@@ -45,7 +57,15 @@
 </head>
 <body>
 <div id="wrapper">
-    <header-component></header-component>
+    <?php
+        if (isset($_SESSION['valid_user']))
+        {
+            include "components/header_userloginsess.html";
+        }
+        else {
+            include "components/header.html";
+        }
+    ?>
     <div class="content">
         <p>
             <a href="../index.php" class="other-page-breadcrumb">Home</a> /
@@ -77,7 +97,7 @@
         ?>
 
     </div>
-    <footer-component></footer-component>
+    <?php include "components/footer.html"; ?>
 </div>
 </body>
 </html>

@@ -2,51 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="../components/header.js" type="text/javascript" defer></script>
-    <script src="../components/footer.js" type="text/javascript"></script>
-    <style>
-        #wrapper {
-            background-color: #000614;
-            color: #FFFFFF;
-            min-width: 1000px;
-        }
-        body {
-            margin: 0;
-
-        }
-        .banner {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
-        }
-        .content {
-            width: 80%;
-            min-width: 1000px;
-            margin: auto;
-        }
-        h1 {
-            font-size: 50px;
-            color: #FFD60A;
-        }
-        h2 {
-            color: #FFD60A;
-            font-size: 30px;
-        }
-        p {
-            font-size: 25px
-        }
-        li {
-            font-size: 25px;
-        }
-    </style>
+    <title>DOLBY ATMOS</title>
+    <?php
+    session_start();
+    if (isset($_SESSION['valid_user']))
+    { ?>
+        <link rel="stylesheet" href="css/header_userloginsess.css">
+    <?php
+    }
+    else { ?>
+        <link rel="stylesheet" href="css/header.css">
+    <?php
+    }
+    ?>
+    <link rel="stylesheet" href="css/experience_dolby_atmos.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
 <div id="wrapper">
-    <header-component></header-component>
+    <?php
+        if (isset($_SESSION['valid_user']))
+        {
+            include "components/header_userloginsess.html";
+        }
+        else {
+            include "components/header.html";
+        }
+    ?>
     <div class="content">
-        <img src="../img/experience_dolby_atmos_banner.jpg" class="banner">
+        <img src="img/experience/experience_dolby_atmos_banner.jpg" class="banner">
         <h1>Dolby Atmos</h1>
         <p>
             The Dolby Atmos is the most significant development in cinema audio since surround sound, taking a unique
@@ -73,7 +57,7 @@
         </ul>
         <br>
     </div>
-    <footer-component></footer-component>
+    <?php include "components/footer.html"; ?>
 </div>
 </body>
 </html>

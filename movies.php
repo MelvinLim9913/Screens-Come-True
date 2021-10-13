@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Screens Come True</title>
+    <title>Title</title>
     <?php
     session_start();
     if (isset($_SESSION['valid_user']))
@@ -15,37 +15,11 @@
     <?php
     }
     ?>
-    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/movies.css">
     <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
     <script>
-        let slidePosition = 1;
-        SlideShow(slidePosition);
-
-        function plusSlides(n) {
-            SlideShow(slidePosition += n);
-        }
-
-        function currentSlide(n) {
-            SlideShow(slidePosition = n)
-        }
-
-        function SlideShow(n) {
-            let i;
-            const slides = document.getElementsByClassName("container");
-            const circles = document.getElementsByClassName("circle-dots");
-            if (n > slides.length) {slidePosition = 1}
-            if (n < 1) {slidePosition = slides.length}
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            for (i = 0; i < circles.length; i++) {
-                circles[i].className = circles[i].className.replace(" enable", "")
-            }
-            slides[slidePosition-1].style.display = "block";
-            circles[slidePosition-1].className += " enable";
-        }
         function openMoviesTab(evt, movieType) {
             let i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
@@ -66,89 +40,15 @@
 </head>
 <body onload="document.getElementById('defaultOpen').click();">
 <div id="wrapper">
-<?php
-    session_start();
-    if (isset($_SESSION['valid_user']))
-    {
-        include "components/header_userloginsess.html";
-    }
-    else {
-        include "components/header.html";
-    }
+    <?php
+        if (isset($_SESSION['valid_user']))
+        {
+            include "components/header_userloginsess.html";
+        }
+        else {
+            include "components/header.html";
+        }
     ?>
-    <div class="pre-content">
-        <div>
-            <div class="bolt-quicksearch">
-                <img src="img/logo_lightning.png" alt="logo">
-                <img src="img/logo_lightning.png" alt="logo">
-                <img src="img/logo_lightning.png" alt="logo">
-                &nbsp;
-                <h2>Quick Search</h2>
-            </div>
-            <div class="quicksearch-selection-bar-with-button">
-                <div class="quicksearch-selection-bar">
-                    <form>
-                        <?php
-                        $servername = "localhost";
-                        $username = "f32ee";
-                        $password = "f32ee";
-                        $dbname = "f32ee";
-
-                        $conn = mysqli_connect($servername, $username, $password, $dbname);
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        }
-
-                        $query_movie_date = "SELECT DISTINCT releaseDate FROM `Movie` ORDER BY releaseDate ASC";
-                        $movie_date = mysqli_query($conn, $query_movie_date);
-                        echo "<select>";
-                        $counter = 0;
-                        while ($row = mysqli_fetch_assoc($movie_date)) {
-                            echo "<option>" . $row['releaseDate'] . "</option>";
-                            $counter += 1;
-                            if ($counter == 7) {
-                                break;
-                            }
-                        }
-                        echo "</select>";
-                        ?>
-                        <label>
-                            <select>
-                                <option value="" disabled selected>All Movies</option>
-                            </select>
-                        </label>
-                        <label>
-                            <select>
-                                <option value="" disabled selected>All Theatres</option>
-                            </select>
-                        </label>
-                    </form>
-                    <button>SHOWTIMES</button>
-                </div>
-                <button><img src="" alt="logo">Check Bookings</button>
-            </div>
-            <br>
-            <div class="slideshow-container">
-                <div class="container main">
-                    <img src="img/slideshow_venom.png" alt="slideshow" style="width: 100%">
-                </div>
-                <div class="container">
-                    <img src="img/slideshow_no_time_to_die.png" alt="slideshow" style="width: 100%">
-                </div>
-                <div class="container">
-                    <img src="img/slideshow_my_country_my_parents.png" alt="slideshow" style="width: 100%">
-                </div>
-                <a class="previous-photo" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next-photo" onclick="plusSlides(1)">&#10095;</a>
-            </div>
-            <div style="text-align: center">
-                <span class="circle-dots" onclick="currentSlide(1)"></span>
-                <span class="circle-dots" onclick="currentSlide(2)"></span>
-                <span class="circle-dots" onclick="currentSlide(3)"></span>
-            </div>
-            <br><br>
-        </div>
-    </div>
     <div class="content">
         <div class="tab">
             <a class="tablinks" onclick="openMoviesTab(event, 'nowShowing')" id="defaultOpen">Now Showing</a>&nbsp;&nbsp;&nbsp;
@@ -157,6 +57,17 @@
         <hr><br>
         <div id="nowShowing" class="tabcontent">
             <?php
+
+            $servername = "localhost";
+            $username = "f32ee";
+            $password = "f32ee";
+            $dbname = "f32ee";
+
+            $conn = mysqli_connect($servername, $username, $password, $dbname);
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+
             $query_now_showing_details = "
                 SELECT title, releaseDate, runningTime, genre, language, imagePath 
                 FROM `Movie` 
