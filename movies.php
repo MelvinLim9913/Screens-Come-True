@@ -133,7 +133,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;Book Now</h2></a>
+                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;More Info</h2></a>
                                 </div>
                             </a>
                         </div>
