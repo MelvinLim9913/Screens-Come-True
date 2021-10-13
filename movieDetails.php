@@ -108,20 +108,23 @@
             <table border="0">
                 <tr>
                     <?php
-                        $queryShowtimesDates = "SELECT DISTINCT DATE(startTime) As datelist FROM Showtime;";
-                        $resultShowtimesDates = $dbcnx->query($queryShowtimesDates);
-
-                        $num_resultShowtimesDates = $resultShowtimesDates->num_rows;
-                        for ($i=0; $i <$num_resultShowtimesDates; $i++) {
-                            $row = $resultShowtimesDates->fetch_assoc();
-                            echo '<td id="'.$row["datelist"].'" name="showdates">
-                                    <a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&showdate='.$row["datelist"].'">
-                                        <div style="height:100%;width:100%">
-                                            '.date('D', strtotime($row["datelist"])).'<br>'.date('j M Y', strtotime($row["datelist"])).'
-                                        </div>
-                                    </a>
-                                </td>';
+                        if ($movieID < 12) {
+                            $queryShowtimesDates = "SELECT DISTINCT DATE(startTime) As datelist FROM Showtime;";
+                            $resultShowtimesDates = $dbcnx->query($queryShowtimesDates);
+    
+                            $num_resultShowtimesDates = $resultShowtimesDates->num_rows;
+                            for ($i=0; $i <$num_resultShowtimesDates; $i++) {
+                                $row = $resultShowtimesDates->fetch_assoc();
+                                echo '<td id="'.$row["datelist"].'" name="showdates">
+                                        <a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&showdate='.$row["datelist"].'">
+                                            <div style="height:100%;width:100%">
+                                                '.date('D', strtotime($row["datelist"])).'<br>'.date('j M Y', strtotime($row["datelist"])).'
+                                            </div>
+                                        </a>
+                                    </td>';
+                            }
                         }
+                        
                         ?>
                     <script>
                         let urlparams = new URLSearchParams(window.location.search);
@@ -137,53 +140,55 @@
             <table border="0">
 
                 <?php
-                    $queryMovieShowtimes = "SELECT cinemaHallID, startTime FROM Showtime WHERE movieID='".$movieID."' and DATE(startTime)='".$showDate."' GROUP BY 1, 2";
-                    $resultMovieShowtimes = $dbcnx->query($queryMovieShowtimes);
-                    $cinemaID;
-                    $showTimeList = array_fill(1, 8, array());
-
-                    $num_resultMovieShowtimes = $resultMovieShowtimes->num_rows;
-                    for ($i=0; $i <$num_resultMovieShowtimes; $i++) {
-                        $row = $resultMovieShowtimes->fetch_assoc();
-
-                        $cinemaHallId = $row["cinemaHallID"];
-                        $queryCinemaID = "SELECT cinemaID FROM Cinema_Hall WHERE cinemaHallID='".$cinemaHallId."'";
-                        $resultCinemaID = $dbcnx->query($queryCinemaID);
+                    if ($movieID < 12) {
+                        $queryMovieShowtimes = "SELECT cinemaHallID, startTime FROM Showtime WHERE movieID='".$movieID."' and DATE(startTime)='".$showDate."' GROUP BY 1, 2";
+                        $resultMovieShowtimes = $dbcnx->query($queryMovieShowtimes);
                         $cinemaID;
+                        $showTimeList = array_fill(1, 8, array());
 
-                        $num_resultCinemaID = $resultCinemaID->num_rows;
-                        for ($j=0; $j <$num_resultCinemaID; $j++) {
-                            $rowinner = $resultCinemaID->fetch_assoc();
-                            $cinemaID = $rowinner["cinemaID"];
-                            array_push($showTimeList[$cinemaID], date('G:i', strtotime($row["startTime"])));
-                        }
-                    }
+                        $num_resultMovieShowtimes = $resultMovieShowtimes->num_rows;
+                        for ($i=0; $i <$num_resultMovieShowtimes; $i++) {
+                            $row = $resultMovieShowtimes->fetch_assoc();
 
-                    $num_showTimeList = count($showTimeList)+1;
-                    for ($i=1; $i<$num_showTimeList; $i++) {
-                        $col = count($showTimeList[$i]);
-                        $cinemaName;
-        
-                        $queryCinemaName = "SELECT name FROM Cinema WHERE cinemaID='".$i."'";
-                        $resultCinemaName = $dbcnx->query($queryCinemaName);
+                            $cinemaHallId = $row["cinemaHallID"];
+                            $queryCinemaID = "SELECT cinemaID FROM Cinema_Hall WHERE cinemaHallID='".$cinemaHallId."'";
+                            $resultCinemaID = $dbcnx->query($queryCinemaID);
+                            $cinemaID;
 
-                        $num_resultCinemaName = $resultCinemaName->num_rows;
-                        for ($k=0; $k <$num_resultCinemaName; $k++) {
-                            $row = $resultCinemaName->fetch_assoc();
-                            $cinemaName = $row["name"];
+                            $num_resultCinemaID = $resultCinemaID->num_rows;
+                            for ($j=0; $j <$num_resultCinemaID; $j++) {
+                                $rowinner = $resultCinemaID->fetch_assoc();
+                                $cinemaID = $rowinner["cinemaID"];
+                                array_push($showTimeList[$cinemaID], date('G:i', strtotime($row["startTime"])));
+                            }
                         }
-                        echo '<tr>
-                                <td><h3>'.$cinemaName.'</h3></td>
-                                <td>
-                                    <ul>';
-                        
-                        for ($j=0; $j<$col; $j++) {
-                            echo '<a href="./booking.php?movieid='.$movieID.'&cinemaid='.$i.'&showdate='.$showDate.' '.$showTimeList[$i][$j].':00"><li>'.$showTimeList[$i][$j].'</li></a>';
+
+                        $num_showTimeList = count($showTimeList)+1;
+                        for ($i=1; $i<$num_showTimeList; $i++) {
+                            $col = count($showTimeList[$i]);
+                            $cinemaName;
+            
+                            $queryCinemaName = "SELECT name FROM Cinema WHERE cinemaID='".$i."'";
+                            $resultCinemaName = $dbcnx->query($queryCinemaName);
+
+                            $num_resultCinemaName = $resultCinemaName->num_rows;
+                            for ($k=0; $k <$num_resultCinemaName; $k++) {
+                                $row = $resultCinemaName->fetch_assoc();
+                                $cinemaName = $row["name"];
+                            }
+                            echo '<tr>
+                                    <td><h3>'.$cinemaName.'</h3></td>
+                                    <td>
+                                        <ul>';
+                            
+                            for ($j=0; $j<$col; $j++) {
+                                echo '<a href="./booking.php?movieid='.$movieID.'&cinemaid='.$i.'&showdate='.$showDate.' '.$showTimeList[$i][$j].':00"><li>'.$showTimeList[$i][$j].'</li></a>';
+                            }
+                                    
+                            echo       '</ul>
+                                    </td>
+                                </tr>';
                         }
-                                
-                        echo       '</ul>
-                                </td>
-                            </tr>';
                     }
                 ?>
             </table>
