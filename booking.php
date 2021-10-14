@@ -61,7 +61,22 @@
         .seating-plan {
             background-color: #1a1a1a;
         }
+        .seating-plan img {
+            padding: 4px 2px;
+        }
     </style>
+    <script>
+        function selectSeat(cinemaSeatID) {
+            console.log(cinemaSeatID);
+            if (document.getElementById(cinemaSeatID).src == "http://192.168.56.2/f32ee/Screens-Come-True/img/seat-selected.png") {
+                document.getElementById(cinemaSeatID).src="./img/seat-available.png"
+                document.getElementById(cinemaSeatID).removeAttribute("class");
+            } else {
+                document.getElementById(cinemaSeatID).src="./img/seat-selected.png"
+                document.getElementById(cinemaSeatID).setAttribute('class', 'selected');
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="wrapper">
@@ -354,10 +369,11 @@
                             <br>';
                         
                         $showtimeID;
-                        $cinemaSeatIDArray = array();
-                        $cinemaSeatIDRowColArray = array();
-                        $rowCol = array();
-                        $occupiedSeat = array();
+                        $cinemaSeatIDArray = array();   # array of cinemaSeatID (1-48)
+                        $cinemaSeatIDRowColArray = array();     #array of key->array(value), cinemaSeatID -> array(row, col)
+                        $rowCol = array();              # array[row] = col
+                        $occupiedSeat = array();        # array of occuppied cinemaSeatID
+                        $getCinemaSeatID = array();     # array[row][col] = cinemaSeatID
                         
                         $showDateTime = $showDate.' '.$showTime;
                         $queryShowTimeID = "SELECT showtimeID FROM Showtime WHERE movieID='".$movieID."' AND startTime='".$showDateTime."' AND cinemaHallID='".$cinemaHallID."'";
@@ -381,6 +397,7 @@
                             $cinemaSeatIDRowColArray[$row["cinemaSeatID"]] = array();
                             array_push($cinemaSeatIDRowColArray[$row["cinemaSeatID"]], $row["row"]);
                             array_push($cinemaSeatIDRowColArray[$row["cinemaSeatID"]], $row["col"]);
+                            $getCinemaSeatID[$row["row"]][$row["col"]] = $row["cinemaSeatID"];
 
                             $rowCol[$row["row"]] = $row["col"];
 
@@ -398,11 +415,22 @@
 
                         }
 
+                        $alphabet = range('A', 'Z');
                         for ($i=1; $i<count($rowCol)+1; $i++) {
-
-                            for ($j=1; $j<count($rowCol[$i]); $j++) {
-
+                            echo '<div>';
+                            echo $alphabet[$i-1].'&nbsp;&nbsp;';
+                            for ($j=1; $j<=$rowCol[$i]; $j++) {
+                                if ($j==3 || $j==7){
+                                    echo '&nbsp;&nbsp;';
+                                }
+                                if (in_array($getCinemaSeatID[$i][$j], $occupiedSeat, TRUE)) {
+                                    echo '<img src="./img/seat-sold.png" alt="seat-available" width="25" height="25">';
+                                } else {
+                                    echo '<img id="'.$getCinemaSeatID[$i][$j].'" name="'.$getCinemaSeatID[$i][$j].'" src="./img/seat-available.png" alt="seat-available" width="25" height="25" onclick="selectSeat('.$getCinemaSeatID[$i][$j].');">';
+                                }
                             }
+                            echo '&nbsp;&nbsp;'.$alphabet[$i-1];
+                            echo '</div>';
                         }
 
                         
