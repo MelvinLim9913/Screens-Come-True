@@ -17,7 +17,6 @@
     ?>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
     <script>
         let slidePosition = 1;
@@ -179,7 +178,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <h2>&nbsp;Book Now</h2>
+                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;Book Now</h2></a>
                                 </div>
                             </a>
                         </div>
@@ -218,7 +217,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <h2>&nbsp;Book Now</h2>
+                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;More Info</h2></a>
                                 </div>
                             </a>
                         </div>
@@ -234,7 +233,7 @@
             ?>
         </div>
         <div>
-            <a class="view-more-movies">
+            <a class="view-more-movies" href="./movies.php">
                 <h2>View More Movies</h2> &nbsp;&nbsp;
                 <div class="arrow-in-circle"></div>
             </a>

@@ -17,7 +17,6 @@
     ?>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/movies.css">
-    <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
     <script>
         function openMoviesTab(evt, movieType) {
