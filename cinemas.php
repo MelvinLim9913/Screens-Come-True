@@ -35,7 +35,7 @@
             background-size: auto;
             width: 280px;
             padding: 15px;
-            box-shadow: 0px 0px 15px 6px #EA2127;
+            box-shadow: 0 0 15px 6px #EA2127;
             display: flex;
             flex-direction: column;
         }
@@ -73,7 +73,36 @@
         .experience-thumbnail img {
             width: 25vw;
             height: 25vh;
+            min-width: 350px;
+            min-height: 350px;
             box-shadow: 0px 0px 15px 6px #EA2127;
+        }
+        .experience-thumbnail .thumbnail-container:hover{
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+        .experience-thumbnail img:hover {
+            filter: blur(2px);
+            -webkit-filter: blur(2px);
+        }
+        .thumbnail-container {
+            position: relative;
+        }
+        .thumbnail-container:hover img {
+            filter: blur(2px);
+            -webkit-filter: blur(2px);
+        }
+        .more-info {
+            position: absolute;
+            bottom: 0;
+            right: 50px;
+            visibility: hidden;
+        }
+        .thumbnail-container:hover .more-info {
+            position: absolute;
+            bottom: 0;
+            right: 50px;
+            visibility: visible;
         }
     </style>
 </head>
@@ -108,23 +137,35 @@
                 }
 
                 $query_cinema_list = "
-                SELECT name
+                SELECT name, cinemaID
                 FROM
                 `Cinema`
                 ";
                 $cinema_list = mysqli_query($conn, $query_cinema_list);
                 echo "<ul class='cinema-location'>";
                 while ($row = mysqli_fetch_assoc($cinema_list)) {
-                    echo '<li><a>Screens Come True, ' . $row["name"] . '</a>';
+                    echo '<li><a href="./cinemasDetails.php?cinemaid='.$row["cinemaID"].'">Screens Come True, ' . $row["name"] . '</a>';
                 }
                 echo '</li>';
                 ?>
             </div>
             <div class="experience-thumbnail">
-                <img src="img/experience/thumbnail/thumbnail_dbox.jpg">
-                <img src="img/experience/thumbnail/thumbnail_dolby_atmos.jpg">
-                <img src="img/experience/thumbnail/thumbnail_imax.jpg">
-                <img src="img/experience/thumbnail/thumbnail_onyx_led.jpg">
+                <div class="thumbnail-container">
+                    <img src="img/experience/thumbnail/thumbnail_dbox.jpg">
+                    <div class="more-info"><a href="experience_dbox.php"><h2>More Info>></h2></a></div>
+                </div>
+                <div class="thumbnail-container">
+                    <img src="img/experience/thumbnail/thumbnail_dolby_atmos.jpg">
+                    <div class="more-info"><a href="experience_dolby_atmos.php"><h2>More Info>></h2></a></div>
+                </div>
+                <div class="thumbnail-container">
+                    <img src="img/experience/thumbnail/thumbnail_imax.jpg">
+                    <div class="more-info"><a href="experience_imax.php"><h2>More Info>></h2></a></div>
+                </div>
+                <div class="thumbnail-container">
+                    <img src="img/experience/thumbnail/thumbnail_onyx_led.jpg">
+                    <div class="more-info"><a href="experience_onyx_cinema.php"><h2>More Info>></h2></a></div>
+                </div>
             </div>
             <br><br><br>
         </div>
