@@ -5,7 +5,7 @@
     overflow: hidden;
 }
 .tab a {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
@@ -16,7 +16,7 @@
 .tabcontent {
     display: none;
     flex-wrap: wrap;
-    grid-template-columns: repeat(auto-fill, 340px);
+    grid-template-columns: repeat(auto-fill, 320px);
 }
 .tablinks-current {
     font-size: 30px;

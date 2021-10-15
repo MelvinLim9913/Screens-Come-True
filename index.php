@@ -17,7 +17,6 @@
     ?>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
     <script>
         let slidePosition = 1;
@@ -95,6 +94,7 @@
                         $dbname = "f32ee";
 
                         $conn = mysqli_connect($servername, $username, $password, $dbname);
+                        mysqli_set_charset($conn,"utf8");
                         if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
                         }
@@ -158,7 +158,7 @@
         <div id="nowShowing" class="tabcontent">
             <?php
             $query_now_showing_details = "
-                SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                SELECT title, movieID, releaseDate, runningTime, genre, language, imagePath 
                 FROM `Movie` 
                 WHERE releaseDate <= CURRENT_DATE() 
                 ORDER BY releaseDate 
@@ -179,7 +179,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <h2>&nbsp;Book Now</h2>
+                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;Book Now</h2></a>
                                 </div>
                             </a>
                         </div>
@@ -197,7 +197,7 @@
         <div id="comingSoon" class="tabcontent">
             <?php
             $query_now_showing_details = "
-                                        SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                                        SELECT title, movieID, releaseDate, runningTime, genre, language, imagePath 
                                         FROM `Movie` 
                                         WHERE releaseDate > CURRENT_DATE() 
                                         ORDER BY releaseDate 
@@ -218,7 +218,7 @@
                             <br>
                             <a>
                                 <div id="pointer">
-                                    <h2>&nbsp;Book Now</h2>
+                                    <a href="./movieDetails.php?movieid='.$row["movieID"].'&showdate=2021-10-11"><h2>&nbsp;More Info</h2></a>
                                 </div>
                             </a>
                         </div>
@@ -234,7 +234,7 @@
             ?>
         </div>
         <div>
-            <a class="view-more-movies">
+            <a class="view-more-movies" href="./movies.php">
                 <h2>View More Movies</h2> &nbsp;&nbsp;
                 <div class="arrow-in-circle"></div>
             </a>

@@ -161,6 +161,7 @@
                             for ($j=0; $j <$num_resultCinemaID; $j++) {
                                 $rowinner = $resultCinemaID->fetch_assoc();
                                 $cinemaID = $rowinner["cinemaID"];
+                                array_push($showTimeList[$cinemaID], $cinemaHallId);
                                 array_push($showTimeList[$cinemaID], date('G:i', strtotime($row["startTime"])));
                             }
                         }
@@ -183,8 +184,8 @@
                                     <td>
                                         <ul>';
                             
-                            for ($j=0; $j<$col; $j++) {
-                                echo '<a href="./booking.php?movieid='.$movieID.'&cinemaid='.$i.'&showdate='.$showDate.' '.$showTimeList[$i][$j].':00"><li>'.$showTimeList[$i][$j].'</li></a>';
+                            for ($j=0; $j<$col; $j=$j+2) {
+                                echo '<a href="./booking.php?movieid='.$movieID.'&cinemaid='.$i.'&cinemahallid='.$showTimeList[$i][$j].'&showdate='.$showDate.'&showtime='.$showTimeList[$i][$j+1].':00"><li>'.$showTimeList[$i][$j+1].'</li></a>';
                             }
                                     
                             echo       '</ul>
