@@ -64,60 +64,38 @@
             padding: 10px;
             text-align: right;
         }
-        .container {
-            display: inline-block;
+        .ticket-table table{
+            width: 100%;
+            text-align: left;
+            margin: 30px 0px;
+        }
+        .ticket-table th {
             background-color: #302c2d;
-            margin: 15px;
-            text-align: center;
-            border-radius: 15px;
+            padding: 20px;
         }
-        .card {
-            margin: 10px;
+        .ticket-table td {
+            background-color: #302c2d;
+            padding: 10px 20px;
         }
-        .promotion-details {
-            margin: 10px 0px;
-        }
-        .promotion-details span {
-            font-size: 12px;
-            display: inline-block;
-        }
-        .promotion-action button {
-            border-radius: 100%;
-            height: 40px;
-            width: 40px;
-            font-weight: bold;
-            font-size: 30px;
-            text-align: center;
-            background-color: #1a1a1a;
-            color: #FFFFFF;
-        }
-        .promotion-action input {
-            margin: 0px 10px;
-            text-align: center;
-            margin-bottom: 10px;
+        .total {
+            font-size: 20px;
         }
         .table-form input {
             height: 25px;
+        }
+        .table-form {
+            padding: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .radio-btn label{
+            padding-right: 20px;
         }
         .next-btn {
             margin: 30px;
             text-align: center;
         }
     </style>
-
-    <script>
-        function handleBtnPlus(counterid) {
-            console.log(counterid);
-            document.getElementById("counter" + counterid).value = parseInt(document.getElementById("counter" + counterid).value) + 1;
-            return false;
-        }
-        function handleBtnMinus(counterid) {
-            console.log(counterid);
-            document.getElementById("counter" + counterid).value = parseInt(document.getElementById("counter" + counterid).value) - 1;
-            return false;
-        }
-    </script>
-    
 </head>
 <body>
     <div id="wrapper">
@@ -136,27 +114,12 @@
             <div class="upper-content">
 
                 <div class="step">
-                    <img src="./img/booking-step-2.png" alt="step1">
+                    <img src="./img/booking-step-3.png" alt="step3">
                 </div>
                 <br>
 
                 <?php  
-                    
-                    if (!isset($_SESSION['promotion-cart'])){
-                        $_SESSION['promotion-cart'] = array();
-                    }
-                    if (isset($_GET['buy'])) {
-                        $_SESSION['promotion-cart'][] = $_GET['buy'];
-                    }
-                    else if (isset($_GET['drop'])) {
-                        if (($key = array_search($_GET['drop'], $_SESSION['promotion-cart'])) !== false) {
-                            unset($_SESSION['promotion-cart'][$key]);
-                        }
-                    } else {
-                        unset($_SESSION['promotion-cart']);
-                        $_SESSION['promotion-cart'] = array();
-                    }
- 
+
                     include "dbconnect.php";
             
                     parse_str($_SERVER['QUERY_STRING'], $output);
@@ -247,22 +210,22 @@
                                     <td>Time: <span class="head3">'.date('H:i', strtotime($showTime)).'</span></td>
                                     <td>Cinema: <span class="head3">'.$cinemaName.'</span></td>
                                 </tr>';
-                
-                    
 
-                    echo '
-                        <tr>
-                            <td>Hall: <span class="head3">'.$cinemaHallName.'</span></td>
-                            <td>Seats Selected: <span class="head3">'.$rowCol.'</span></td>
-                            <td></td>
-                        </tr>
-                        </table>
-                    </div>';
+                            echo '
+                                <tr>
+                                    <td>Hall: <span class="head3">'.$cinemaHallName.'</span></td>
+                                    <td>Seats Selected: <span class="head3">'.$rowCol.'</span></td>
+                                    <td></td>
+                                </tr>
+                                </table>
+                            </div>';
 
                 ?>
                 
                 <?php
 
+                    $promotionSelectedNameArray = array();
+                    $promotionSelectedPriceArray = array();
                     $queryFoodMerchandise = "SELECT * FROM Food
                                             UNION
                                             SELECT * FROM Merchandise;";
@@ -270,62 +233,124 @@
 
                     $num_resultFoodMerchandise = $resultFoodMerchandise->num_rows;
 
-                    
+                    for ($i=0; $i<$num_resultFoodMerchandise; $i++) {
+                        $row = $resultFoodMerchandise->fetch_assoc();
+                        $promotionSelectedNameArray[$i] = $row["name"];
+                        $promotionSelectedPriceArray[$i] = $row["price"];
+                    }
 
                     $selected_promotion = $_SESSION['promotion-cart'];
                     $freqs = array_count_values($selected_promotion);
 
+                    $ticket_price;
+                    $queryPrice = "SELECT price FROM Cinema_Hall WHERE cinemaHallID='".$cinemaHallID."'";
+                    $resultPrice = $dbcnx->query($queryPrice);
+
+                    $num_resultPrice = $resultPrice->num_rows;
+
+                    for ($i=0; $i<$num_resultPrice; $i++) {
+                        $row = $resultPrice->fetch_assoc();
+                        $ticket_price = $row["price"];
+                    }
+                    $promotion_total = 0;
                     // <div class="submission">
                     //     <form action="booking_confirmation.php" method="post" id="submissionForm">
-                    echo '  <div class="promotions">
 
-                                <p>Do you wish to add on any food & beverages or merchandise?</p>';
+                            echo '
+                            <div class="ticket-table"> 
+                                <table border="0">
+                                    <tr>
+                                        <th>Ticket Type</th>
+                                        <th>Ticket Price</th>
+                                        <th>Qty</th>
+                                        <th>Total Amount</th>
+                                    </tr>
+                                    <tr>
+                                        <td>$'.$ticket_price.' - Standard Price</td>
+                                        <td>$'.$ticket_price.'</td>
+                                        <td>'.count($_SESSION['ticket-cart']).'</td>
+                                        <td>$'.number_format((float)$ticket_price*count($_SESSION['ticket-cart']), 2, '.', '').'</td>
+                                    </tr>';
                                 
-                                for ($i=0; $i <$num_resultFoodMerchandise; $i++) {
-                                    $row = $resultFoodMerchandise->fetch_assoc();
-                                    $freq = 0;
-                                    $freq = $freqs[$i];
-                                    echo '
-                                        <div class="container">
-                                            <div class="card">
-                                                <div class="promotion-img">
-                                                    <img src="./img/promotions/'.$row["imagePath"].'.webp" width="200" height="230">
-                                                </div>
-                                                <div class="promotion-details">
-                                                    <span style="float:left;">'.$row["name"].'</span>
-                                                    <span style="float:right;">$'.$row["price"].'</span>
-                                                    <br>
-                                                </div>
-                                                <div class="promotion-action">
-                                                    <a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'&drop='.$i.'"><button type="button" id="minuscounter-'.$i.'">-</button></a>
-                                                    ';
-                                                    if(!$freq) {
-                                                        echo '<input name="promotion'.$i.'" type="text" id="counter'.$i.'" value=0 size="10px" disabled>';
-                                                    } else {
-                                                        echo '<input name="promotion'.$i.'" type="text" id="counter'.$i.'" value='.$freq.' size="10px" disabled>';
-                                                    }
-                                                    echo '
-                                                    <a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'&buy='.$i.'"><button type="button" id="pluscounter+'.$i.'">+</button></a>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                       
-
-                                    ';
+                                    
+                                if (!empty($_SESSION['promotion-cart'])) {
+                                    foreach($freqs as $key=>$val){
+                                    $promotion_total = $promotion_total + $promotionSelectedPriceArray[$key]*$val;
+                                    echo '<tr>
+                                            <td>'.$promotionSelectedNameArray[$key].'</td>
+                                            <td>$'.$promotionSelectedPriceArray[$key].'</td>
+                                            <td>'.$val.'</td>
+                                            <td>$'.number_format((float)$promotionSelectedPriceArray[$key]*$val, 2, '.', '').'</td>
+                                        </tr>';
+                                    }
                                 }
                                 
+                                echo '<tr>
+                                        <td>Convenience Fee</td>
+                                        <td>$1.50</td>
+                                        <td>1</td>
+                                        <td>$1.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="total" colspan="4" align="right">Total: $'.number_format((float)(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total), 2, '.', '').'</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            ';
+                            
 
-                        echo'<div class="next-btn" id="next-btn">
-                                <a href="./booking_confirmation.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
-                                    <button class="button">
-                                    Next
+                                
+            
+                                echo '
+                                <div class="particulars">
+                                    <p>Please enter your particulars</p>
+                                    <div class="particular-form">
+                                        <table class="table-form" border="0">
+                                            <tr>
+                                                <td>Name:</td>
+                                                <td><input type="text" name="name" size="50" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email:</td>
+                                                <td><input type="email" name="email" size="50" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone Number:</td>
+                                                <td><input type="text" name="phonenumber" size="50" required></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <p>Select payment method</p>
+                                    <div class="radio-btn">
+                                        <label>
+                                            <input type="radio" name="payment-method" value="creditcard" required>
+                                            Visa/Master Card
+                                        </label>
+                                        
+                                        <label>
+                                            <input type="radio" name="payment-method" value="paypal">
+                                            PayPal
+                                        </label>
+                                        
+                                        <label>
+                                            <input type="radio" name="payment-method" value="other">
+                                            DBS PayLah!
+                                        </label>
+                                    </div>
+                                </div>';
+                             
+                                
+
+                            echo'<div class="next-btn" id="next-btn">
+                                    <a href="./booking_confirmation.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
+                                        <button class="button">
+                                        Next
                                         </button>
-                                </a>
-                            </div>
-                        
-                            </div>
+                                    </a>
+                                </div>
+                            
+                            
                             <br><br>';
                     //     </form>
                     // </div>

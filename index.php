@@ -94,6 +94,7 @@
                         $dbname = "f32ee";
 
                         $conn = mysqli_connect($servername, $username, $password, $dbname);
+                        mysqli_set_charset($conn,"utf8");
                         if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
                         }
@@ -157,7 +158,7 @@
         <div id="nowShowing" class="tabcontent">
             <?php
             $query_now_showing_details = "
-                SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                SELECT title, movieID, releaseDate, runningTime, genre, language, imagePath 
                 FROM `Movie` 
                 WHERE releaseDate <= CURRENT_DATE() 
                 ORDER BY releaseDate 
@@ -196,7 +197,7 @@
         <div id="comingSoon" class="tabcontent">
             <?php
             $query_now_showing_details = "
-                                        SELECT title, releaseDate, runningTime, genre, language, imagePath 
+                                        SELECT title, movieID, releaseDate, runningTime, genre, language, imagePath 
                                         FROM `Movie` 
                                         WHERE releaseDate > CURRENT_DATE() 
                                         ORDER BY releaseDate 

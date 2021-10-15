@@ -81,8 +81,27 @@
             border-radius: 5px;
             text-indent: 10px;
         }
+        .ticket-table table{
+            width: 100%;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .ticket-table th {
+            background-color: #302c2d;
+            padding: 20px;
+        }
+        .ticket-table td {
+            background-color: #302c2d;
+            padding: 10px 20px;
+        }
+        .total {
+            font-size: 20px;
+        }
+        .next-btn {
+            margin-bottom: 20px;
+        }
     </style>
-    <script>
+    <!-- <script>
         function selectSeat(cinemaSeatID) {
 
             movieID = urlparams.get('movieid');
@@ -120,11 +139,13 @@
                 
             }
         }
-    </script>
+    </script> -->
 </head>
 <body>
     <div id="wrapper">
         <?php
+            session_start();
+            //unset($_SESSION['ticket-cart']);
             if (isset($_SESSION['valid_user']))
             {
                 include "components/header_userloginsess.html";
@@ -144,13 +165,32 @@
 
                 <?php  
                     include "dbconnect.php";
-            
+
                     parse_str($_SERVER['QUERY_STRING'], $output);
                     $movieID = $output['movieid'];
                     $cinemaID = $output['cinemaid'];
                     $cinemaHallID = $output['cinemahallid'];
                     $showDate = $output['showdate'];
                     $showTime = $output['showtime'];
+
+                    if (!isset($_SESSION['ticket-cart'])){
+                        $_SESSION['ticket-cart'] = array();
+                    }
+                    if (isset($_GET['buy'])) {
+                        if (($key = array_search($_GET['buy'], $_SESSION['ticket-cart'])) !== false) {
+
+                        } else {
+                            $_SESSION['ticket-cart'][] = $_GET['buy'];
+                        }
+                    }
+                    else if (isset($_GET['drop'])) {
+                        if (($key = array_search($_GET['drop'], $_SESSION['ticket-cart'])) !== false) {
+                            unset($_SESSION['ticket-cart'][$key]);
+                        }
+                    } else {
+                        unset($_SESSION['ticket-cart']);
+                        $_SESSION['ticket-cart'] = array();
+                    }
                     
                     $movieName;
                     $movieImagePath;
@@ -407,7 +447,7 @@
 
 
                     <?php
-                        if ($movieID && $cinemaID && $cinemaHallID && $showDate && $showTime) {
+                        if ($movieID && $cinemaID && $output['cinemahallid'] && $showDate && $showTime) {
                             echo '
                             <div class="seating-plan">
                             <hr>
@@ -471,9 +511,17 @@
                                     echo '&nbsp;&nbsp;';
                                 }
                                 if (in_array($getCinemaSeatID[$i][$j], $occupiedSeat, TRUE)) {
-                                    echo '<img src="./img/seat-sold.png" alt="seat-sold" width="25" height="25">';
-                                } else {
-                                    echo '<img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-available.png" alt="seat-available" width="25" height="25" onclick="selectSeat('.$getCinemaSeatID[$i][$j].');">';
+                                    echo '<img src="./img/seat-sold.png" alt="seat-sold" width="25" height="25" >';
+                                }
+                                else if (in_array($getCinemaSeatID[$i][$j], $_SESSION['ticket-cart'], TRUE)) {
+                                    echo '<a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'&drop='.$getCinemaSeatID[$i][$j].'">
+                                            <img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-selected.png" alt="seat-selected" width="25" height="25">
+                                        </a>';
+                                }
+                                else {
+                                    echo '<a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'&buy='.$getCinemaSeatID[$i][$j].'">
+                                            <img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-available.png" alt="seat-available" width="25" height="25">
+                                        </a>';
                                 }
                             }
                             echo '&nbsp;&nbsp;'.$alphabet[$i-1];
@@ -486,19 +534,64 @@
                                 <img src="./img/seat-sold.png" alt="seat-sold" width="25" height="25"><span>Sold</span>
                             </div>';
                         
-                        echo '<div class="no-seat-selected" id="no-seat-selected">
+
+                        $price;
+                        $queryPrice = "SELECT price FROM Cinema_Hall WHERE cinemaHallID='".$cinemaHallID."'";
+                        $resultPrice = $dbcnx->query($queryPrice);
+
+                        $num_resultPrice = $resultPrice->num_rows;
+
+                        for ($i=0; $i<$num_resultPrice; $i++) {
+                            $row = $resultPrice->fetch_assoc();
+                            $price = $row["price"];
+                        }
+
+
+                        $selected = $_SESSION['ticket-cart'];
+
+                        if ($selected) {
+                                echo '
+                                <div class="no-seat-selected" id="no-seat-selected">
+                                    <h2>Selected: '.count($selected).'</h2>
+                                </div>
+                                <br>
+                                <div class="ticket-table"> 
+                                    <table border="0">
+                                        <tr>
+                                            <th>Ticket Type</th>
+                                            <th>Ticket Price</th>
+                                            <th>Qty</th>
+                                            <th>Total Amount</th>
+                                        </tr>
+                                        <tr>
+                                            <td>$'.$price.' - Standard Price</td>
+                                            <td>$'.$price.'</td>
+                                            <td>'.count($selected).'</td>
+                                            <td>$'.number_format((float)$price*count($selected), 2, '.', '').'</td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Convenience Fee</td>
+                                            <td>$1.50</td>
+                                            <td>1</td>
+                                            <td>$1.50</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="total" colspan="4" align="right">Total: $'.number_format((float)(1.5+$price*count($selected)), 2, '.', '').'</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="next-btn" id="next-btn">
+                                    <a href="./booking_particulars.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
+                                        <button class="button">
+                                         Next
+                                        </button
+                                    </a>
+                                </div>
                                 
-                            </div>
-                        ';
-
-                        echo '<div class="next-btn" id="next-btn">
-                                
-                            </div>
-                        ';
-
-
-                        echo '</div>
-                            ';
+                                ';
+                        }
+                    
                         }
                     ?>
                     </div>
