@@ -582,7 +582,7 @@
                                     </table>
                                 </div>
                                 <div class="next-btn" id="next-btn">
-                                    <a href="./booking_particulars.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
+                                    <a href="./booking_addons.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
                                         <button class="button">
                                          Next
                                         </button
