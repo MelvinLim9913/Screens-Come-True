@@ -104,7 +104,7 @@
                 var no_selected = document.getElementsByClassName("selected").length;
                 if (no_selected != 0) {
                     document.getElementById('no-seat-selected').innerHTML="<h2>Selected: " + selectedName + "</h2>";
-                    document.getElementById('next-btn').innerHTML="<button onclick=\"location.href='./booking_particulars.php?movieid=" + movieID + "&cinemaid=" + cinemaID + "&cinemahallid=" + cinemaHallID + "&showdate=" + showDate + "&showtime=" + showTime + "&cinemaSeatID=" + selectedID +"'\"=>Next</button>";
+                    document.getElementById('next-btn').innerHTML="<button onclick=\"location.href='./booking_particulars.php?movieid=" + movieID + "&cinemaid=" + cinemaID + "&cinemahallid=" + cinemaHallID + "&showdate=" + showDate + "&showtime=" + showTime + "&cinemaseatid=" + selectedID +"'\"=>Next</button>";
                 } else {
                     document.getElementById('no-seat-selected').innerHTML="";
                 }
