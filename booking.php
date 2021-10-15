@@ -64,9 +64,24 @@
         .seating-plan img {
             padding: 4px 2px;
         }
+        .legend {
+            padding: 20px 0px;
+            padding-right: 20px
+        }
+        .legend img {
+            padding-left: 20px;
+            padding-right: 10px;
+        }
     </style>
     <script>
         function selectSeat(cinemaSeatID) {
+
+            movieID = urlparams.get('movieid');
+            cinemaID = urlparams.get('cinemaid');
+            cinemaHallID = urlparams.get('cinemahallid');
+            showDate = urlparams.get('showdate');
+            showTime = urlparams.get('showtime');
+
             console.log(cinemaSeatID);
             if (document.getElementById(cinemaSeatID).src == "http://192.168.56.2/f32ee/Screens-Come-True/img/seat-selected.png") {
                 document.getElementById(cinemaSeatID).src="./img/seat-available.png"
@@ -74,6 +89,26 @@
             } else {
                 document.getElementById(cinemaSeatID).src="./img/seat-selected.png"
                 document.getElementById(cinemaSeatID).setAttribute('class', 'selected');
+            }
+            if (document.getElementsByClassName("selected")) {
+                var selectedClass = document.getElementsByClassName("selected");
+                var selectedID = ''
+                var selectedName = ''
+                for (var i=0; i<selectedClass.length; i++) {
+                    selectedID += selectedClass[i].id + ' ';
+                    selectedName += selectedClass[i].name + ' ';
+                    console.log(selectedID)
+                    console.log(selectedName)
+                }
+                
+                var no_selected = document.getElementsByClassName("selected").length;
+                if (no_selected != 0) {
+                    document.getElementById('no-seat-selected').innerHTML="<h2>Selected: " + selectedName + "</h2>";
+                    document.getElementById('next-btn').innerHTML="<button onclick=\"location.href='./booking_particulars.php?movieid=" + movieID + "&cinemaid=" + cinemaID + "&cinemahallid=" + cinemaHallID + "&showdate=" + showDate + "&showtime=" + showTime + "&cinemaSeatID=" + selectedID +"'\"=>Next</button>";
+                } else {
+                    document.getElementById('no-seat-selected').innerHTML="";
+                }
+                
             }
         }
     </script>
@@ -234,6 +269,7 @@
                             ?>
                     <script>
                         let urlparams = new URLSearchParams(window.location.search);
+                        let movieID = urlparams.get('movieID');
                         let cinemaID = urlparams.get('cinemaid');
                         if (cinemaID) {
                             document.getElementById('cinema-option').getElementsByTagName('option')[cinemaID].selected = 'selected';
@@ -290,6 +326,7 @@
                     ?>
                     <script>
                         let showDate = urlparams.get('showdate');
+                        let cinemaHallID = urlparams.get('cinemahallid');
                         if (showDate) {
                             var dateList = document.getElementById("date-option");
                             for (var i = 0; i < dateList.length; i++) {
@@ -359,6 +396,7 @@
                         }
                     </script>
 
+
                     <?php
                         if ($movieID && $cinemaID && $cinemaHallID && $showDate && $showTime) {
                             echo '
@@ -424,16 +462,31 @@
                                     echo '&nbsp;&nbsp;';
                                 }
                                 if (in_array($getCinemaSeatID[$i][$j], $occupiedSeat, TRUE)) {
-                                    echo '<img src="./img/seat-sold.png" alt="seat-available" width="25" height="25">';
+                                    echo '<img src="./img/seat-sold.png" alt="seat-sold" width="25" height="25">';
                                 } else {
-                                    echo '<img id="'.$getCinemaSeatID[$i][$j].'" name="'.$getCinemaSeatID[$i][$j].'" src="./img/seat-available.png" alt="seat-available" width="25" height="25" onclick="selectSeat('.$getCinemaSeatID[$i][$j].');">';
+                                    echo '<img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-available.png" alt="seat-available" width="25" height="25" onclick="selectSeat('.$getCinemaSeatID[$i][$j].');">';
                                 }
                             }
                             echo '&nbsp;&nbsp;'.$alphabet[$i-1];
                             echo '</div>';
                         }
 
+                        echo '<div class="legend">
+                                <img src="./img/seat-available.png" alt="seat-available" width="25" height="25"><span>Available</span>
+                                <img src="./img/seat-selected.png" alt="seat-selected" width="25" height="25"><span>Selected</span>
+                                <img src="./img/seat-sold.png" alt="seat-sold" width="25" height="25"><span>Sold</span>
+                            </div>';
                         
+                        echo '<div class="no-seat-selected" id="no-seat-selected">
+                                
+                            </div>
+                        ';
+
+                        echo '<div class="next-btn" id="next-btn">
+                                
+                            </div>
+                        ';
+
 
                         echo '</div>
                             ';
