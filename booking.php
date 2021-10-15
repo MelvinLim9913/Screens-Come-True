@@ -51,7 +51,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 15px;
+            border-radius: 5px;
         }
         .seating-plan hr {
             height: 5px;
@@ -74,6 +74,12 @@
         .legend img {
             padding-left: 20px;
             padding-right: 10px;
+        }
+        select {
+            height: 30px;
+            width: 150px;
+            border-radius: 5px;
+            text-indent: 10px;
         }
     </style>
     <script>
@@ -107,7 +113,7 @@
                 var no_selected = document.getElementsByClassName("selected").length;
                 if (no_selected != 0) {
                     document.getElementById('no-seat-selected').innerHTML="<h2>Selected: " + selectedName + "</h2>";
-                    document.getElementById('next-btn').innerHTML="<button onclick=\"location.href='./booking_particulars.php?movieid=" + movieID + "&cinemaid=" + cinemaID + "&cinemahallid=" + cinemaHallID + "&showdate=" + showDate + "&showtime=" + showTime + "&cinemaseatid=" + selectedID +"'\"=>Next</button>";
+                    document.getElementById('next-btn').innerHTML="<button class=\"button\" onclick=\"location.href='./booking_particulars.php?movieid=" + movieID + "&cinemaid=" + cinemaID + "&cinemahallid=" + cinemaHallID + "&showdate=" + showDate + "&showtime=" + showTime + "&cinemaseatid=" + selectedID +"'\"=>Next</button><br><br>";
                 } else {
                     document.getElementById('no-seat-selected').innerHTML="";
                 }
