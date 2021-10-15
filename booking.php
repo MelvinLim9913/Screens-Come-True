@@ -48,7 +48,10 @@
         .view-seating-plan {
             background-color: #FFFFFF;
             color: #108cff;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
         }
         .seating-plan hr {
             height: 5px;
@@ -369,8 +372,8 @@
                             echo '
                             <td class="view">
                                 <a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
-                                    <div style="height:100%;width:100%" class="view-seating-plan">
-                                        View Seating Plan
+                                    <div style="height:90%;width:100%" class="view-seating-plan">
+                                        <p>View Seating Plan</p>
                                     </div>
                                 </a>
                             </td>';

@@ -64,8 +64,38 @@
             padding: 10px;
             text-align: right;
         }
+        .container {
+            display: inline-block;
+            background-color: #302c2d;
+            margin: 15px;
+            text-align: center;
+            border-radius: 15px;
+        }
+        .card {
+            margin: 10px;
+        }
+        .promotion-details {
+            margin: 10px 0px;
+        }
+        .promotion-details span {
+            font-size: 12px;
+            display: inline-block;
+        }
 
     </style>
+
+    <script>
+        function handleBtnPlus(counterid) {
+            console.log(counterid);
+            document.getElementById("counter" + counterid).value = parseInt(document.getElementById("counter" + counterid).value) + 1;
+            return false;
+        }
+        function handleBtnMinus(counterid) {
+            console.log(counterid);
+            document.getElementById("counter" + counterid).value = parseInt(document.getElementById("counter" + counterid).value) - 1;
+            return false;
+        }
+    </script>
     
 </head>
 <body>
@@ -159,7 +189,6 @@
 
                         for ($i=0; $i <$num_resultRowCol; $i++) {
                             $row = $resultRowCol->fetch_assoc();
-                            echo $alphabet[$row["row"]-1].':'.$row["col"];
                             $rowCol = $rowCol.$alphabet[$row["row"]-1].':'.$row["col"].' ';
                         }
                     }
@@ -198,14 +227,50 @@
                 
                 <?php
 
-                    $queryBeverage;
+                    $queryFoodMerchandise = "SELECT * FROM Food
+                                            UNION
+                                            SELECT * FROM Merchandise;";
+                    $resultFoodMerchandise = $dbcnx->query($queryFoodMerchandise);
+
+                    $num_resultFoodMerchandise = $resultFoodMerchandise->num_rows;
+
+                    
 
                     echo '
                     <div class="submission">
                         <form action="booking_confirmation.php" method="post" id="submissionForm">
                             <div class="promotions">
 
-                                <p>Do you wish to add on any food & beverages or merchandise?</p>
+                                <p>Do you wish to add on any food & beverages or merchandise?</p>';
+                                
+                                for ($i=0; $i <$num_resultFoodMerchandise; $i++) {
+                                    $row = $resultFoodMerchandise->fetch_assoc();
+                                    
+                                    echo '
+                                        <div class="container">
+                                            <div class="card">
+                                                <div class="promotion-img">
+                                                    <img src="./img/promotions/'.$row["imagePath"].'.webp" width="200" height="230">
+                                                </div>
+                                                <div class="promotion-details">
+                                                    <span style="float:left;">'.$row["name"].'</span>
+                                                    <span style="float:right;">$'.$row["price"].'</span>
+                                                    <br>
+                                                </div>
+                                                <div class="promotion-action">
+                                                    <button type="button" id="minuscounter-'.$i.'" onclick="handleBtnMinus('.$i.');">-</button>
+                                                    <input type="text" id="counter'.$i.'" value=0>
+                                                    <button type="button" id="pluscounter'.$i.'" onclick="handleBtnPlus('.$i.');">+</button>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    ';
+                                }
+                                
+
+                        echo'
                             </div>
                             
                             <br><br>
