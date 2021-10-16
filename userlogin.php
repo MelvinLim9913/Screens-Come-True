@@ -9,8 +9,12 @@ $password = md5($password);
 $query = "SELECT * FROM User WHERE email='".$email."' and password='".$password."'";
 
 $result = $dbcnx->query($query);
+$num_result = $result->num_rows;
 if ($result->num_rows > 0 ) {
-    $_SESSION['valid_user'] = $email;
+    for ($i=0; $i<$num_resultPrice; $i++) {
+        $row = $result->fetch_assoc();
+        $_SESSION['valid_user'] = $row["userID"];
+    }
     echo '<script>
         window.location.href="index.php";
     </script>';
@@ -23,3 +27,5 @@ if ($result->num_rows > 0 ) {
 
 $dbcnx->close();
 ?>
+
+                    

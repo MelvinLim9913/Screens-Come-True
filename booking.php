@@ -67,6 +67,10 @@
         .seating-plan img {
             padding: 4px 2px;
         }
+        .seat-sold {
+            padding-left: 3px;
+            padding-right: 4.5px;
+        }
         .legend {
             padding: 20px 0px;
             padding-right: 20px
@@ -487,15 +491,15 @@
                             $getCinemaSeatID[$row["row"]][$row["col"]] = $row["cinemaSeatID"];
 
                             $rowCol[$row["row"]] = $row["col"];
-
+                            
                             $querySeatAvailable = "SELECT bookingID FROM Showtime_Seat WHERE showtimeID='".$showtimeID."' AND cinemaSeatID='".$row["cinemaSeatID"]."'";
                             $resultSeatAvailable= $dbcnx->query($querySeatAvailable);
 
                             $num_resultSeatAvailable = $resultSeatAvailable->num_rows;
-
-                            for ($j=0; $j<$num_rresultSeatAvailable; $j++) {
+                            
+                            for ($j=0; $j<$num_resultSeatAvailable; $j++) {
                                 $rowinner = $resultSeatAvailable->fetch_assoc();
-                                if ($row["bookingID"]) {
+                                if ($rowinner["bookingID"]) {
                                     array_push($occupiedSeat, $row["cinemaSeatID"]);
                                 }
                             }
@@ -511,7 +515,7 @@
                                     echo '&nbsp;&nbsp;';
                                 }
                                 if (in_array($getCinemaSeatID[$i][$j], $occupiedSeat, TRUE)) {
-                                    echo '<img src="./img/seat-sold.png" alt="seat-sold" width="25" height="25" >';
+                                    echo '<span class="seat-sold"><img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-sold.png" alt="seat-sold" width="25" height="25" ></span>';
                                 }
                                 else if (in_array($getCinemaSeatID[$i][$j], $_SESSION['ticket-cart'], TRUE)) {
                                     echo '<a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'&drop='.$getCinemaSeatID[$i][$j].'">

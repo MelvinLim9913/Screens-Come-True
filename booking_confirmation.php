@@ -95,6 +95,47 @@
             margin: 30px;
             text-align: center;
         }
+        .pop-up-screen {
+            /* z-index: 999999;
+            position: fixed;
+            background: rgba(255, 255, 255, 0.1);
+            
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center; */
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 120%;
+            visibility: visible;
+            transition: 0.5s;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pop-up-box {
+            position: relative;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            width: 500px;
+            margin: 20px;
+            padding: 50px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgb(0 0 0 / 20%);
+            color: black;
+        }
+        .confirmation-message {
+            text-align: center;
+        }
+        .back-to-home-btn {
+            margin-top: 40px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -137,6 +178,7 @@
                     $cinemaName;
                     $cinemaHallName;
                     $showtimeID;
+                    $showtimeSeatID = array();
                     
                     $queryMovieDetails = "SELECT title, imagePath FROM Movie WHERE movieID='".$movieID."'";
                     $resultMovieDetails = $dbcnx->query($queryMovieDetails);
@@ -191,6 +233,18 @@
                             $rowCol = $rowCol.$alphabet[$row["row"]-1].':'.$row["col"].' ';
                         }
                     }
+                    for ($j=0; $j<count($cinemaSeatID); $j++) {
+                        $queryShowtimeSeatID = "SELECT showtimeSeatID FROM Showtime_Seat WHERE cinemaSeatID='".$cinemaSeatID[$j]."' AND showtimeID='".$showtimeID."'";
+                        $resultShowtimeSeatID = $dbcnx->query($queryShowtimeSeatID);
+
+                        $num_resultShowtimeSeatID = $resultShowtimeSeatID->num_rows;
+
+                        for ($i=0; $i<$num_resultShowtimeSeatID; $i++) {
+                            $row = $resultShowtimeSeatID->fetch_assoc();
+                            array_push($showtimeSeatID, $row["showtimeSeatID"]);
+                        }
+                    }
+                    
 
                     echo '<div class="movie-content">
                             <div class="movie-posters">
@@ -239,6 +293,11 @@
                         $promotionSelectedPriceArray[$i] = $row["price"];
                     }
 
+                    $queryNumOfFood = "SELECT * FROM Food";
+                    $resultNumOfFood = $dbcnx->query($queryNumOfFood);
+
+                    $num_resultNumOfFood = $resultNumOfFood->num_rows;
+
                     $selected_promotion = $_SESSION['promotion-cart'];
                     $freqs = array_count_values($selected_promotion);
 
@@ -253,8 +312,7 @@
                         $ticket_price = $row["price"];
                     }
                     $promotion_total = 0;
-                    // <div class="submission">
-                    //     <form action="booking_confirmation.php" method="post" id="submissionForm">
+                    $promotion_message = "";
 
                             echo '
                             <div class="ticket-table"> 
@@ -282,9 +340,10 @@
                                             <td>'.$val.'</td>
                                             <td>$'.number_format((float)$promotionSelectedPriceArray[$key]*$val, 2, '.', '').'</td>
                                         </tr>';
+                                        $promotion_message = $promotion_message.$val.'x '.$promotionSelectedNameArray[$key].' - $'.number_format((float)$promotionSelectedPriceArray[$key]*$val, 2, '.', '')."\r\n";
                                     }
                                 }
-                                
+
                                 echo '<tr>
                                         <td>Convenience Fee</td>
                                         <td>$1.50</td>
@@ -294,7 +353,7 @@
                                     <tr>
                                         <td class="total" colspan="4" align="right">Total: $'.number_format((float)(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total), 2, '.', '').'</td>
                                     </tr>
-                                </table>
+                                </table> 
                             </div>
                             
                             ';
@@ -302,67 +361,145 @@
 
                                 
             
-                                echo '
-                                <div class="particulars">
-                                    <p>Please enter your particulars</p>
-                                    <div class="particular-form">
-                                        <table class="table-form" border="0">
-                                            <tr>
-                                                <td>Name:</td>
-                                                <td><input type="text" name="name" size="50" required></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Email:</td>
-                                                <td><input type="email" name="email" size="50" required></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Phone Number:</td>
-                                                <td><input type="text" name="phonenumber" size="50" required></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <p>Select payment method</p>
-                                    <div class="radio-btn">
-                                        <label>
-                                            <input type="radio" name="payment-method" value="creditcard" required>
-                                            Visa/Master Card
-                                        </label>
-                                        
-                                        <label>
-                                            <input type="radio" name="payment-method" value="paypal">
-                                            PayPal
-                                        </label>
-                                        
-                                        <label>
-                                            <input type="radio" name="payment-method" value="other">
-                                            DBS PayLah!
-                                        </label>
-                                    </div>
+                                echo '                 
+                                <div class="submission">
+                                    <form action="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'" method="post" id="submissionForm">
+                                        <p>Please enter your particulars</p>
+                                        <div class="particular-form">
+                                            <table class="table-form" border="0">
+                                                <tr>
+                                                    <td>Name:</td>
+                                                    <td><input type="text" name="name" size="50" required></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Email:</td>
+                                                    <td><input type="email" name="email" size="50" required></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Phone Number:</td>
+                                                    <td><input type="text" name="phone" size="50" required></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <p>Select payment method</p>
+                                        <div class="radio-btn">
+                                            <label>
+                                                <input type="radio" name="paymentmethod" value="creditcard" required>
+                                                Visa/Master Card
+                                            </label>
+                                            
+                                            <label>
+                                                <input type="radio" name="paymentmethod" value="paypal">
+                                                PayPal
+                                            </label>
+                                            
+                                            <label>
+                                                <input type="radio" name="paymentmethod" value="dbs">
+                                                DBS PayLah!
+                                            </label>
+                                        </div>
+                                        <div class="next-btn">
+                                            <input class="button" id="confirm" type="submit" value="Confirm and Pay">
+                                        </div>
+                                    </form>
                                 </div>';
-                             
-                                
 
-                            echo'<div class="next-btn" id="next-btn">
-                                    <a href="./booking_confirmation.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
-                                        <button class="button">
-                                        Next
-                                        </button>
-                                    </a>
+                                $name = $_POST['name'];
+                                $email = $_POST['email'];
+                                $phone = $_POST['phone'];
+                                $paymentmethod = $_POST['paymentmethod'];
+
+                                if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['paymentmethod'])) {
+
+                                    $bookingID = uniqid();
+                                    // if (isset($_SESSION['valid_user']))
+                                    // {
+                                    //     $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, userID, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', '".$_SESSION['valid_user']."'".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
+                                    //     $dbcnx->query($insertBooking);
+                                    // }
+                                    // else {
+                                    //     $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', '".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
+                                    //     $dbcnx->query($insertBooking);
+                                    // }
+                                    
+                                    // for ($i=0; $i<count($showtimeSeatID); $i++) {
+                                    //     $updateShowtimeSeat = "UPDATE Showtime_Seat SET bookingID='".$bookingID."' WHERE showtimeSeatID='".$showtimeSeatID[$i]."'";
+                                    //     $dbcnx->query($updateShowtimeSeat);
+                                    // }
+                                    
+                                    // $num_resultNumOfFood;
+
+                                    // if (!empty($_SESSION['promotion-cart'])) {
+                                    //     foreach($freqs as $key=>$val){
+                                    //         if ($key < $num_resultNumOfFood) {
+                                    //             # food & beverages
+                                    //             $insertFoodOrder = "INSERT INTO Food_Order (bookingID, foodID, quantity) VALUES ('".$bookingID."', '".($key+1)."', '".$val."')";
+                                    //             $dbcnx->query($insertFoodOrder);
+                                    //         }
+                                    //         else {
+                                    //             # merchandise
+                                    //             $insertMerchandiseOrder = "INSERT INTO Merchandise_Order (bookingID, merchandiseID, quantity) VALUES ('".$bookingID."', '".($key-$num_resultNumOfFood+1)."', '".$val."')";
+                                    //             $dbcnx->query($insertMerchandiseOrder);
+                                    //         }
+                                    //     }
+                                    // }
+
+                                    $to      = $email;
+                                    // $subject = 'Screens Come True - Movies Purchase Confirmation';
+                                    // $message = 'This is an automatically generated meggage. Please do not reply to this address.'
+                                    //             ."\r\n"."\r\n".
+                                    //             'Hi '.$name.', thank you for your purchase!'
+                                    //             ."\r\n".
+                                    //             $movieName
+                                    //             ."\r\n".
+                                    //             date('Y-m-d', strtotime($showDate)).', '.date('H:i', strtotime($showTime))
+                                    //             ."\r\n".
+                                    //             $cinemaName.' Hall '.$cinemaHallName
+                                    //             ."\r\n"."\r\n".
+                                    //             'Seat No(s): '.$rowCol
+                                    //             ."\r\n".
+                                    //             count($_SESSION['ticket-cart']).'x Standard Ticket(s) - $'.number_format((float)$ticket_price*count($_SESSION['ticket-cart']), 2, '.', '')
+                                    //             ."\r\n".
+                                    //             $promotion_message.
+                                    //             'Convenience Fee - $1.50'
+                                    //             ."\r\n".
+                                    //             'Grand Total - $'.number_format((float)(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total), 2, '.', '')
+                                    //             ;
+                                    // $headers = 'From: f32ee@localhost' . "\r\n" .
+                                    //     'Reply-To: f32ee@localhost' . "\r\n" .
+                                    //     'X-Mailer: PHP/' . phpversion();
+
+                                    // mail($to, $subject, $message, $headers,'-ff32ee@localhost');
+                                    echo ("mail sent to : ".$to);
+
+                                echo '
                                 </div>
-                            
-                            
-                            <br><br>';
-                    //     </form>
-                    // </div>
-                    
-                    echo'<br><br>';
+                            </div>
+                        </div>
+                    </div> ';
+
+                    echo '
+                    <div class="pop-up-screen">
+                        <div class="pop-up-box">
+                            <div class="confirmation-message">
+                                <p>Payment successful.</p>
+                                <p>Your Booking Reference ID is '.$bookingID.'.</p>
+                                <p>E-ticket(s) and transaction receipt have sent to your email.</p>
+                                <p>Enjoy the movie!</p>
+                            </div>
+                            <div class="back-to-home-btn">
+                                <button class="button" type="button" onclick="document.location.href=\'./index.php\'">Back To Home</button>
+                            </div>
+                        </div>
+                    </div>
+                    ';
+                                }
                 ?>
                  
             
-                    </div>
-                    </div>
-                </div>
-            </div>    
+                    
+                
+               
         </div>
         <?php include "components/footer.html"; ?>
     </div>
