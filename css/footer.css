@@ -31,7 +31,7 @@ footer {
     color: #FFFFFF;
     text-decoration: None;
 }
-a:hover {
+#footer a:hover {
     color: #EA2127;
     -moz-transition: all .3s ease-in;
     -o-transition: all .3s ease-in;

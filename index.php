@@ -128,7 +128,7 @@
                     </form>
                     <button>SHOWTIMES</button>
                 </div>
-                <button><img src="" alt="logo">Check Bookings</button>
+                <button onclick="window.location.href='check_bookings.php'"><img src="" alt="logo">Check Bookings</button>
             </div>
             <br>
             <div class="slideshow-container">
