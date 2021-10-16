@@ -96,15 +96,6 @@
             text-align: center;
         }
         .pop-up-screen {
-            /* z-index: 999999;
-            position: fixed;
-            background: rgba(255, 255, 255, 0.1);
-            
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center; */
             position: fixed;
             top: 40%;
             left: 50%;
@@ -244,7 +235,6 @@
                             array_push($showtimeSeatID, $row["showtimeSeatID"]);
                         }
                     }
-                    
 
                     echo '<div class="movie-content">
                             <div class="movie-posters">
@@ -357,9 +347,6 @@
                             </div>
                             
                             ';
-                            
-
-                                
             
                                 echo '                 
                                 <div class="submission">
@@ -409,67 +396,86 @@
                                 $phone = $_POST['phone'];
                                 $paymentmethod = $_POST['paymentmethod'];
 
+
                                 if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['paymentmethod'])) {
 
-                                    $bookingID = uniqid();
-                                    // if (isset($_SESSION['valid_user']))
-                                    // {
-                                    //     $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, userID, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', '".$_SESSION['valid_user']."'".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
-                                    //     $dbcnx->query($insertBooking);
-                                    // }
-                                    // else {
-                                    //     $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', '".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
-                                    //     $dbcnx->query($insertBooking);
-                                    // }
-                                    
-                                    // for ($i=0; $i<count($showtimeSeatID); $i++) {
-                                    //     $updateShowtimeSeat = "UPDATE Showtime_Seat SET bookingID='".$bookingID."' WHERE showtimeSeatID='".$showtimeSeatID[$i]."'";
-                                    //     $dbcnx->query($updateShowtimeSeat);
-                                    // }
-                                    
-                                    // $num_resultNumOfFood;
+                                    $available = true;
+                                    for ($i=0; $i<count($cinemaSeatID); $i++) {
+                                        $querySeatAvailable = "SELECT bookingID FROM Showtime_Seat WHERE showtimeID='".$showtimeID."' AND cinemaSeatID='".$cinemaSeatID[$i]."'";
+                                        $resultSeatAvailable= $dbcnx->query($querySeatAvailable);
+                
+                                        $num_resultSeatAvailable = $resultSeatAvailable->num_rows;
+                                        
+                                        for ($j=0; $j<$num_resultSeatAvailable; $j++) {
+                                            $rowinner = $resultSeatAvailable->fetch_assoc();
+                                            if ($rowinner["bookingID"]) {
+                                                $available = false;
+                                            }
+                                        }
+                                    }
 
-                                    // if (!empty($_SESSION['promotion-cart'])) {
-                                    //     foreach($freqs as $key=>$val){
-                                    //         if ($key < $num_resultNumOfFood) {
-                                    //             # food & beverages
-                                    //             $insertFoodOrder = "INSERT INTO Food_Order (bookingID, foodID, quantity) VALUES ('".$bookingID."', '".($key+1)."', '".$val."')";
-                                    //             $dbcnx->query($insertFoodOrder);
-                                    //         }
-                                    //         else {
-                                    //             # merchandise
-                                    //             $insertMerchandiseOrder = "INSERT INTO Merchandise_Order (bookingID, merchandiseID, quantity) VALUES ('".$bookingID."', '".($key-$num_resultNumOfFood+1)."', '".$val."')";
-                                    //             $dbcnx->query($insertMerchandiseOrder);
-                                    //         }
-                                    //     }
-                                    // }
+
+                                    if ($available) {
+
+                                    $bookingID = uniqid();
+                                    if (isset($_SESSION['valid_user']))
+                                    {
+                                        $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, userID, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', '".$_SESSION['valid_user']."'".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
+                                        $dbcnx->query($insertBooking);
+                                    }
+                                    else {
+                                        $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', '".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
+                                        $dbcnx->query($insertBooking);
+                                    }
+                                    
+                                    for ($i=0; $i<count($showtimeSeatID); $i++) {
+                                        $updateShowtimeSeat = "UPDATE Showtime_Seat SET bookingID='".$bookingID."' WHERE showtimeSeatID='".$showtimeSeatID[$i]."'";
+                                        $dbcnx->query($updateShowtimeSeat);
+                                    }
+                                    
+                                    $num_resultNumOfFood;
+
+                                    if (!empty($_SESSION['promotion-cart'])) {
+                                        foreach($freqs as $key=>$val){
+                                            if ($key < $num_resultNumOfFood) {
+                                                # food & beverages
+                                                $insertFoodOrder = "INSERT INTO Food_Order (bookingID, foodID, quantity) VALUES ('".$bookingID."', '".($key+1)."', '".$val."')";
+                                                $dbcnx->query($insertFoodOrder);
+                                            }
+                                            else {
+                                                # merchandise
+                                                $insertMerchandiseOrder = "INSERT INTO Merchandise_Order (bookingID, merchandiseID, quantity) VALUES ('".$bookingID."', '".($key-$num_resultNumOfFood+1)."', '".$val."')";
+                                                $dbcnx->query($insertMerchandiseOrder);
+                                            }
+                                        }
+                                    }
 
                                     $to      = $email;
-                                    // $subject = 'Screens Come True - Movies Purchase Confirmation';
-                                    // $message = 'This is an automatically generated meggage. Please do not reply to this address.'
-                                    //             ."\r\n"."\r\n".
-                                    //             'Hi '.$name.', thank you for your purchase!'
-                                    //             ."\r\n".
-                                    //             $movieName
-                                    //             ."\r\n".
-                                    //             date('Y-m-d', strtotime($showDate)).', '.date('H:i', strtotime($showTime))
-                                    //             ."\r\n".
-                                    //             $cinemaName.' Hall '.$cinemaHallName
-                                    //             ."\r\n"."\r\n".
-                                    //             'Seat No(s): '.$rowCol
-                                    //             ."\r\n".
-                                    //             count($_SESSION['ticket-cart']).'x Standard Ticket(s) - $'.number_format((float)$ticket_price*count($_SESSION['ticket-cart']), 2, '.', '')
-                                    //             ."\r\n".
-                                    //             $promotion_message.
-                                    //             'Convenience Fee - $1.50'
-                                    //             ."\r\n".
-                                    //             'Grand Total - $'.number_format((float)(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total), 2, '.', '')
-                                    //             ;
-                                    // $headers = 'From: f32ee@localhost' . "\r\n" .
-                                    //     'Reply-To: f32ee@localhost' . "\r\n" .
-                                    //     'X-Mailer: PHP/' . phpversion();
+                                    $subject = 'Screens Come True - Movies Purchase Confirmation';
+                                    $message = 'This is an automatically generated meggage. Please do not reply to this address.'
+                                                ."\r\n"."\r\n".
+                                                'Hi '.$name.', thank you for your purchase!'
+                                                ."\r\n".
+                                                $movieName
+                                                ."\r\n".
+                                                date('Y-m-d', strtotime($showDate)).', '.date('H:i', strtotime($showTime))
+                                                ."\r\n".
+                                                $cinemaName.' Hall '.$cinemaHallName
+                                                ."\r\n"."\r\n".
+                                                'Seat No(s): '.$rowCol
+                                                ."\r\n".
+                                                count($_SESSION['ticket-cart']).'x Standard Ticket(s) - $'.number_format((float)$ticket_price*count($_SESSION['ticket-cart']), 2, '.', '')
+                                                ."\r\n".
+                                                $promotion_message.
+                                                'Convenience Fee - $1.50'
+                                                ."\r\n".
+                                                'Grand Total - $'.number_format((float)(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total), 2, '.', '')
+                                                ;
+                                    $headers = 'From: f32ee@localhost' . "\r\n" .
+                                        'Reply-To: f32ee@localhost' . "\r\n" .
+                                        'X-Mailer: PHP/' . phpversion();
 
-                                    // mail($to, $subject, $message, $headers,'-ff32ee@localhost');
+                                    mail($to, $subject, $message, $headers,'-ff32ee@localhost');
                                     echo ("mail sent to : ".$to);
 
                                 echo '
@@ -492,15 +498,38 @@
                             </div>
                         </div>
                     </div>
-                    ';
-                                }
-                ?>
-                 
-            
+                    ';}
                     
-                
-               
-        </div>
+                    else {
+                        echo '
+                                </div>
+                            </div>
+                        </div>
+                    </div> ';
+
+                    echo '
+                    <div class="pop-up-screen">
+                        <div class="pop-up-box">
+                            <div class="confirmation-message">
+                                <p>The seat(s) chosen have been taken.</p>
+                                <p>Please select seats again. Sorry for the inconvenience caused.</p>
+                            </div>
+                            <div class="back-to-home-btn">
+                                <button class="button" type="button" onclick="document.location.href=\'./booking.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'\'">Back To Seat Selection</button>
+                            </div>
+                        </div>
+                    </div>
+                    ';
+                     }
+                    }
+                    
+                ?>
+              </div>
+              </div>
+              </div>
+              </div>
+       
+
         <?php include "components/footer.html"; ?>
     </div>
 </body>
