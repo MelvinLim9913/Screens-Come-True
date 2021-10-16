@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
+    <style>
+
+    </style>
     <script>
         let slidePosition = 1;
         SlideShow(slidePosition);
