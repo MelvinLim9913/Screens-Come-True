@@ -18,17 +18,31 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
     <style>
+<<<<<<< HEAD
+=======
+        object {
+            width: 70px;
+            height: 70px;
+        }
+        object:hover {
+            fill: red;
+            color: red;
+        }
+>>>>>>> origin
         .tab {
             overflow: hidden;
             display: flex;
             justify-content: center;
         }
+<<<<<<< HEAD
         .tab a img:hover {
             cursor: pointer;
         }
         .tab a h2:hover {
             cursor: pointer;
         }
+=======
+>>>>>>> origin
         .tab img {
             height: 120px;
             width: 120px;
@@ -40,6 +54,7 @@
             margin-bottom: 20px;
             margin-left: 100px;
             margin-right: 100px;
+<<<<<<< HEAD
             border-radius: 50%;
         }
         .tabcontent h2 {
@@ -87,6 +102,26 @@
     </script>
 </head>
 <body onload="document.getElementById('defaultOpen').click();">
+=======
+            box-shadow: 0px 0px 15px 5px #ffffff;
+            border-radius: 50%;
+        }
+    </style>
+    <script>
+        window.onload=function() {
+            // Get the Object by ID
+            var a = document.getElementById("svgObject");
+            // Get the SVG document inside the Object tag
+            var svgDoc = a.contentDocument;
+            // Get one of the SVG items by ID;
+            var svgItem = svgDoc.getElementById("svgItem");
+            // Set the colour to something else
+            a.setAttribute("fill", "lime");
+        };
+    </script>
+</head>
+<body>
+>>>>>>> origin
 <div id="wrapper">
     <?php
     if (isset($_SESSION['valid_user']))
@@ -99,21 +134,33 @@
     ?>
     <div class="content">
         <p>
+<<<<<<< HEAD
             <a href="index.php" class="other-page-breadcrumb">Home</a> /
+=======
+            <a href="../index.php" class="other-page-breadcrumb">Home</a> /
+>>>>>>> origin
             <strong class="current-page-breadcrumb">Promotions</strong>
         </p>
         <br>
         <div class="tab">
+<<<<<<< HEAD
             <a class="tablinks" onclick="openPromoTab(event, 'food_beverages')" id="defaultOpen">
                 <div class="icon-container">
                     <img src="img/promotion/cutlery.png" alt="logo">
                 </div>
                 <h2 style="text-align: center">Food & Beverages</h2>
+=======
+            <a class="tablinks" onclick="openPromoTab(event, 'food')" id="defaultOpen">
+                <div class="icon-container">
+                    <img src="img/promotion/cutlery.png" alt="logo">
+                </div>
+>>>>>>> origin
             </a>&nbsp;&nbsp;&nbsp;
             <a class="tablinks" onclick="openPromoTab(event, 'merchandise')">
                 <div class="icon-container">
                     <img src="img/promotion/bag.png" alt="logo">
                 </div>
+<<<<<<< HEAD
                 <h2 style="text-align: center">Merchandise</h2>
             </a>
         </div>
@@ -133,6 +180,11 @@
         </div>
     </div>
 
+=======
+            </a>
+        </div>
+    </div>
+>>>>>>> origin
     <?php include "components/footer.html"; ?>
 </div>
 </body>
