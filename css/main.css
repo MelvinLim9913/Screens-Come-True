@@ -3,6 +3,7 @@ body {
     letter-spacing: 0.6px;
     margin: 0px;
     padding: 0px;
+    min-height: 100%;
 }
 
 #wrapper {
@@ -19,7 +20,7 @@ body {
 }
 
 .current-page-breadcrumb {
-    color: red;
+    color: #EA2127;
 }
 .other-page-breadcrumb {
     color: #FFFFFF;

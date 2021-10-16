@@ -16,6 +16,7 @@
     }
     ?>
     <link rel="stylesheet" href="css/experience_dbox.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
