@@ -27,7 +27,7 @@
         .check-booking-component h1 {
             text-align: center;
         }
-        .check-booking-component button {
+        .check-booking-component .button {
             text-align: center;
             display: block;
             margin-right: 5px;
@@ -79,9 +79,8 @@
         print($email);
         print($phone_number);
         $bookingQuery = "
-SELECT * 
-FROM `Booking`
-WHERE email";
+        SELECT Showtime.startTime, Movie.title, Cinema.name,  
+        FROM `Booking`, `Showtime` WHERE Booking.showtimeID = Showtime.showtimeID";
         $resultBookingQuery = $dbcnx->query($bookingQuery);
         print($row = $resultBookingQuery->fetch_assoc());
         print($resultBookingQuery->num_rows);
