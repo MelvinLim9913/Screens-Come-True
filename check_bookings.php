@@ -79,11 +79,30 @@
         print($email);
         print($phone_number);
         $bookingQuery = "
-        SELECT Showtime.startTime, Movie.title, Cinema.name,  
-        FROM `Booking`, `Showtime` WHERE Booking.showtimeID = Showtime.showtimeID";
-        $resultBookingQuery = $dbcnx->query($bookingQuery);
-        print($row = $resultBookingQuery->fetch_assoc());
-        print($resultBookingQuery->num_rows);
+        SELECT Temp1.bookingID, Movie.title, Temp1.startTime, Temp1.price, Temp2.name as cinemaName, GROUP_CONCAT(Temp3.row) AS rows, GROUP_CONCAT(Temp3.col) AS cols, Temp4.quantity as foodQuantity, Temp4.name as foodName, Temp4.price as foodPrice, Temp5.quantity as merchandiseQuantity, Temp5.name as merchandiseName, Temp5.price as merchandisePrice
+        FROM Movie, 
+        (SELECT Showtime.startTime, Showtime.movieID, Showtime.cinemaHallID, BookingTemp.bookingID, BookingTemp.price
+        FROM Showtime, (
+        SELECT bookingID, showtimeID, price
+        FROM Booking WHERE email = '" . $email . "' AND phone = '" . $phone_number ."'
+        ) BookingTemp
+        WHERE Showtime.showtimeID = BookingTemp.showtimeID) Temp1,
+        (SELECT Cinema.name, Cinema_Hall.cinemaHallID FROM Cinema, Cinema_Hall WHERE Cinema_Hall.cinemaID = Cinema.cinemaID) Temp2, 
+        (SELECT Cinema_Seat.row, Cinema_Seat.col, Showtime_Seat.bookingID FROM Cinema_Seat, Showtime_Seat WHERE Cinema_Seat.cinemaSeatID = Showtime_Seat.cinemaSeatID) Temp3, 
+        (SELECT Booking.bookingID, FoodTemp.quantity, FoodTemp.name, FoodTemp.price FROM (SELECT Food_Order.bookingID, Food_Order.quantity, Food.name, Food.price FROM Food, Food_Order WHERE Food_Order.foodID = Food.foodID) FoodTemp RIGHT JOIN Booking ON Booking.bookingID = FoodTemp.bookingID) Temp4,
+        (SELECT Booking.bookingID, MerchandiseTemp.quantity, MerchandiseTemp.name, MerchandiseTemp.price FROM (SELECT Merchandise_Order.bookingID, Merchandise_Order.quantity, Merchandise.name, Merchandise.price FROM Merchandise, Merchandise_Order WHERE Merchandise_Order.merchandiseID = Merchandise.merchandiseID) MerchandiseTemp RIGHT JOIN Booking ON Booking.bookingID = MerchandiseTemp.bookingID) Temp5
+        WHERE Movie.movieID = Temp1.movieID AND 
+        Temp2.cinemaHallID = Temp1.cinemaHallID AND
+        Temp3.bookingID = Temp1.bookingID AND
+        Temp4.bookingID = Temp1.bookingID AND
+        Temp5.bookingID = Temp1.bookingID
+        GROUP BY bookingID;";
+        $showtimeID = $dbcnx->query($bookingQuery);
+        print_r($row = $showtimeID);
+        while ($row = $showtimeID) {
+            print_r($row);
+            break;
+        }
         ?>
         <div>
             <h2>Your Bookings</h2>
