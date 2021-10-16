@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DBOX</title>
+    <title>Promotion</title>
     <?php
     session_start();
     if (isset($_SESSION['valid_user']))
