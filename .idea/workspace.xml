@@ -3,7 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="a5bff64a-408e-4d49-ac47-8edb521e0efb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/check_bookings.php" beforeDir="false" afterPath="$PROJECT_DIR$/check_bookings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinemas.php" beforeDir="false" afterPath="$PROJECT_DIR$/cinemas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/experience_dbox.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/experience_dbox.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/experience_dolby_atmos.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/experience_dolby_atmos.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/experience_imax.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/experience_imax.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/experience_onyx_cinema.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/experience_onyx_cinema.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/movieDetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/movieDetails.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experience_dbox.php" beforeDir="false" afterPath="$PROJECT_DIR$/experience_dbox.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experience_dolby_atmos.php" beforeDir="false" afterPath="$PROJECT_DIR$/experience_dolby_atmos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experience_imax.php" beforeDir="false" afterPath="$PROJECT_DIR$/experience_imax.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experience_onyx_cinema.php" beforeDir="false" afterPath="$PROJECT_DIR$/experience_onyx_cinema.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movieDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/movieDetails.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/promotions.php" beforeDir="false" afterPath="$PROJECT_DIR$/promotions.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

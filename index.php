@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
     <style>
-
+        .quicksearch-selection-bar {
+            color: black;
+        }
     </style>
     <script>
         let slidePosition = 1;
@@ -91,23 +93,34 @@
                 <div class="quicksearch-selection-bar">
                     <form>
                         <?php
-                        $servername = "localhost";
-                        $username = "f32ee";
-                        $password = "f32ee";
-                        $dbname = "f32ee";
+                        include "dbconnect.php";
 
-                        $conn = mysqli_connect($servername, $username, $password, $dbname);
-                        mysqli_set_charset($conn,"utf8");
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
+                        $queryShowtimeDate = "SELECT DISTINCT date(startTime) AS datelist FROM `Showtime`";
+                        $showtimeDate = $dbcnx->query($queryShowtimeDate);
+
+                        $dateToMovieArray = array();
+
+                        $numShowtimeDate = $showtimeDate->num_rows;
+                        for ($i=0; $i<$numShowtimeDate; $i++) {
+                            $row = $showtimeDate->fetch_assoc();
+
+                            $queryMovie = "SELECT Movie.title AS title FROM `Movie`, `Showtime` WHERE date(Showtime.startTime) = '" . $row["datelist"] . "'";
+                            $movieList = $dbcnx->query($queryMovie);
+
+                            $num
+                            while ($movie_row = mysqli_fetch_assoc($movieList)) {
+                                if (empty($dateToMovieArray[$row["datelist"]])) {
+                                    $dateToMovieArray[$row["datelist"]] = array();
+                                }
+                                array_push($dateToMovieArray[$row["datelist"]], )
+                            }
                         }
 
-                        $query_movie_date = "SELECT DISTINCT releaseDate FROM `Movie` ORDER BY releaseDate ASC";
-                        $movie_date = mysqli_query($conn, $query_movie_date);
+
                         echo "<select>";
                         $counter = 0;
-                        while ($row = mysqli_fetch_assoc($movie_date)) {
-                            echo "<option>" . $row['releaseDate'] . "</option>";
+                        while ($row = mysqli_fetch_assoc($showtimeDate)) {
+                            echo "<option>" . date("Y-m-d", strtotime($row['datelist'])) . "</option>";
                             $counter += 1;
                             if ($counter == 7) {
                                 break;

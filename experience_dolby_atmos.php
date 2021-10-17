@@ -31,6 +31,12 @@
         }
     ?>
     <div class="content">
+        <p>
+            <a href="index.php" class="other-page-breadcrumb">Home</a> /
+            <a href="cinemas.php" class="other-page-breadcrumb">Cinemas</a> /
+            <strong class="current-page-breadcrumb">Dolby Atmos</strong>
+        </p>
+        <br>
         <img src="img/experience/experience_dolby_atmos_banner.jpg" class="banner">
         <h1>Dolby Atmos</h1>
         <p>
@@ -50,11 +56,6 @@
             <li>Employs up to 64 speakers to heighten the realism and impact of every scene</li>
             <li>Dolby Atmos is a revolutionary new audio platform tha tvastly expands the artistic palette
             available during content creation, simplifies distribution and enables dramatic cinema-sound experiences</li>
-        </ul>
-        <h2>Dolby Atmos is available at:</h2>
-        <ul>
-            <li>Dummy</li>
-            <li>Dummy</li>
         </ul>
         <br>
     </div>

@@ -47,7 +47,8 @@ h2 {
     background-color: #302c2d;
 }
 .date-content table td a {
-    color: #a0a0a0;
+    /*color: #a0a0a0;*/
+    color: white;
 }
 .date-content table td:hover {
     background-color: #EA2127;
