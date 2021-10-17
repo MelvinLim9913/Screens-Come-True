@@ -33,6 +33,14 @@
             margin-right: 5px;
             margin-left: auto;
         }
+        .phone-email-box {
+            width: 50%;
+            height: 30px;
+        }
+        .input-area {
+            display: flex;
+            justify-content: space-between;
+        }
         .booking-table th {
             border-bottom: 1px solid #364043;
             color: #E2B842;
@@ -53,10 +61,10 @@
             transition: background 0.25s ease;
         }
         tbody tr:hover {
-            background: #014055;
+            background: slategrey;
         }
         .booking-table {
-            background: #012B39;
+            background: black;
             border-radius: 0.25em;
             border-collapse: collapse;
             text-align: left;
@@ -89,8 +97,10 @@
             </h1>
             <hr>
             <form method="post">
-                <label>Email Address*: <input type="email" name="booking-email"></label>
-                <label>Phone Number*: <input type="number" name="booking-number"></label><br><br>
+                <div class="input-area">
+                    <label>Email Address*: <input type="email" name="booking-email" class="phone-email-box"></label>
+                    <label>Phone Number*: <input type="number" name="booking-number" class="phone-email-box"></label><br><br>
+                </div>
                 <input class="button" type="submit" value="Check">
             </form>
         </div>
@@ -155,25 +165,49 @@
                         unset($row_idx);
                         unset($col_idx);
 
-                        echo'
-                        <tr>
-                            <td>' . date("Y-m-d", strtotime($row["startTime"])) . '</td>
-                            <td>' . date("H:i", strtotime($row["startTime"])) . '</td>
-                            <td>' . $row["title"] . '</td>
-                            <td>' . $row["cinemaName"] . '</td>
-                            <td>' . implode(", ", $chosen_seat_list) . '</td>
-                        ';
-                        if (!empty($row["foodName"]) && !empty($row["merchandiseName"])) {
-                            echo '
-                            <td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '<br>' .
-                                $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>
+
+                        if ((time()-(60*60*24)) > strtotime($row["startTime"])) {
+                            echo'
+                            <tr>
+                                <td>' . date("Y-m-d", strtotime($row["startTime"])) . '</td>
+                                <td>' . date("H:i", strtotime($row["startTime"])) . '</td>
+                                <td>' . $row["title"] . '</td>
+                                <td>' . $row["cinemaName"] . '</td>
+                                <td>' . implode(", ", $chosen_seat_list) . '</td>
                             ';
-                        } elseif (!empty($row["foodName"])) {
-                            echo '<td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '</td>';
-                        } elseif (!empty($row["merchandiseName"])) {
-                            echo '<td>' . $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>';
+                                if (!empty($row["foodName"]) && !empty($row["merchandiseName"])) {
+                                    echo '
+                                <td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '<br>' .
+                                        $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>
+                                ';
+                                } elseif (!empty($row["foodName"])) {
+                                    echo '<td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '</td>';
+                                } elseif (!empty($row["merchandiseName"])) {
+                                    echo '<td>' . $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>';
+                                }
+                                echo '<td>' . $row["price"] . '</td>';
+                        } else {
+                            echo'
+                            <tr class="disabled">
+                                <td>' . date("Y-m-d", strtotime($row["startTime"])) . '</td>
+                                <td>' . date("H:i", strtotime($row["startTime"])) . '</td>
+                                <td>' . $row["title"] . '</td>
+                                <td>' . $row["cinemaName"] . '</td>
+                                <td>' . implode(", ", $chosen_seat_list) . '</td>
+                            ';
+                            if (!empty($row["foodName"]) && !empty($row["merchandiseName"])) {
+                                echo '
+                                <td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '<br>' .
+                                    $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>
+                                ';
+                            } elseif (!empty($row["foodName"])) {
+                                echo '<td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '</td>';
+                            } elseif (!empty($row["merchandiseName"])) {
+                                echo '<td>' . $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>';
+                            }
+                            echo '<td>' . $row["price"] . '</td>';
                         }
-                        echo '<td>' . $row["price"] . '</td>';
+
                     }
                 }
                 ?>
