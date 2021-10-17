@@ -24,7 +24,6 @@
         }
     </style>
     <script>
-        var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_FORCE_OBJECT); ?>;
         let slidePosition = 1;
         SlideShow(slidePosition);
 
@@ -92,7 +91,7 @@
             </div>
             <div class="quicksearch-selection-bar-with-button">
                 <div class="quicksearch-selection-bar">
-                    <form>
+                    <form method="post" action="quicksearch.php">
                         <?php
                         include "dbconnect.php";
 
@@ -148,36 +147,47 @@
                                     $showTimeList = $dbcnx->query($queryShowTime);
 
                                     $numShowTimeList = $showTimeList->num_rows;
-                                    for ($l=0; $l<$showTimeList; $l++) {
+                                    for ($l=0; $l<$numShowTimeList; $l++) {
                                         $row_l = $showTimeList->fetch_assoc();
 
                                         if (empty($dateToMovieArray[$date][$movie][$cinema])) {
                                             $dateToMovieArray[$date][$movie][$cinema] = array();
                                         }
-                                        array_push($dateToMovieArray[$date][$movie][$cinema], $row_l["showtime"]);
+                                        array_push($dateToMovieArray[$date][$movie][$cinema], date("H:i", strtotime($row_l["showtime"])));
                                     }
                                 }
                             }
                         }
-                        echo "<select><option>Please Select A Date</option>";
+//                        foreach($dateToMovieArray as $date=>$movieList) {
+//                            foreach ($movieList as $movie=>$cinemaList) {
+//                                foreach ($cinemaList as $cinema=>$showtimeList) {
+//                                    foreach ($showtimeList as $showtime) {
+//                                        print(count($showtimeList));
+//                                    }
+//                                }
+//                            }
+//                        }
+
+                        echo "<label><select name='date' id='date' onchange='selectedDate()' required><option value='' disabled selected>Please Select A Date</option>";
                             foreach($dateToMovieArray as $date=>$movieList) {
                                 echo "<option value='" . $date . "'>" . $date . "</option>";
                             }
+
+                        echo "</select></label>";
+                        echo "<label><select name='movie' id='movie' onchange='selectedMovie()' required><option value='' disabled selected>Please Select A Movie</option>";
+                        echo "</select></label>";
+
                         echo "</select>";
+                        echo "<label><select name='cinema' id='cinema' onchange='selectedCinema()' required><option value='' disabled selected>Please Select A Cinema</option>";
+                        echo "</select></label>";
+
+                        echo "</select>";
+                        echo "<label><select name='showtime' id='showtime' required><option value='' disabled selected>Please Select A Showtime</option>";
+                        echo "</select></label>";
                         ?>
 
-                        <label>
-                            <select>
-                                <option value="" disabled selected>All Movies</option>
-                            </select>
-                        </label>
-                        <label>
-                            <select>
-                                <option value="" disabled selected>All Theatres</option>
-                            </select>
-                        </label>
+                        <button type="submit">SHOWTIMES</button>
                     </form>
-                    <button>SHOWTIMES</button>
                 </div>
                 <button onclick="window.location.href='check_bookings.php'"><img src="" alt="logo">Check Bookings</button>
             </div>
@@ -218,7 +228,7 @@
                 ORDER BY releaseDate 
                 DESC LIMIT 8
                 ";
-            $movie_details = mysqli_query($conn, $query_now_showing_details);
+            $movie_details = $dbcnx->query($query_now_showing_details);
             $movie_poster_path = "img/movies/";
 
             while ($row = mysqli_fetch_assoc($movie_details)) {
@@ -257,7 +267,7 @@
                                         ORDER BY releaseDate 
                                         DESC LIMIT 8
                                         ";
-            $movie_details = mysqli_query($conn, $query_now_showing_details);
+            $movie_details = $dbcnx->query($query_now_showing_details);
             $movie_poster_path = "img/movies/";
 
             while ($row = mysqli_fetch_assoc($movie_details)) {
@@ -296,5 +306,80 @@
     </div>
     <?php include "components/footer.html"; ?>
 </div>
+<script>
+    var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_FORCE_OBJECT); ?>;
+
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+        for(i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+
+    function populateDate() {
+        let dates = Object.values(allMoviesObject);
+        var dateSelector = document.getElementById("date");
+        dates.forEach((date) => {
+            if (typeof date === 'string' || date instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = date;
+                opt.innerHTML = date;
+                dateSelector.appendChild(opt);
+            }
+        })
+    }
+
+    function selectedDate() {
+        let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
+        console.log(allMoviesObject[dateSelected]);
+        let movies = Object.values(allMoviesObject[dateSelected]);
+
+        var movieSelector = document.getElementById("movie");
+        movies.forEach((movie) => {
+            if (typeof movie === 'string' || movie instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = movie;
+                opt.innerHTML = movie;
+                movieSelector.appendChild(opt);
+            }
+        })
+        console.log("done");
+    }
+
+    function selectedMovie() {
+        let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
+        let movieSelected = document.getElementById("movie").options[document.getElementById("movie").selectedIndex].value;
+
+        let cinemas = Object.values(allMoviesObject[dateSelected][movieSelected])
+
+        var cinemaSelector = document.getElementById("cinema");
+        cinemas.forEach((cinema) => {
+            if (typeof cinema === 'string' || cinema instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = cinema;
+                opt.innerHTML = cinema;
+                cinemaSelector.appendChild(opt);
+            }
+        })
+    }
+
+    function selectedCinema() {
+        let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
+        let movieSelected = document.getElementById("movie").options[document.getElementById("movie").selectedIndex].value;
+        let cinemaSelected = document.getElementById("cinema").options[document.getElementById("cinema").selectedIndex].value;
+
+        let showtimes = Object.values(allMoviesObject[dateSelected][movieSelected][cinemaSelected]);
+
+        var showtimeSelector = document.getElementById("showtime");
+        showtimes.forEach((showtime) => {
+            if (typeof showtime === 'string' || showtime instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = showtime;
+                opt.innerHTML = showtime;
+                showtimeSelector.appendChild(opt);
+            }
+        })
+    }
+</script>
 </body>
 </html>
