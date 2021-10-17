@@ -52,6 +52,11 @@
         }
     ?>
     <div class="content">
+        <p>
+            <a href="index.php" class="other-page-breadcrumb">Home</a> /
+            <strong class="current-page-breadcrumb">Movies</strong>
+        </p>
+        <br><br>
         <div class="tab">
             <a class="tablinks" onclick="openMoviesTab(event, 'nowShowing')" id="defaultOpen">Now Showing</a>&nbsp;&nbsp;&nbsp;
             <a class="tablinks" onclick="openMoviesTab(event, 'comingSoon')">Coming Soon</a>
