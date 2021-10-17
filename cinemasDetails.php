@@ -17,6 +17,7 @@
     ?>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/movieDetails.css">
     <style>
         h2 {
             color: #ffd701;
@@ -70,6 +71,7 @@
 
             parse_str($_SERVER["QUERY_STRING"], $output);
             $cinemaID = $output["cinemaid"];
+            $showDate = $output["showdate"];
 
             $queryCinemaDetails = "
             SELECT * 
@@ -103,31 +105,32 @@
                 ';
             }
         ?>
+        
         <div class="date-content">
-            <table>
+            <table border="0">
                 <tr>
                     <?php
-                    $queryIfNowShowing = "SELECT * FROM Movie WHERE movieID='".$movieID."' AND releaseDate <= '2021-10-18'";
-                    $resultIfNowShowing = $dbcnx->query($queryIfNowShowing);
+                        $queryIfNowShowing = "SELECT * FROM Movie WHERE releaseDate <= '2021-10-18'";
+                        $resultIfNowShowing = $dbcnx->query($queryIfNowShowing);
 
-                    if ($resultIfNowShowing->num_rows >0 ) {
-                        $queryShowtimesDates = "SELECT DISTINCT DATE(startTime) As datelist FROM Showtime;";
-                        $resultShowtimesDates = $dbcnx->query($queryShowtimesDates);
-
-                        $num_resultShowtimesDates = $resultShowtimesDates->num_rows;
-                        for ($i=0; $i <$num_resultShowtimesDates; $i++) {
-                            $row = $resultShowtimesDates->fetch_assoc();
-                            echo '<td id="'.$row["datelist"].'" name="showdates">
-                                        <a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&showdate='.$row["datelist"].'">
+                        if ($resultIfNowShowing->num_rows >0 ) {
+                            $queryShowtimesDates = "SELECT DISTINCT DATE(startTime) As datelist FROM Showtime;";
+                            $resultShowtimesDates = $dbcnx->query($queryShowtimesDates);
+    
+                            $num_resultShowtimesDates = $resultShowtimesDates->num_rows;
+                            for ($i=0; $i <$num_resultShowtimesDates; $i++) {
+                                $row = $resultShowtimesDates->fetch_assoc();
+                                echo '<td id="'.$row["datelist"].'" name="showdates">
+                                        <a href="'.$_SERVER['PHP_SELF'].'?cinemaid='.$cinemaID.'&showdate='.$row["datelist"].'">
                                             <div style="height:100%;width:100%">
                                                 '.date('D', strtotime($row["datelist"])).'<br>'.date('j M Y', strtotime($row["datelist"])).'
                                             </div>
                                         </a>
                                     </td>';
+                            }
                         }
-                    }
-
-                    ?>
+                        
+                        ?>
                     <script>
                         let urlparams = new URLSearchParams(window.location.search);
                         let showDate = urlparams.get('showdate');
@@ -138,6 +141,65 @@
             </table>
         </div>
         <br>
+        <div class="showtimes-content">
+            <table border="0">
+
+                <?php
+                    if ($resultIfNowShowing->num_rows >0 ) {
+                        
+                        $showTimeList = array();
+                        $queryCinemaHallID = "SELECT cinemaHallID FROM Cinema_Hall WHERE cinemaID='".$cinemaID."'";
+                        $resultCinemaHallID = $dbcnx->query($queryCinemaHallID);
+
+                        $num_resultCinemaHallID = $resultCinemaHallID->num_rows;
+                        for ($i=0; $i <$num_resultCinemaHallID; $i++) {
+                            $row = $resultCinemaHallID->fetch_assoc();
+
+                            $queryMovieShowtimes = "SELECT movieID, startTime FROM Showtime WHERE cinemaHallID='".$row["cinemaHallID"]."' and DATE(startTime)='".$showDate."' GROUP BY 1, 2";
+                            $resultMovieShowtimes = $dbcnx->query($queryMovieShowtimes);
+
+                            $num_resultMovieShowtimes = $resultMovieShowtimes->num_rows;
+                            for ($j=0; $j<$num_resultMovieShowtimes; $j++) {
+                                $rowinner = $resultMovieShowtimes->fetch_assoc();
+                                if (empty($showTimeList[$rowinner["movieID"]])) {
+                                    $showTimeList[$rowinner["movieID"]] = array();
+                                }
+                                array_push($showTimeList[$rowinner["movieID"]], $row["cinemaHallID"]);
+                                array_push($showTimeList[$rowinner["movieID"]], date('G:i', strtotime($rowinner["startTime"])));
+                            }
+                        }
+
+                        foreach($showTimeList as $key=>$val){
+                            $queryMovieDetails = "SELECT title, imagePath FROM Movie WHERE movieID='".$key."'";
+                            $resultMovieDetails = $dbcnx->query($queryMovieDetails);
+
+                            $num_resultMovieDetails = $resultMovieDetails->num_rows;
+
+                            for ($k=0; $k<$num_resultMovieDetails; $k++) {
+                                $row = $resultMovieDetails->fetch_assoc();
+                                $movieTitle = $row["title"];
+                                $movieImage = $row["imagePath"];
+                            }
+
+                            echo '<tr>
+                                    <td><h3>'.$movieTitle.'<br><img src="./img/movies/'.$movieImage.'.jpg" width="240" height="300"></h3></td>
+                                    <td>
+                                        <ul>';
+                            
+                            for ($j=0; $j<count($val); $j=$j+2) {
+                                echo '<a href="./booking.php?movieid='.$key.'&cinemaid='.$cinemaID.'&cinemahallid='.$val[$j].'&showdate='.$showDate.'&showtime='.$val[$j+1].':00"><li>'.$val[$j+1].'</li></a>';
+                            }
+                                    
+                            echo       '</ul>
+                                    </td>
+                                </tr>';
+
+
+                        }
+                    }
+                ?>
+            </table>
+        </div>
     </div>
 </div>
 </body>

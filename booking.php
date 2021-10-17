@@ -262,6 +262,9 @@
                                 echo '<span>You have selected &nbsp;</span><span class="head2">'.$movieName.'</span><span>&nbsp; at &nbsp;</span><span class="head2">'.$cinemaName.'</span><span>&nbsp; Cinema Hall &nbsp;</span><span class="head2">'.$cinemaHallName.'</span>
                                 ';
                             }
+                            if (substr($_SERVER['QUERY_STRING'], -1) == "=") {
+                                echo '<p>Please select all the fields.<p>';
+                            }
                             echo '<hr><br>
                             <table border="0">
                                 <tr>
@@ -551,9 +554,17 @@
                             $price = $row["price"];
                         }
 
-
+                        // $alphabet = range('A', 'Z');
+                        // $seatSelected = "";
                         $selected = $_SESSION['ticket-cart'];
 
+                        // echo count($selected);
+                        // echo $cinemaSeatIDRowColArray[83][0];
+                        // for ($i=0; $i<count($selected); $i++) {
+                        //     echo $selected[$i].'<br';
+                        //     $seatSelected = $seatSelected.$alphabet[$cinemaSeatIDRowColArray[$selected[$i]][0]-1].':'.$cinemaSeatIDRowColArray[$selected[$i]][1].' ';
+                        // }
+                        
                         if ($selected) {
                                 echo '
                                 <div class="no-seat-selected" id="no-seat-selected">
