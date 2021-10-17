@@ -24,6 +24,7 @@
         }
     </style>
     <script>
+        var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_FORCE_OBJECT); ?>;
         let slidePosition = 1;
         SlideShow(slidePosition);
 
@@ -104,30 +105,67 @@
                         for ($i=0; $i<$numShowtimeDate; $i++) {
                             $row = $showtimeDate->fetch_assoc();
 
-                            $queryMovie = "SELECT Movie.title AS title FROM `Movie`, `Showtime` WHERE date(Showtime.startTime) = '" . $row["datelist"] . "'";
+                            $queryMovie = "SELECT DISTINCT Movie.title AS title FROM `Movie`, `Showtime` WHERE date(Showtime.startTime) = '" . $row["datelist"] . "'";
                             $movieList = $dbcnx->query($queryMovie);
 
-                            $num
-                            while ($movie_row = mysqli_fetch_assoc($movieList)) {
+                            $numMovieList = $movieList->num_rows;
+                            for ($j=0; $j<$numMovieList; $j++) {
+                                $row_j = $movieList->fetch_assoc();
+
                                 if (empty($dateToMovieArray[$row["datelist"]])) {
                                     $dateToMovieArray[$row["datelist"]] = array();
                                 }
-                                array_push($dateToMovieArray[$row["datelist"]], )
+                                array_push($dateToMovieArray[$row["datelist"]], $row_j["title"]);
+                            }
+
+                        }
+                        foreach ($dateToMovieArray as $date=>$movieList) {
+                            foreach ($movieList as $movie) {
+
+                                $queryCinema = "SELECT DISTINCT Cinema.name
+                                                AS location
+                                                FROM `Showtime`, `Cinema_Hall`, `Cinema`, `Movie`
+                                                WHERE date(Showtime.startTime)='" . $date . "' AND Movie.title='" . $movie . "'";
+                                $cinemaList = $dbcnx->query($queryCinema);
+
+                                $numCinemaList = $cinemaList->num_rows;
+                                for ($k=0; $k<$numCinemaList; $k++) {
+                                    $row_k = $cinemaList->fetch_assoc();
+
+                                    if (empty($dateToMovieArray[$date][$movie])) {
+                                        $dateToMovieArray[$date][$movie] = array();
+                                    }
+                                    array_push($dateToMovieArray[$date][$movie], $row_k["location"]);
+                                }
                             }
                         }
+                        foreach($dateToMovieArray as $date=>$movieList) {
+                            foreach ($movieList as $movie=>$cinemaList) {
+                                foreach ($cinemaList as $cinema) {
+                                    $queryShowTime = "SELECT DISTINCT Showtime.startTime AS showtime
+                                                      FROM `Showtime`, `Cinema_Hall`, `Cinema`, `Movie`
+                                                      WHERE date(Showtime.startTime)='" . $date . "' AND Cinema.name='" . $cinema . "' AND Movie.title='" . $movie . "'";
+                                    $showTimeList = $dbcnx->query($queryShowTime);
 
+                                    $numShowTimeList = $showTimeList->num_rows;
+                                    for ($l=0; $l<$showTimeList; $l++) {
+                                        $row_l = $showTimeList->fetch_assoc();
 
-                        echo "<select>";
-                        $counter = 0;
-                        while ($row = mysqli_fetch_assoc($showtimeDate)) {
-                            echo "<option>" . date("Y-m-d", strtotime($row['datelist'])) . "</option>";
-                            $counter += 1;
-                            if ($counter == 7) {
-                                break;
+                                        if (empty($dateToMovieArray[$date][$movie][$cinema])) {
+                                            $dateToMovieArray[$date][$movie][$cinema] = array();
+                                        }
+                                        array_push($dateToMovieArray[$date][$movie][$cinema], $row_l["showtime"]);
+                                    }
+                                }
                             }
                         }
+                        echo "<select><option>Please Select A Date</option>";
+                            foreach($dateToMovieArray as $date=>$movieList) {
+                                echo "<option value='" . $date . "'>" . $date . "</option>";
+                            }
                         echo "</select>";
                         ?>
+
                         <label>
                             <select>
                                 <option value="" disabled selected>All Movies</option>
