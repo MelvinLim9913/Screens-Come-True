@@ -57,6 +57,7 @@
             height: 5px;
             color: #a0a0a0;
             background-color: #a0a0a0;
+            box-shadow: 0px 0px 3px 3px #a0a0a0;
         }
         .seating-plan {
             text-align: center;
