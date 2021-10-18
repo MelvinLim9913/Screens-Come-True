@@ -31,7 +31,13 @@
         }
     ?>
     <div class="content">
-        <img src="img/experience/experience_onyx_led_banner.jpeg" class="banner">
+        <p>
+            <a href="index.php" class="other-page-breadcrumb">Home</a> /
+            <a href="cinemas.php" class="other-page-breadcrumb">Cinemas</a> /
+            <strong class="current-page-breadcrumb">ONYX Cinema LED Technology</strong>
+        </p>
+        <br>
+        <img src="img/experience/experience_onyx_led_banner.jpeg" class="banner" alt="banner">
         <h1>ONYX Cinema LED Technology</h1>
         <p>
             Powered by the innovation at Samsung Electronics, Onyx is designed to transform the traditional cinema-going
@@ -94,13 +100,7 @@
                 </p>
             </div>
         </div>
-        <br>
-        <h2>Onyx Cinema LED Technology Available at:</h2>
-        <ul>
-            <li>Dummy</li>
-            <li>Dummy</li>
-        </ul>
-        <br>
+        <br><br><br>
     </div>
     <?php include "components/footer.html"; ?>
 </div>

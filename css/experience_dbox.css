@@ -17,17 +17,9 @@ body {
     min-width: 1000px;
     margin: auto;
 }
-p {
-    font-size: 25px;
-}
 h1 {
-    font-size: 50px;
     color: #FFD60A;
-}
-li {
-    font-size: 25px;
 }
 h2 {
     color: #FFD60A;
-    font-size: 30px;
 }

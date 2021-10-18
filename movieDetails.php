@@ -56,6 +56,12 @@
             for ($i=0; $i <$num_resultMovieDetails; $i++) {
                 $row = $resultMovieDetails->fetch_assoc();
                 echo '
+                    <p>
+                        <a href="index.php" class="other-page-breadcrumb">Home</a> /
+                        <a href="movies.php" class="other-page-breadcrumb">Movies</a> /
+                        <strong class="current-page-breadcrumb">' . $row["title"] . '</strong>
+                    </p>
+                    <br>
                     <h2>'.$row["title"].'</h2>
                     <div class="movie-content"> 
                         <div class="movie-posters">

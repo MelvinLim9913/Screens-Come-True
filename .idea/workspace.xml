@@ -2,15 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5bff64a-408e-4d49-ac47-8edb521e0efb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/feedback.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking_confirmation.php" beforeDir="false" afterPath="$PROJECT_DIR$/booking_confirmation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/components/footer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feedback.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/._.DS_Store" beforeDir="false" afterPath="$PROJECT_DIR$/img/._.DS_Store" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/experience/thumbnail/._.DS_Store" beforeDir="false" afterPath="$PROJECT_DIR$/img/experience/thumbnail/._.DS_Store" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/promotions.php" beforeDir="false" afterPath="$PROJECT_DIR$/promotions.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,10 +11,16 @@
   <component name="ComposerSettings">
     <execution />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="TaskManager">
     <servers />
   </component>

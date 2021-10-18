@@ -31,7 +31,13 @@
         }
     ?>
     <div class="content">
-        <img src="img/experience/experience_imax_banner.jpeg" class="banner">
+        <p>
+            <a href="index.php" class="other-page-breadcrumb">Home</a> /
+            <a href="cinemas.php" class="other-page-breadcrumb">Cinemas</a> /
+            <strong class="current-page-breadcrumb">IMAX</strong>
+        </p>
+        <br>
+        <img src="img/experience/experience_imax_banner.jpeg" class="banner" alt="banner">
         <h1>IMAX</h1>
         <p>
             Go beyond the standard cinema experience with IMAX at GSC. Immersive, heart-pounding audio combined with
@@ -75,7 +81,7 @@
             <div class="blank-column"></div>
             <img src="img/experience/imax/imax_feature3.jpg" height="350">
         </div>
-        <br>
+        <br><br>
         <p>
             IMAX also works closely with the director and technical teams of each film to enhance the most minute detail
             and resolution in every frame in a proprietary digital remastering process called IMAX DMR. Every movie,
@@ -83,13 +89,6 @@
             specifically for IMAX.
         </p>
         <br>
-        <h2>IMAX is available at:</h2>
-        <ul>
-            <li>Dummy</li>
-            <li>Dummy</li>
-        </ul>
-        <br>
-
     </div>
     <?php include "components/footer.html"; ?>
 </div>
