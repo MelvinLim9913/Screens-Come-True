@@ -211,6 +211,39 @@
                     }
                 }
                 ?>
+                <label>Email Address*: <input type="email" name="booking-email"></label>
+                <label>Phone Number*: <input type="number" name="booking-number"></label><br><br>
+                <input class="button" type="submit" value="Check">
+            </form>
+        </div>
+        <?php
+        include "dbconnect.php";
+
+        $email = $_POST["booking-email"];
+        $phone_number = $_POST["booking-number"];
+
+        print($email);
+        print($phone_number);
+        $bookingQuery = "
+        SELECT Showtime.startTime, Movie.title, Cinema.name,  
+        FROM `Booking`, `Showtime` WHERE Booking.showtimeID = Showtime.showtimeID";
+        $resultBookingQuery = $dbcnx->query($bookingQuery);
+        print($row = $resultBookingQuery->fetch_assoc());
+        print($resultBookingQuery->num_rows);
+        ?>
+        <div>
+            <h2>Your Bookings</h2>
+            <table class="booking-table">
+                <thead>
+                <tr>Date</tr>
+                <tr>Time</tr>
+                <tr>Movie</tr>
+                <tr>Cinema</tr>
+                <tr>Seat No.</tr>
+                <tr>Add-Ons</tr>
+                <tr>Price</tr>
+                </thead>
+                <tbody>
                 </tbody>
             </table>
         </div>
