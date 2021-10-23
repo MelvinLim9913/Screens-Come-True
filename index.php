@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
     <style>
-
+        .quicksearch-selection-bar {
+            color: black;
+        }
     </style>
     <script>
         let slidePosition = 1;
@@ -89,44 +91,103 @@
             </div>
             <div class="quicksearch-selection-bar-with-button">
                 <div class="quicksearch-selection-bar">
-                    <form>
+                    <form method="post" action="quicksearch.php">
                         <?php
-                        $servername = "localhost";
-                        $username = "f32ee";
-                        $password = "f32ee";
-                        $dbname = "f32ee";
+                        include "dbconnect.php";
 
-                        $conn = mysqli_connect($servername, $username, $password, $dbname);
-                        mysqli_set_charset($conn,"utf8");
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
+                        $queryShowtimeDate = "SELECT DISTINCT date(startTime) AS datelist FROM `Showtime`";
+                        $showtimeDate = $dbcnx->query($queryShowtimeDate);
+
+                        $dateToMovieArray = array();
+
+                        $numShowtimeDate = $showtimeDate->num_rows;
+                        for ($i=0; $i<$numShowtimeDate; $i++) {
+                            $row = $showtimeDate->fetch_assoc();
+
+                            $queryMovie = "SELECT DISTINCT Movie.title AS title FROM `Movie`, `Showtime` WHERE date(Showtime.startTime) = '" . $row["datelist"] . "'";
+                            $movieList = $dbcnx->query($queryMovie);
+
+                            $numMovieList = $movieList->num_rows;
+                            for ($j=0; $j<$numMovieList; $j++) {
+                                $row_j = $movieList->fetch_assoc();
+
+                                if (empty($dateToMovieArray[$row["datelist"]])) {
+                                    $dateToMovieArray[$row["datelist"]] = array();
+                                }
+                                array_push($dateToMovieArray[$row["datelist"]], $row_j["title"]);
+                            }
+
                         }
+                        foreach ($dateToMovieArray as $date=>$movieList) {
+                            foreach ($movieList as $movie) {
 
-                        $query_movie_date = "SELECT DISTINCT releaseDate FROM `Movie` ORDER BY releaseDate ASC";
-                        $movie_date = mysqli_query($conn, $query_movie_date);
-                        echo "<select>";
-                        $counter = 0;
-                        while ($row = mysqli_fetch_assoc($movie_date)) {
-                            echo "<option>" . $row['releaseDate'] . "</option>";
-                            $counter += 1;
-                            if ($counter == 7) {
-                                break;
+                                $queryCinema = "SELECT DISTINCT Cinema.name
+                                                AS location
+                                                FROM `Showtime`, `Cinema_Hall`, `Cinema`, `Movie`
+                                                WHERE date(Showtime.startTime)='" . $date . "' AND Movie.title='" . $movie . "'";
+                                $cinemaList = $dbcnx->query($queryCinema);
+
+                                $numCinemaList = $cinemaList->num_rows;
+                                for ($k=0; $k<$numCinemaList; $k++) {
+                                    $row_k = $cinemaList->fetch_assoc();
+
+                                    if (empty($dateToMovieArray[$date][$movie])) {
+                                        $dateToMovieArray[$date][$movie] = array();
+                                    }
+                                    array_push($dateToMovieArray[$date][$movie], $row_k["location"]);
+                                }
                             }
                         }
+                        foreach($dateToMovieArray as $date=>$movieList) {
+                            foreach ($movieList as $movie=>$cinemaList) {
+                                foreach ($cinemaList as $cinema) {
+                                    $queryShowTime = "SELECT DISTINCT Showtime.startTime AS showtime
+                                                      FROM `Showtime`, `Cinema_Hall`, `Cinema`, `Movie`
+                                                      WHERE date(Showtime.startTime)='" . $date . "' AND Cinema.name='" . $cinema . "' AND Movie.title='" . $movie . "'";
+                                    $showTimeList = $dbcnx->query($queryShowTime);
+
+                                    $numShowTimeList = $showTimeList->num_rows;
+                                    for ($l=0; $l<$numShowTimeList; $l++) {
+                                        $row_l = $showTimeList->fetch_assoc();
+
+                                        if (empty($dateToMovieArray[$date][$movie][$cinema])) {
+                                            $dateToMovieArray[$date][$movie][$cinema] = array();
+                                        }
+                                        array_push($dateToMovieArray[$date][$movie][$cinema], date("H:i", strtotime($row_l["showtime"])));
+                                    }
+                                }
+                            }
+                        }
+//                        foreach($dateToMovieArray as $date=>$movieList) {
+//                            foreach ($movieList as $movie=>$cinemaList) {
+//                                foreach ($cinemaList as $cinema=>$showtimeList) {
+//                                    foreach ($showtimeList as $showtime) {
+//                                        print(count($showtimeList));
+//                                    }
+//                                }
+//                            }
+//                        }
+
+                        echo "<label><select name='date' id='date' onchange='selectedDate()' required><option value='' disabled selected>Please Select A Date</option>";
+                            foreach($dateToMovieArray as $date=>$movieList) {
+                                echo "<option value='" . $date . "'>" . $date . "</option>";
+                            }
+
+                        echo "</select></label>";
+                        echo "<label><select name='movie' id='movie' onchange='selectedMovie()' required><option value='' disabled selected>Please Select A Movie</option>";
+                        echo "</select></label>";
+
                         echo "</select>";
+                        echo "<label><select name='cinema' id='cinema' onchange='selectedCinema()' required><option value='' disabled selected>Please Select A Cinema</option>";
+                        echo "</select></label>";
+
+                        echo "</select>";
+                        echo "<label><select name='showtime' id='showtime' required><option value='' disabled selected>Please Select A Showtime</option>";
+                        echo "</select></label>";
                         ?>
-                        <label>
-                            <select>
-                                <option value="" disabled selected>All Movies</option>
-                            </select>
-                        </label>
-                        <label>
-                            <select>
-                                <option value="" disabled selected>All Theatres</option>
-                            </select>
-                        </label>
+
+                        <button type="submit">SHOWTIMES</button>
                     </form>
-                    <button>SHOWTIMES</button>
                 </div>
                 <button onclick="window.location.href='check_bookings.php'"><img src="" alt="logo">Check Bookings</button>
             </div>
@@ -167,7 +228,7 @@
                 ORDER BY releaseDate 
                 DESC LIMIT 8
                 ";
-            $movie_details = mysqli_query($conn, $query_now_showing_details);
+            $movie_details = $dbcnx->query($query_now_showing_details);
             $movie_poster_path = "img/movies/";
 
             while ($row = mysqli_fetch_assoc($movie_details)) {
@@ -206,7 +267,7 @@
                                         ORDER BY releaseDate 
                                         DESC LIMIT 8
                                         ";
-            $movie_details = mysqli_query($conn, $query_now_showing_details);
+            $movie_details = $dbcnx->query($query_now_showing_details);
             $movie_poster_path = "img/movies/";
 
             while ($row = mysqli_fetch_assoc($movie_details)) {
@@ -245,5 +306,80 @@
     </div>
     <?php include "components/footer.html"; ?>
 </div>
+<script>
+    var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_FORCE_OBJECT); ?>;
+
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+        for(i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+
+    function populateDate() {
+        let dates = Object.values(allMoviesObject);
+        var dateSelector = document.getElementById("date");
+        dates.forEach((date) => {
+            if (typeof date === 'string' || date instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = date;
+                opt.innerHTML = date;
+                dateSelector.appendChild(opt);
+            }
+        })
+    }
+
+    function selectedDate() {
+        let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
+        console.log(allMoviesObject[dateSelected]);
+        let movies = Object.values(allMoviesObject[dateSelected]);
+
+        var movieSelector = document.getElementById("movie");
+        movies.forEach((movie) => {
+            if (typeof movie === 'string' || movie instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = movie;
+                opt.innerHTML = movie;
+                movieSelector.appendChild(opt);
+            }
+        })
+        console.log("done");
+    }
+
+    function selectedMovie() {
+        let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
+        let movieSelected = document.getElementById("movie").options[document.getElementById("movie").selectedIndex].value;
+
+        let cinemas = Object.values(allMoviesObject[dateSelected][movieSelected])
+
+        var cinemaSelector = document.getElementById("cinema");
+        cinemas.forEach((cinema) => {
+            if (typeof cinema === 'string' || cinema instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = cinema;
+                opt.innerHTML = cinema;
+                cinemaSelector.appendChild(opt);
+            }
+        })
+    }
+
+    function selectedCinema() {
+        let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
+        let movieSelected = document.getElementById("movie").options[document.getElementById("movie").selectedIndex].value;
+        let cinemaSelected = document.getElementById("cinema").options[document.getElementById("cinema").selectedIndex].value;
+
+        let showtimes = Object.values(allMoviesObject[dateSelected][movieSelected][cinemaSelected]);
+
+        var showtimeSelector = document.getElementById("showtime");
+        showtimes.forEach((showtime) => {
+            if (typeof showtime === 'string' || showtime instanceof String) {
+                var opt = document.createElement("option");
+                opt.value = showtime;
+                opt.innerHTML = showtime;
+                showtimeSelector.appendChild(opt);
+            }
+        })
+    }
+</script>
 </body>
 </html>

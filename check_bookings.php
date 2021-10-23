@@ -99,7 +99,7 @@
             <form method="post">
                 <div class="input-area">
                     <label>Email Address*: <input type="email" name="booking-email" class="phone-email-box"></label>
-                    <label>Phone Number*: <input type="number" name="booking-number" class="phone-email-box"></label><br><br>
+                    <label>Phone Number*: <input type="text" name="booking-number" class="phone-email-box"></label><br><br>
                 </div>
                 <input class="button" type="submit" value="Check">
             </form>

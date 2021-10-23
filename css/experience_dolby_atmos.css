@@ -5,7 +5,6 @@
 }
 body {
     margin: 0;
-
 }
 .banner {
     display: block;
@@ -19,16 +18,8 @@ body {
     margin: auto;
 }
 h1 {
-    font-size: 50px;
     color: #FFD60A;
 }
 h2 {
     color: #FFD60A;
-    font-size: 30px;
-}
-p {
-    font-size: 25px
-}
-li {
-    font-size: 25px;
 }

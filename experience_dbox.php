@@ -31,9 +31,15 @@
         }
     ?>
     <div class="content">
+        <p>
+            <a href="index.php" class="other-page-breadcrumb">Home</a> /
+            <a href="cinemas.php" class="other-page-breadcrumb">Cinemas</a> /
+            <strong class="current-page-breadcrumb">DBOX</strong>
+        </p>
+        <br>
         <img src="img/experience/experience_dbox_banner.jpg" class="banner">
         <h1>D-Box</h1>
-        <p>
+        <p class="description">
             After sound and image, D-BOX adds magic to films by introducing a new experience: immersive motion.
             Moviegoers will live the action just as if they were part of the scene that is occurring onscreen.<br><br>
             D-Box's technology is leading edge. After sound and image, D-BOX is the natural evolution of cinema. Much
@@ -46,12 +52,6 @@
             The result is an unmatched immersive experience: you will feel as if you are part of the onscreen action
             taking place right before your eyes.
         </p>
-        <br>
-        <h2>D-BOX seats are available at:</h2>
-        <ul>
-            <li>Dummy</li>
-            <li>Dummy</li>
-        </ul>
         <br>
     </div>
     <?php include "components/footer.html"; ?>
