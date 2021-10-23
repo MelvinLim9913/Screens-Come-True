@@ -28,9 +28,10 @@
 
 }
 .quicksearch-selection-bar {
-    width: 700px;
-    height: 60px;
-    background-color: #ffffff;
+    width: 950px;
+    height: 80px;
+    background-color: black;
+    color: white;
     border-radius: 20px;
     padding: 10px 20px;
     margin-right: 20px;
@@ -38,6 +39,135 @@
     justify-content: space-evenly;
     align-items: center;
 }
+.quicksearch-selection-bar form {
+    display: flex;
+    justify-content: space-evenly;
+}
+.quicksearch-selection-bar select {
+    height: 45px;
+    width: 185px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.quicksearch-selection-bar select:hover {
+    cursor: pointer;
+}
+
+.quicksearch-selection-bar select:disabled {
+    border: thin solid #460b0c;
+    cursor: default;
+}
+select {
+    /* styling */
+    background-color: black;
+    color: white;
+    text-align: center;
+    border: thin solid #EA2127;
+    border-radius: 5px;
+    display: inline-block;
+    font: inherit;
+
+    /* reset */
+
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.quicksearch-selection-bar button {
+    background-color: #EA2127;
+    border: 2px solid #000614;
+    border-radius: 10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: 0.3s all ease-in-out;
+    margin-left: 15px;
+}
+
+.quicksearch-selection-bar button:hover {
+    background-color: #FFFFFF;
+    color: #EA2127;
+}
+
+.check-booking-button {
+    background-color: #EA2127;
+    border: 2px solid #000614;
+    border-radius: 10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: 0.3s all ease-in-out;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.check-booking-button:hover {
+    background-color: #FFFFFF;
+    color: #EA2127;
+}
+
+.check-booking-button img {
+    margin-right: 10px;
+}
+/*select.round {*/
+/*    background-image:*/
+/*            linear-gradient(45deg, transparent 50%, gray 50%),*/
+/*            linear-gradient(135deg, gray 50%, transparent 50%),*/
+/*            radial-gradient(#ddd 70%, transparent 72%);*/
+/*    background-position:*/
+/*            calc(100% - 20px) calc(1em + 2px),*/
+/*            calc(100% - 15px) calc(1em + 2px),*/
+/*            calc(100% - .5em) .5em;*/
+/*    background-size:*/
+/*            5px 5px,*/
+/*            5px 5px,*/
+/*            1.5em 1.5em;*/
+/*    background-repeat: no-repeat;*/
+/*    background-color: black;*/
+/*    color: white;*/
+/*}*/
+
+/*select.round:focus {*/
+/*    background-image:*/
+/*            linear-gradient(45deg, white 50%, transparent 50%),*/
+/*            linear-gradient(135deg, transparent 50%, white 50%),*/
+/*            radial-gradient(gray 70%, transparent 72%);*/
+/*    background-position:*/
+/*            calc(100% - 15px) 1em,*/
+/*            calc(100% - 20px) 1em,*/
+/*            calc(100% - .5em) .5em;*/
+/*    background-size:*/
+/*            5px 5px,*/
+/*            5px 5px,*/
+/*            1.5em 1.5em;*/
+/*    background-repeat: no-repeat;*/
+/*    border-color: green;*/
+/*    outline: 0;*/
+/*}*/
+
 * {box-sizing: border-box}
 .slideshow-container {
     /*max-width: 1000px;*/
