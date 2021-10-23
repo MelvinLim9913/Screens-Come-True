@@ -47,14 +47,17 @@
             parse_str($_SERVER['QUERY_STRING'], $output);
             $movieID = $output['movieid'];
             $showDate = $output['showdate'];
+            $show = $output['show'];
 
             $queryMovieDetails = "SELECT * FROM Movie WHERE movieID='".$movieID."'";
             $resultMovieDetails = $dbcnx->query($queryMovieDetails);
+            $path;
 
             $num_resultMovieDetails = $resultMovieDetails->num_rows;
 
             for ($i=0; $i <$num_resultMovieDetails; $i++) {
                 $row = $resultMovieDetails->fetch_assoc();
+                $path = $row["imagePath"];
                 echo '
                     <p>
                         <a href="index.php" class="other-page-breadcrumb">Home</a> /
@@ -65,7 +68,10 @@
                     <h2>'.$row["title"].'</h2>
                     <div class="movie-content"> 
                         <div class="movie-posters">
-                            <img src="img/movies/' . $row["imagePath"]. '.jpg" alt="movie-poster" width="300" height="400">
+                            <img class="movie-image" src="img/movies/' . $row["imagePath"]. '.jpg" alt="movie-poster" width="300" height="400">
+                            <div class="middle-trailer">
+                                <div class="trailer"><a href="./movieDetails.php?movieid='.$movieID.'&showdate='.$showDate.'&show=1"><img src="img/play.png" width="100" height="100"></a></div>
+                            </div>
                         </div>
                         <div class="movie-details">
                             <h4>Details</h4>
@@ -108,6 +114,20 @@
                         </div>
                     </div>';
                 }    
+                if ($show) {
+                    echo'
+                    <div class="pop-up-screen">
+                        <div class="pop-up-box">
+                            <div>
+                                <div><a href="./movieDetails.php?movieid='.$movieID.'&showdate='.$showDate.'"><img src="./img/login_cancel.svg" width="30" height="30"></a></div>
+                                <video width="800" height="480" controls autoplay>
+                                    <source src="./vid/' . $path. '.mp4" type=video/mp4>
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    ';
+                }
         ?>
         <div class="date-content">
             <table border="0">

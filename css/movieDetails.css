@@ -8,7 +8,30 @@ h2 {
     display: block;
     float: left;
     width: 330px;
+    position: relative;
     
+}
+.movie-posters img{
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+.movie-posters:hover img.movie-image{
+    opacity: 0.4;
+}
+.movie-posters:hover .middle-trailer {
+    opacity: 0.7;
+}
+.middle-trailer {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
 }
 .movie-details{
     overflow: hidden;
@@ -91,4 +114,18 @@ h2 {
     -o-transition: all .3s ease-in;
     -webkit-transition: all .3s ease-in;
     transition: all .3s ease-in;
+}
+.pop-up-screen {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    visibility: visible;
+    transition: 0.5s;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

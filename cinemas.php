@@ -126,7 +126,7 @@
                 $cinema_list = mysqli_query($conn, $query_cinema_list);
                 echo "<table>";
                 while ($row = mysqli_fetch_assoc($cinema_list)) {
-                    echo '<tr><td><a href="./cinemasDetails.php?cinemaid='.$row["cinemaID"].'">Screens Come True, ' . $row["name"] . '</a></td></tr>';
+                    echo '<tr><td><a href="./cinemasDetails.php?cinemaid='.$row["cinemaID"].'&showdate=2021-10-11">Screens Come True, ' . $row["name"] . '</a></td></tr>';
                 }
                 echo '</table>
                 ';
