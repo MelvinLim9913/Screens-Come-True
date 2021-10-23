@@ -27,6 +27,7 @@
             height: 500px;
             vertical-align: top;
             text-align: left;
+            padding: 0;
         }
         .tab {
             overflow: hidden;
@@ -92,6 +93,9 @@
         a{
             text-decoration: none;
         }
+        table {
+            border-spacing: 0;
+        }
     </style>
 </head>
 <body onload="document.getElementById('defaultOpen').click();" id="wrapper">
@@ -102,7 +106,7 @@
             <table border="0">
                 <tr>
                     <td>
-                        <img src="img/header_title.png" alt="title" height="500" width="400" class="title">
+                        <img src="img/login-poster.png" alt="title" height="500" width="400" class="title">
                     </td>
                     <td >
                         <div class="rightcontent">

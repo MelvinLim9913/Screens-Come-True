@@ -127,6 +127,55 @@
             margin-top: 40px;
             text-align: center;
         }
+        .circle {
+            background-color: #FFD60A;
+            color: #1a1a1a;
+            border-radius: 100%;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 25px;
+            font-weight: bold;
+            opacity: .1;
+        }
+        .circle.active {
+            opacity: 1;
+        }
+        .step{
+            padding-left: 330px;
+            display: flex;
+            align-items: center;
+            width: calc(100% - 370px);
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .step-caption {
+            padding-left: 330px;
+            display: flex;
+            justify-content: space-between;
+            width: calc(100% - 330px);
+        }
+        .step-caption h3{
+            width: 10%;
+            text-align: center;
+            text-wrap: normal;
+            color: #FFD60A;
+            opacity: .1;
+        }
+        .caption.active {
+            opacity: 1;
+        }
+        .bar {
+            width: calc((100% - 150px) / 2);
+            height: 10px;
+            background-color: #FFD60A;
+            color: #1a1a1a;
+            opacity: .1;
+        }
+        .bar.active {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +195,16 @@
             <div class="upper-content">
 
                 <div class="step">
-                    <img src="./img/booking-step-3.png" alt="step3">
+                    <div class="circle active">1</div>
+                    <div class="progress-bar-1 bar active"></div>
+                    <div class="circle active">2</div>
+                    <div class="progress-bar-2 bar active"></div>
+                    <div class="circle active">3</div>
+                </div>
+                <div class="step-caption">
+                    <h3 class="caption active">Seat<br>Selection</h3>
+                    <h3 class="caption active">Enter<br>Particulars</h3>
+                    <h3 class="caption active">Confirmation</h3>
                 </div>
                 <br>
 

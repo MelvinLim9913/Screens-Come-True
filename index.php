@@ -109,13 +109,11 @@
                                 if (empty($dateToMovieArray[$row["datelist"]])) {
                                     $dateToMovieArray[$row["datelist"]] = array();
                                 }
-                                array_push($dateToMovieArray[$row["datelist"]], $row_j["title"]);
+                                array_push($dateToMovieArray[$row["datelist"]], addslashes($row_j["title"]));
                             }
-
                         }
                         foreach ($dateToMovieArray as $date=>$movieList) {
                             foreach ($movieList as $movie) {
-
                                 $queryCinema = "SELECT DISTINCT Cinema.name
                                                 AS location
                                                 FROM `Showtime`, `Cinema_Hall`, `Cinema`, `Movie`
@@ -154,13 +152,16 @@
                             }
                         }
 //                        foreach($dateToMovieArray as $date=>$movieList) {
+//                            print($date);
 //                            foreach ($movieList as $movie=>$cinemaList) {
+//                                print(count($movieList));
 //                                foreach ($cinemaList as $cinema=>$showtimeList) {
 //                                    foreach ($showtimeList as $showtime) {
 //                                        print(count($showtimeList));
 //                                    }
 //                                }
 //                            }
+//                            break;
 //                        }
 
                         echo "<label><select name='date' id='date' onchange='selectedDate()' class='round' required><option value='' disabled selected>Please Select A Date</option>";
@@ -300,7 +301,9 @@
     <?php include "components/footer.html"; ?>
 </div>
 <script>
-    var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_FORCE_OBJECT); ?>;
+
+    var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_HEX_APOS); ?>;
+    console.log(allMoviesObject);
 
     function removeOptions(selectElement) {
         let options = selectElement;
@@ -352,8 +355,9 @@
         movies.forEach((movie) => {
             if (typeof movie === 'string' || movie instanceof String) {
                 var opt = document.createElement("option");
-                opt.value = movie;
-                opt.innerHTML = movie;
+                console.log(movie.replace(/\\/g, ''));
+                opt.value = movie
+                opt.innerHTML = movie.replace(/\\/g, '');
                 movieSelector.appendChild(opt);
             }
         })
@@ -363,6 +367,7 @@
     function selectedMovie() {
         let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
         let movieSelected = document.getElementById("movie").options[document.getElementById("movie").selectedIndex].value;
+        console.log(movieSelected);
 
         let cinemas = Object.values(allMoviesObject[dateSelected][movieSelected])
 
