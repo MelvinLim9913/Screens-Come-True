@@ -18,11 +18,6 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
-    <style>
-        .quicksearch-selection-bar {
-            color: black;
-        }
-    </style>
     <script>
         let slidePosition = 1;
         SlideShow(slidePosition);
@@ -68,7 +63,7 @@
         }
     </script>
 </head>
-<body onload="document.getElementById('defaultOpen').click();">
+<body onload="document.getElementById('defaultOpen').click(); populateDate();">
 <div id="wrapper">
 <?php
     session_start();
@@ -168,20 +163,18 @@
 //                            }
 //                        }
 
-                        echo "<label><select name='date' id='date' onchange='selectedDate()' required><option value='' disabled selected>Please Select A Date</option>";
+                        echo "<label><select name='date' id='date' onchange='selectedDate()' class='round' required><option value='' disabled selected>Please Select A Date</option>";
                             foreach($dateToMovieArray as $date=>$movieList) {
                                 echo "<option value='" . $date . "'>" . $date . "</option>";
                             }
-
                         echo "</select></label>";
+
                         echo "<label><select name='movie' id='movie' onchange='selectedMovie()' required><option value='' disabled selected>Please Select A Movie</option>";
                         echo "</select></label>";
 
-                        echo "</select>";
                         echo "<label><select name='cinema' id='cinema' onchange='selectedCinema()' required><option value='' disabled selected>Please Select A Cinema</option>";
                         echo "</select></label>";
 
-                        echo "</select>";
                         echo "<label><select name='showtime' id='showtime' required><option value='' disabled selected>Please Select A Showtime</option>";
                         echo "</select></label>";
                         ?>
@@ -189,7 +182,7 @@
                         <button type="submit">SHOWTIMES</button>
                     </form>
                 </div>
-                <button onclick="window.location.href='check_bookings.php'"><img src="" alt="logo">Check Bookings</button>
+                <button onclick="window.location.href='check_bookings.php'" class="check-booking-button"><img src="img/calendar.svg" alt="logo" height="30px">Check<br>Bookings</button>
             </div>
             <br>
             <div class="slideshow-container">
@@ -310,17 +303,27 @@
     var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_FORCE_OBJECT); ?>;
 
     function removeOptions(selectElement) {
-        let option = selectElement;
-        if (option.length > 1) {
-            for(let i = 1; i < option.length>; i++) {
-                option.remove(i);
+        let options = selectElement;
+        if (options.length > 1) {
+            for(let i = options.length; i >= 1; i--) {
+                options.remove(i);
             }
         }
+        selectElement.selectedIndex = 0;
     }
 
     function populateDate() {
         let dates = Object.values(allMoviesObject);
         var dateSelector = document.getElementById("date");
+
+        removeOptions(document.getElementById("movie"));
+        removeOptions(document.getElementById("cinema"));
+        removeOptions(document.getElementById("showtime"));
+
+        document.getElementById("movie").disabled = true;
+        document.getElementById("cinema").disabled = true;
+        document.getElementById("showtime").disabled = true;
+
         dates.forEach((date) => {
             if (typeof date === 'string' || date instanceof String) {
                 var opt = document.createElement("option");
@@ -329,14 +332,21 @@
                 dateSelector.appendChild(opt);
             }
         })
+        document.getElementById("date").selectedIndex = 0;
     }
 
     function selectedDate() {
-        removeOptions(document.getElementById("movie"));
-        removeOptions(document.getElementById("date"));
         let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
         console.log(allMoviesObject[dateSelected]);
         let movies = Object.values(allMoviesObject[dateSelected]);
+
+        removeOptions(document.getElementById("movie"));
+        removeOptions(document.getElementById("cinema"));
+        removeOptions(document.getElementById("showtime"));
+
+        document.getElementById("movie").disabled = false;
+        document.getElementById("cinema").disabled = true;
+        document.getElementById("showtime").disabled = true;
 
         var movieSelector = document.getElementById("movie");
         movies.forEach((movie) => {
@@ -356,6 +366,12 @@
 
         let cinemas = Object.values(allMoviesObject[dateSelected][movieSelected])
 
+        removeOptions(document.getElementById("cinema"));
+        removeOptions(document.getElementById("showtime"));
+
+        document.getElementById("cinema").disabled = false;
+        document.getElementById("showtime").disabled = true;
+
         var cinemaSelector = document.getElementById("cinema");
         cinemas.forEach((cinema) => {
             if (typeof cinema === 'string' || cinema instanceof String) {
@@ -373,6 +389,10 @@
         let cinemaSelected = document.getElementById("cinema").options[document.getElementById("cinema").selectedIndex].value;
 
         let showtimes = Object.values(allMoviesObject[dateSelected][movieSelected][cinemaSelected]);
+
+        removeOptions(document.getElementById("showtime"));
+
+        document.getElementById("showtime").disabled = false;
 
         var showtimeSelector = document.getElementById("showtime");
         showtimes.forEach((showtime) => {
