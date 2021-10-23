@@ -41,7 +41,8 @@
             padding-right: 20px;
         }
         td.view {
-            width: 120px;
+            width: 180px;
+            height: 45px;
             font-size: 12px;
             text-align: center;
         }
@@ -80,12 +81,6 @@
             padding-left: 20px;
             padding-right: 10px;
         }
-        select {
-            height: 30px;
-            width: 150px;
-            border-radius: 5px;
-            text-indent: 10px;
-        }
         .ticket-table table{
             width: 100%;
             text-align: left;
@@ -104,6 +99,118 @@
         }
         .next-btn {
             margin-bottom: 20px;
+        }
+        .circle {
+            background-color: #FFD60A;
+            color: #1a1a1a;
+            border-radius: 100%;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 25px;
+            font-weight: bold;
+            opacity: .1;
+        }
+        .circle.active {
+            opacity: 1;
+        }
+        .step{
+            padding-left: 330px;
+            display: flex;
+            align-items: center;
+            width: calc(100% - 370px);
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .step-caption {
+            padding-left: 330px;
+            display: flex;
+            justify-content: space-between;
+            width: calc(100% - 330px);
+        }
+        .step-caption h3{
+            width: 10%;
+            text-align: center;
+            text-wrap: normal;
+            color: #FFD60A;
+            opacity: .1;
+        }
+        .caption.active {
+            opacity: 1;
+        }
+        .bar {
+            width: calc((100% - 150px) / 2);
+            height: 10px;
+            background-color: #FFD60A;
+            color: #1a1a1a;
+            opacity: .1;
+        }
+        .bar.active {
+            opacity: 1;
+        }
+
+        select {
+            /* styling */
+            background-color: black;
+            color: white;
+            text-align: center;
+            border: thin solid #EA2127;
+            border-radius: 5px;
+            display: inline-block;
+            font: inherit;
+
+            /* reset */
+
+            margin: 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        .movie-content select {
+            height: 45px;
+            width: 140px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .movie-content select:hover {
+            cursor: pointer;
+        }
+
+        .movie-content select:disabled {
+            border: thin solid #460b0c;
+            cursor: default;
+        }
+        .check-booking-button {
+            background-color: #EA2127;
+            border: 2px solid #000614;
+            border-radius: 10px;
+            color: #FFFFFF;
+            cursor: pointer;
+            padding-left: 15px;
+            padding-right: 15px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 15px;
+            text-align: center;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            transition: 0.3s all ease-in-out;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            height: 45px;
+
+        }
+
+        .check-booking-button:hover {
+            background-color: #FFFFFF;
+            color: #EA2127;
         }
     </style>
     <!-- <script>
@@ -163,8 +270,20 @@
             <br>
             <div class="upper-content">
 
-                <div class="step">
-                    <img src="./img/booking-step-1.png" alt="step1">
+                <div>
+<!--                    <img src="./img/booking-step-1.png" alt="step1">-->
+                    <div class="step">
+                        <div class="circle active">1</div>
+                        <div class="progress-bar-1 bar"></div>
+                        <div class="circle">2</div>
+                        <div class="progress-bar-2 bar"></div>
+                        <div class="circle">3</div>
+                    </div>
+                    <div class="step-caption">
+                        <h3 class="caption active">Seat<br>Selection</h3>
+                        <h3 class="caption">Enter<br>Particulars</h3>
+                        <h3 class="caption">Confirmation</h3>
+                    </div>
                 </div>
                 <br>
 
@@ -426,8 +545,8 @@
                             echo '
                             <td class="view">
                                 <a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'">
-                                    <div style="height:90%;width:100%" class="view-seating-plan">
-                                        <p>View Seating Plan</p>
+                                    <div>
+                                        <button class="check-booking-button">View Seating Plan</button>
                                     </div>
                                 </a>
                             </td>';
