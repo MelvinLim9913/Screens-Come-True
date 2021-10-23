@@ -99,12 +99,21 @@
             <form method="post">
                 <div class="input-area">
                     <label>Email Address*: <input type="email" name="booking-email" class="phone-email-box"></label>
-                    <label>Phone Number*: <input type="number" name="booking-number" class="phone-email-box"></label><br><br>
+                    <label>Phone Number*: <input type="text" name="booking-number" class="phone-email-box"></label><br><br>
                 </div>
                 <input class="button" type="submit" value="Check">
             </form>
         </div>
-        <div>
+        
+                <?php
+                include "dbconnect.php";
+
+                $email = $_POST["booking-email"];
+                $phone_number = $_POST["booking-number"];
+
+                if (isset($email) && isset($phone_number)) {
+
+        echo '<div>
             <h2>Your Bookings</h2>
             <table class="booking-table">
                 <thead class="booking-table-headers">
@@ -115,138 +124,105 @@
                         <th>Cinema</th>
                         <th>Seat No.</th>
                         <th>Add-Ons</th>
-                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Booking Ref</th>
                     </tr>
                 </thead>
-                <tbody>
-                <?php
-                include "dbconnect.php";
+                <tbody>';
 
-                $email = $_POST["booking-email"];
-                $phone_number = $_POST["booking-number"];
+                    $bookingIDArray = array();
+                    $bookingIDToShowtimeID = array();
+                    $bookingIDToTotalPrice = array();
 
-                $bookingQuery = "
-                SELECT Temp1.bookingID, Movie.title, Temp1.startTime, Temp1.price, Temp2.name as cinemaName, GROUP_CONCAT(Temp3.row) AS rows, GROUP_CONCAT(Temp3.col) AS cols, Temp4.quantity as foodQuantity, Temp4.name as foodName, Temp4.price as foodPrice, Temp5.quantity as merchandiseQuantity, Temp5.name as merchandiseName, Temp5.price as merchandisePrice
-                FROM Movie, 
-                (SELECT Showtime.startTime, Showtime.movieID, Showtime.cinemaHallID, BookingTemp.bookingID, BookingTemp.price
-                FROM Showtime, (
-                SELECT bookingID, showtimeID, price
-                FROM Booking WHERE email = '" . $email . "' AND phone = '" . $phone_number ."'
-                ) BookingTemp
-                WHERE Showtime.showtimeID = BookingTemp.showtimeID) Temp1,
-                (SELECT Cinema.name, Cinema_Hall.cinemaHallID FROM Cinema, Cinema_Hall WHERE Cinema_Hall.cinemaID = Cinema.cinemaID) Temp2, 
-                    (SELECT Cinema_Seat.row, Cinema_Seat.col, Showtime_Seat.bookingID 
-                        FROM Cinema_Seat, Showtime_Seat 
-                        WHERE Cinema_Seat.cinemaSeatID = Showtime_Seat.cinemaSeatID) Temp3, 
-                (SELECT Booking.bookingID, FoodTemp.quantity, FoodTemp.name, FoodTemp.price FROM (SELECT Food_Order.bookingID, Food_Order.quantity, Food.name, Food.price FROM Food, Food_Order WHERE Food_Order.foodID = Food.foodID) FoodTemp RIGHT JOIN Booking ON Booking.bookingID = FoodTemp.bookingID) Temp4,
-                (SELECT Booking.bookingID, MerchandiseTemp.quantity, MerchandiseTemp.name, MerchandiseTemp.price FROM (SELECT Merchandise_Order.bookingID, Merchandise_Order.quantity, Merchandise.name, Merchandise.price FROM Merchandise, Merchandise_Order WHERE Merchandise_Order.merchandiseID = Merchandise.merchandiseID) MerchandiseTemp RIGHT JOIN Booking ON Booking.bookingID = MerchandiseTemp.bookingID) Temp5
-                WHERE Movie.movieID = Temp1.movieID AND 
-                Temp2.cinemaHallID = Temp1.cinemaHallID AND
-                Temp3.bookingID = Temp1.bookingID AND
-                Temp4.bookingID = Temp1.bookingID AND
-                Temp5.bookingID = Temp1.bookingID
-                GROUP BY bookingID ORDER BY Temp1.startTime DESC;";
-                $bookingDetails = $dbcnx->query($bookingQuery);
-                if (mysqli_num_rows($bookingDetails) > 0) {
-                    while ($row = mysqli_fetch_assoc($bookingDetails)) {
+                    $queryBookingID = "SELECT bookingID, showtimeID, price FROM Booking WHERE email='".$email."' AND phone='".$phone_number."'";
+                    $resultBookingID = $dbcnx->query($queryBookingID);
 
-                        // Process Seats using cols and rows
-                        $seat_rows = $row["rows"];
-                        $seat_col = $row["cols"];
-                        $alphabet = range('A', 'Z');
-                        $chosen_seat_list = array();
-                        foreach ($seat_rows as &$row_idx) {
-                            foreach ($seat_col as &$col_idx) {
-                                $seat = $alphabet[$row_idx] . $col_idx;
-                                array_push($chosen_seat_list, $seat);
-                            }
-                        }
-                        unset($seat);
-                        unset($row_idx);
-                        unset($col_idx);
+                    $num_resultBookingID = $resultBookingID->num_rows;
 
-
-                        if ((time()-(60*60*24)) > strtotime($row["startTime"])) {
-                            echo'
-                            <tr>
-                                <td>' . date("Y-m-d", strtotime($row["startTime"])) . '</td>
-                                <td>' . date("H:i", strtotime($row["startTime"])) . '</td>
-                                <td>' . $row["title"] . '</td>
-                                <td>' . $row["cinemaName"] . '</td>
-                                <td>' . implode(", ", $chosen_seat_list) . '</td>
-                            ';
-                                if (!empty($row["foodName"]) && !empty($row["merchandiseName"])) {
-                                    echo '
-                                <td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '<br>' .
-                                        $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>
-                                ';
-                                } elseif (!empty($row["foodName"])) {
-                                    echo '<td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '</td>';
-                                } elseif (!empty($row["merchandiseName"])) {
-                                    echo '<td>' . $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>';
-                                }
-                                echo '<td>' . $row["price"] . '</td>';
-                        } else {
-                            echo'
-                            <tr class="disabled">
-                                <td>' . date("Y-m-d", strtotime($row["startTime"])) . '</td>
-                                <td>' . date("H:i", strtotime($row["startTime"])) . '</td>
-                                <td>' . $row["title"] . '</td>
-                                <td>' . $row["cinemaName"] . '</td>
-                                <td>' . implode(", ", $chosen_seat_list) . '</td>
-                            ';
-                            if (!empty($row["foodName"]) && !empty($row["merchandiseName"])) {
-                                echo '
-                                <td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '<br>' .
-                                    $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>
-                                ';
-                            } elseif (!empty($row["foodName"])) {
-                                echo '<td>' . $row["foodName"] . ' x ' . $row["foodQuantity"] . '</td>';
-                            } elseif (!empty($row["merchandiseName"])) {
-                                echo '<td>' . $row["merchandiseName"] . ' x ' . $row["merchandiseQuantity"] . '</td>';
-                            }
-                            echo '<td>' . $row["price"] . '</td>';
-                        }
-
+                    for ($i=0; $i <$num_resultBookingID; $i++) {
+                        $row = $resultBookingID->fetch_assoc();
+                        array_push($bookingIDArray, $row["bookingID"]);
+                        $bookingIDToShowtimeID[$row["bookingID"]] = $row["showtimeID"];
+                        $bookingIDToTotalPrice[$row["bookingID"]] = $row["price"];
                     }
+
+                    $bookingIDToFoodOrder = array();
+                    $bookingIDToMerchandiseOrder = array();
+
+                    for ($j=0; $j<count($bookingIDArray); $j++) {
+                        $queryFoodOrder = "SELECT Food.name AS name, Food_Order.quantity AS quantity FROM Food_Order, Food WHERE Food_Order.foodID = Food.id AND Food_Order.bookingID='".$bookingIDArray[$j]."'";
+                        $resultFoodOrder = $dbcnx->query($queryFoodOrder);
+
+                        $num_resultFoodOrder = $resultFoodOrder->num_rows;
+
+                        for ($i=0; $i <$num_resultFoodOrder; $i++) {
+                            $row = $resultFoodOrder->fetch_assoc();
+                            $bookingIDToFoodOrder[$bookingIDArray[$j]] = $row["name"].' x'.$row["quantity"];
+                        }
+
+                        $queryMerchandiseOrder = "SELECT Merchandise.name AS name, Merchandise_Order.quantity AS quantity FROM Merchandise_Order, Merchandise WHERE Merchandise_Order.merchandiseID = Merchandise.id AND Merchandise_Order.bookingID='".$bookingIDArray[$j]."'";
+                        $resultMerchandiseOrder = $dbcnx->query($queryMerchandiseOrder);
+
+                        $num_resultMerchandiseOrder = $resultMerchandiseOrder->num_rows;
+
+                        for ($i=0; $i <$num_resultMerchandiseOrder; $i++) {
+                            $row = $resultMerchandiseOrder->fetch_assoc();
+                            $bookingIDToMerchandiseOrder[$bookingIDArray[$j]] = $row["name"].' x'.$row["quantity"];
+                        }
+                        
+                        $querySeat = "SELECT Cinema_Seat.row AS row, Cinema_Seat.col AS col FROM Cinema_Seat, Showtime_Seat WHERE Cinema_Seat.cinemaSeatID = Showtime_Seat.cinemaSeatID AND Showtime_Seat.bookingID='".$bookingIDArray[$j]."'";
+                        $resultSeat = $dbcnx->query($querySeat);
+
+                        $num_resultSeat = $resultSeat->num_rows;
+                        $bookingIDToSeat = array();
+
+                        $alphabet = range('A', 'Z');
+                        for ($i=0; $i <$num_resultSeat; $i++) {
+                            $row = $resultSeat->fetch_assoc();
+                            $bookingIDToSeat[$bookingIDArray[$j]] = $bookingIDToSeat[$bookingIDArray[$j]].$alphabet[$row["row"]-1].':'.$row["col"].' ';
+                        }
+
+
+                        $currShowtimeID = $bookingIDToShowtimeID[$bookingIDArray[$j]];
+
+                        $queryShowTime = "SELECT Showtime.startTime AS startTime, Movie.title AS title, Cinema_Hall.name AS hallname, Cinema.name AS cinemaname FROM Showtime, Movie, Cinema, Cinema_Hall WHERE Showtime.showtimeID='".$currShowtimeID."' AND Showtime.cinemaHallID = Cinema_Hall.cinemaHallID AND Showtime.movieID = Movie.movieID AND Cinema.cinemaID = Cinema_Hall.cinemaID";
+                        $resultShowTime = $dbcnx->query($queryShowTime);
+
+                        $num_resultShowTime = $resultShowTime->num_rows;
+
+                        for ($i=0; $i <$num_resultShowTime; $i++) {
+                            $row = $resultShowTime->fetch_assoc();
+
+                            echo '<tr>
+                                <td>'.date('Y-m-d', strtotime($row["startTime"])).'</td>
+                                <td>'.date('H:i', strtotime($row["startTime"])).'</td>
+                                <td>'.$row["title"].'</td>
+                                <td>'.$row["cinemaname"].', Hall '.$row["hallname"].'</td>
+                                <td>'.$bookingIDToSeat[$bookingIDArray[$j]].'</td>';
+                            if (empty($bookingIDToFoodOrder[$bookingIDArray[$j]]) && empty($bookingIDToMerchandiseOrder[$bookingIDArray[$j]])){
+                                echo '<td> - </td>';
+                            }
+                            else{
+                                echo '<td>'.$bookingIDToFoodOrder[$bookingIDArray[$j]]."\r\n".$bookingIDToMerchandiseOrder[$bookingIDArray[$j]].'</td>';
+                            }
+                                
+                                echo '<td>$'.$bookingIDToTotalPrice[$bookingIDArray[$j]].'</td>
+                                <td>'.$bookingIDArray[$j].'</td>
+
+
+
+                            </tr>';
+                            
+                        }
+                        
+                    }
+                    echo'
+                    </tbody>
+            </table>
+        </div>';
                 }
                 ?>
-                <label>Email Address*: <input type="email" name="booking-email"></label>
-                <label>Phone Number*: <input type="number" name="booking-number"></label><br><br>
-                <input class="button" type="submit" value="Check">
-            </form>
-        </div>
-        <?php
-        include "dbconnect.php";
-
-        $email = $_POST["booking-email"];
-        $phone_number = $_POST["booking-number"];
-
-        print($email);
-        print($phone_number);
-        $bookingQuery = "
-        SELECT Showtime.startTime, Movie.title, Cinema.name,  
-        FROM `Booking`, `Showtime` WHERE Booking.showtimeID = Showtime.showtimeID";
-        $resultBookingQuery = $dbcnx->query($bookingQuery);
-        print($row = $resultBookingQuery->fetch_assoc());
-        print($resultBookingQuery->num_rows);
-        ?>
-        <div>
-            <h2>Your Bookings</h2>
-            <table class="booking-table">
-                <thead>
-                <tr>Date</tr>
-                <tr>Time</tr>
-                <tr>Movie</tr>
-                <tr>Cinema</tr>
-                <tr>Seat No.</tr>
-                <tr>Add-Ons</tr>
-                <tr>Price</tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+                
     </div>
     <?php include "components/footer.html"; ?>
 </div>

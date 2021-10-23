@@ -44,7 +44,7 @@ h2 {
     padding: 10px;
     color: #a0a0a0;
     text-align: center;
-    background-color: #302c2d;
+    background-color: #333333;
 }
 .date-content table td a {
     /*color: #a0a0a0;*/
@@ -66,7 +66,7 @@ h2 {
     border: 2px solid #1a1a1a;
 }
 .showtimes-content td {
-    background-color: #302c2d;
+    background-color: #333333;
 }
 .showtimes-content td:first-child {
     background-color: #1a1a1a;
