@@ -310,9 +310,11 @@
     var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_FORCE_OBJECT); ?>;
 
     function removeOptions(selectElement) {
-        var i, L = selectElement.options.length - 1;
-        for(i = L; i >= 0; i--) {
-            selectElement.remove(i);
+        let option = selectElement;
+        if (option.length > 1) {
+            for(let i = 1; i < option.length>; i++) {
+                option.remove(i);
+            }
         }
     }
 
@@ -330,6 +332,8 @@
     }
 
     function selectedDate() {
+        removeOptions(document.getElementById("movie"));
+        removeOptions(document.getElementById("date"));
         let dateSelected = document.getElementById("date").options[document.getElementById("date").selectedIndex].value;
         console.log(allMoviesObject[dateSelected]);
         let movies = Object.values(allMoviesObject[dateSelected]);
