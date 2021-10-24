@@ -47,6 +47,12 @@
 //                $row = $resultCinemaDetails->fetch_assoc();
             while ($row = mysqli_fetch_assoc($resultCinemaDetails)) {
                 echo '
+                    <p>
+                        <a href="index.php" class="other-page-breadcrumb">Home</a> /
+                        <a href="cinemas.php" class="other-page-breadcrumb">Cinemas</a> /
+                        <strong class="current-page-breadcrumb">' . $row["name"] . '</strong>
+                    </p>
+                    <br>
                     <h2>Screens Come True, ' . $row["name"] . '</h2>
                     <div class="cinema-details">
                         <table>

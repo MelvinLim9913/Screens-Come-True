@@ -1,0 +1,55 @@
+.tab {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+.tab a img:hover {
+    cursor: pointer;
+}
+.tab a h2:hover {
+    cursor: pointer;
+}
+.tab img {
+    height: 80px;
+    width: 80px;
+}
+.icon-container {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border-radius: 50%;
+}
+.tabcontent {
+    display: none;
+}
+.tablinks-current {
+    text-shadow: 0 0 10px white;
+}
+.tablinks-current .icon-container {
+    box-shadow: 0px 0px 15px 5px #ffffff;
+}
+.promotion-gallery {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-top: 20px;
+}
+.image-container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.image-container img {
+    height: 30em;
+    width: 20em;
+}
+.image-container h4 {
+    margin: 5px;
+}
+.image-container i {
+    color: #8c8c8c;
+}

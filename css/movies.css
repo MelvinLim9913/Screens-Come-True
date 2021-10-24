@@ -75,9 +75,6 @@ hr {
     display: flex;
     align-items: center;
 }
-#pointer a:hover {
-    color: #ffd701;
-}
 #pointer:after {
     content: "";
     position: absolute;
@@ -99,6 +96,12 @@ hr {
     border-left: 30px solid red;
     border-top: 30px solid transparent;
     border-bottom: 30px solid transparent;
+}
+#pointer:hover {
+    background: #FFFFFF;
+}
+#pointer a:hover {
+    color: #EA2127;
 }
 .movie-running-time {
     color: #8c8c8c;

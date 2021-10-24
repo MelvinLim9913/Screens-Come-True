@@ -13,6 +13,7 @@ h2 {
     color: #ffd701;
 }
 .date-content table {
+    margin-top: 20px;
     width: 100%;
 }
 .date-content table td {
@@ -42,8 +43,6 @@ h2 {
 }
 .showtimes-content table {
     padding-bottom: 50px;
-    border-collapse: separate;
-    border-spacing: 0 2em;
 }
 .showtimes-content td.table-poster {
     width: 250px;
@@ -54,14 +53,14 @@ h2 {
     height: 10px;
 }
 .showtimes-content td.table-showtime {
-    background-color: #333333;
     text-align: start;
     vertical-align: top;
+    background-color: #333333;
 }
 
 .showtimes-content ul {
     list-style-type: none;
-    padding: 0px;
+    padding-left: 10px
 }
 .showtimes-content ul li {
     display: inline-block;

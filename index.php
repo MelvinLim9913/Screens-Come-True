@@ -170,19 +170,19 @@
 //                            break;
 //                        }
 
-                        echo "<label><select name='date' id='date' onchange='selectedDate()' class='round' required><option value='' disabled selected>Please Select A Date</option>";
+                        echo "<label><select name='date' id='date' onchange='selectedDate()' class='round' required><option value='' disabled selected>Date</option>";
                             foreach($dateToMovieArray as $date=>$movieList) {
                                 echo "<option value='" . $date . "'>" . $date . "</option>";
                             }
                         echo "</select></label>";
 
-                        echo "<label><select name='movie' id='movie' onchange='selectedMovie()' required><option value='' disabled selected>Please Select A Movie</option>";
+                        echo "<label><select name='movie' id='movie' onchange='selectedMovie()' required><option value='' disabled selected>Movie</option>";
                         echo "</select></label>";
 
-                        echo "<label><select name='cinema' id='cinema' onchange='selectedCinema()' required><option value='' disabled selected>Please Select A Cinema</option>";
+                        echo "<label><select name='cinema' id='cinema' onchange='selectedCinema()' required><option value='' disabled selected>Cinema</option>";
                         echo "</select></label>";
 
-                        echo "<label><select name='showtime' id='showtime' required><option value='' disabled selected>Please Select A Showtime</option>";
+                        echo "<label><select name='showtime' id='showtime' required><option value='' disabled selected>Showtime</option>";
                         echo "</select></label>";
                         ?>
 

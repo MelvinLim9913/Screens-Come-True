@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-     <title>Screens Come True</title>
+    <title>Title</title>
     <?php
     session_start();
-    if (isset($_SESSION['userID']))
+    if (isset($_SESSION['valid_user']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
     <?php
@@ -32,7 +32,7 @@
 <body>
 <div id="wrapper">
     <?php
-        if (isset($_SESSION['userID']))
+        if (isset($_SESSION['valid_user']))
         {
             include "components/header_userloginsess.html";
         }
