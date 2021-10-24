@@ -62,11 +62,11 @@
         }
 
             /* Create an active/current tablink class */
-        .tab button.active {
+        .tablinks-current {
             color: #EA2127;
             font-weight: bold;
         }
-
+}
             /* Style the tab content */
         .tabcontent {
             display: none;
@@ -125,7 +125,7 @@
                     <td>
                         <img src="img/login-poster.jpg" alt="title" height="500" width="400" class="title">
                     </td>
-                    <td >
+                    <td style="padding:10px">
                         <div class="rightcontent">
                             <!-- Tab links -->
                             <div class="tab">
