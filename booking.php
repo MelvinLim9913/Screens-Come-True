@@ -70,8 +70,8 @@
             padding: 4px 2px;
         }
         .seat-sold {
-            padding-left: 3px;
-            padding-right: 4.5px;
+            padding-left: 3.1px;
+            padding-right: 3.6px;
         }
         .legend {
             padding: 20px 0px;
