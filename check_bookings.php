@@ -72,12 +72,6 @@
         .disabled td {
             color: #4F5F64;
         }
-        tbody tr {
-            transition: background 0.25s ease;
-        }
-        tbody tr:hover {
-            background: slategrey;
-        }
         .booking-table {
             background: black;
             border-radius: 0.25em;
@@ -153,23 +147,7 @@
 
                 if (isset($email) && isset($phone_number)) {
 
-        echo '<div>
-        <br><br>
-            <h2>Your Bookings</h2>
-            <table class="booking-table">
-                <thead class="booking-table-headers">
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Movie</th>
-                        <th>Cinema</th>
-                        <th>Seat No.</th>
-                        <th>Add-Ons</th>
-                        <th>Total</th>
-                        <th>Booking Ref</th>
-                    </tr>
-                </thead>
-                <tbody>';
+       
 
                     $bookingIDArray = array();
                     $bookingIDToShowtimeID = array();
@@ -189,8 +167,27 @@
 
                     $bookingIDToFoodOrder = array();
                     $bookingIDToMerchandiseOrder = array();
+                    if ($bookingIDArray) {
+                        echo '<div>
+                        <br><br>
+                            <h2>Your Bookings</h2>
+                            <table class="booking-table">
+                                <thead class="booking-table-headers">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Movie</th>
+                                        <th>Cinema</th>
+                                        <th>Seat No.</th>
+                                        <th>Add-Ons</th>
+                                        <th>Total</th>
+                                        <th>Booking Ref</th>
+                                    </tr>
+                                </thead>
+                                <tbody>';
 
                     for ($j=0; $j<count($bookingIDArray); $j++) {
+                        
                         $queryFoodOrder = "SELECT Food.name AS name, Food_Order.quantity AS quantity FROM Food_Order, Food WHERE Food_Order.foodID = Food.id AND Food_Order.bookingID='".$bookingIDArray[$j]."'";
                         $resultFoodOrder = $dbcnx->query($queryFoodOrder);
 
@@ -230,12 +227,13 @@
                         $resultShowTime = $dbcnx->query($queryShowTime);
 
                         $num_resultShowTime = $resultShowTime->num_rows;
-
+                            
                         for ($i=0; $i <$num_resultShowTime; $i++) {
                             $row = $resultShowTime->fetch_assoc();
+                            
 
                             echo '<tr>
-                                <td>'.date('Y-m-d', strtotime($row["startTime"])).'</td>
+                                <td width="88px">'.date('Y-m-d', strtotime($row["startTime"])).'</td>
                                 <td>'.date('H:i', strtotime($row["startTime"])).'</td>
                                 <td>'.$row["title"].'</td>
                                 <td>'.$row["cinemaname"].', Hall '.$row["hallname"].'</td>
@@ -250,17 +248,21 @@
                                 echo '<td>$'.$bookingIDToTotalPrice[$bookingIDArray[$j]].'</td>
                                 <td>'.$bookingIDArray[$j].'</td>
 
-
-
                             </tr>';
-                            
                         }
+                            
+                        
                         
                     }
-                    echo'
-                    </tbody>
-            </table>
-        </div>';
+                    echo '</tbody>
+                            </table>
+                        </div>';
+                }
+                else {
+                    echo '<br><br><p>No bookings</p>';
+                }
+                    
+                    
                 }
                 ?>
                 
