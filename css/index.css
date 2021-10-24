@@ -6,6 +6,7 @@
 .bolt-quicksearch {
     margin-top: 20px;
     background-color: #000000;
+    border-radius: 20px 20px 0px 0px;
     color: #FFFFFF;
     width: 300px;
     height: 60px;
@@ -303,9 +304,6 @@ hr {
     display: flex;
     align-items: center;
 }
-#pointer a:hover {
-    color: #ffd701;
-}
 #pointer:after {
     content: "";
     position: absolute;
@@ -327,6 +325,12 @@ hr {
     border-left: 30px solid #EA2127;
     border-top: 30px solid transparent;
     border-bottom: 30px solid transparent;
+}
+#pointer:hover {
+    background: #FFFFFF;
+}
+#pointer a:hover {
+    color: #EA2127;
 }
 .movie-running-time {
     color: #8c8c8c;

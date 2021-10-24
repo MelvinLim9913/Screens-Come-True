@@ -5,7 +5,7 @@
     <title>Promotion</title>
     <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
         <?php
@@ -16,64 +16,9 @@
     }
     ?>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/promotions.css">
     <link rel="stylesheet" href="css/footer.css">
-    <style>
-        .tab {
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-        }
-        .tab a img:hover {
-            cursor: pointer;
-        }
-        .tab a h2:hover {
-            cursor: pointer;
-        }
-        .tab img {
-            height: 120px;
-            width: 120px;
-        }
-        .icon-container {
-            width: 120px;
-            height: 120px;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            margin-left: 100px;
-            margin-right: 100px;
-            border-radius: 50%;
-        }
-        .tabcontent {
-            display: none;
-        }
-        .tablinks-current {
-            text-shadow: 0 0 10px white;
-        }
-        .tablinks-current .icon-container {
-            box-shadow: 0px 0px 15px 5px #ffffff;
-        }
-        .promotion-gallery {
-            display: flex;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-            padding-top: 20px;
-        }
-        .image-container {
-            padding-top: 50px;
-            padding-bottom: 50px;
-            padding-left: 50px;
-            padding-right: 50px;
-        }
-        .image-container img {
-            height: 30em;
-            width: 20em;
-        }
-        .image-container h4 {
-            margin: 5px;
-        }
-        .image-container i {
-            color: #8c8c8c;
-        }
-    </style>
+
     <script>
         function openPromoTab(evt, promoType) {
             let i, tabcontent, tablinks;
@@ -94,7 +39,7 @@
 <body onload="document.getElementById('defaultOpen').click();">
 <div id="wrapper">
     <?php
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     {
         include "components/header_userloginsess.html";
     }
@@ -109,20 +54,31 @@
         </p>
         <br>
         <div class="tab">
-            <a class="tablinks" onclick="openPromoTab(event, 'food_beverages')" id="defaultOpen">
+            <a class="tablinks" name="food" onclick="openPromoTab(event, 'food_beverages')" id="defaultOpen">
                 <div class="icon-container">
                     <img src="img/promotion/cutlery.png" alt="logo">
                 </div>
                 <h2 style="text-align: center">Food & Beverages</h2>
             </a>&nbsp;&nbsp;&nbsp;
-            <a class="tablinks" onclick="openPromoTab(event, 'merchandise')">
+            <a class="tablinks" name="merchandise" onclick="openPromoTab(event, 'merchandise')">
                 <div class="icon-container">
                     <img src="img/promotion/bag.png" alt="logo">
                 </div>
                 <h2 style="text-align: center">Merchandise</h2>
             </a>
         </div>
-        <br><br>
+        <script>
+            let urlparams = new URLSearchParams(window.location.search);
+            let action = urlparams.get('action');
+            if (action == "merchandise") {
+                document.getElementsByName("merchandise")[0].id = "defaultOpen";
+                document.getElementsByName("food")[0].removeAttribute("id");
+            }
+            else {
+                document.getElementsByName("food")[0].id = "defaultOpen";
+            }
+        </script>
+
         <div id="food_beverages" class="tabcontent">
             <div class="promotion-gallery">
                 <?php

@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+     <title>Screens Come True</title>
     <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
         <?php
@@ -17,49 +17,12 @@
     ?>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/movieDetails.css">
-    <style>
-        h2 {
-            color: #ffd701;
-        }
-        .cinema-details{
-            overflow: hidden;
-        }
-        .cinema-details table {
-            width: 70%;
-            display: inline-block;
-            margin-right: 30px;
-            vertical-align: top;
-            border-spacing: 0 1em;
-        }
-
-        .cinema-details td {
-            vertical-align: top;
-            padding-right: 20px;
-        }
-        .details-title {
-            color: #999;
-            font-size: 14px;
-        }
-        .details-description {
-            font-size: 14px;
-        }
-        .transport-tag {
-            background: darkgrey;
-            padding: 5px;
-            margin-right: 5px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            display: inline-block;
-            width: 30px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="css/cinemaDetails.css">
 </head>
 <body>
 <div id="wrapper">
     <?php
-        if (isset($_SESSION["valid_user"])) {
+        if (isset($_SESSION["userID"])) {
             include "components/header_userloginsess.html";
         } else {
             include "components/header.html";
@@ -84,6 +47,12 @@
 //                $row = $resultCinemaDetails->fetch_assoc();
             while ($row = mysqli_fetch_assoc($resultCinemaDetails)) {
                 echo '
+                    <p>
+                        <a href="index.php" class="other-page-breadcrumb">Home</a> /
+                        <a href="cinemas.php" class="other-page-breadcrumb">Cinemas</a> /
+                        <strong class="current-page-breadcrumb">' . $row["name"] . '</strong>
+                    </p>
+                    <br>
                     <h2>Screens Come True, ' . $row["name"] . '</h2>
                     <div class="cinema-details">
                         <table>
@@ -182,8 +151,13 @@
                             }
 
                             echo '<tr>
-                                    <td><h3>'.$movieTitle.'<br><img src="./img/movies/'.$movieImage.'.jpg" width="240" height="300"></h3></td>
-                                    <td>
+                                    <td class="table-poster" rowspan="2"><br><img src="./img/movies/'.$movieImage.'.jpg" width="220" height="300"></td>
+                                    <td class="table-movie"><h3>'.$movieTitle.'</h3></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td class="table-showtime">
+                                        
                                         <ul>';
                             
                             for ($j=0; $j<count($val); $j=$j+2) {
@@ -192,7 +166,8 @@
                                     
                             echo       '</ul>
                                     </td>
-                                </tr>';
+                                </tr>'
+                                ;
 
 
                         }
@@ -201,6 +176,7 @@
             </table>
         </div>
     </div>
+    <?php include "components/footer.html"; ?>
 </div>
 </body>
 </html>

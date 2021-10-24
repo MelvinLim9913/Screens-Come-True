@@ -5,7 +5,7 @@
     <title>Check Your Bookings</title>
     <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
         <?php
@@ -19,27 +19,42 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/button.css">
     <style>
+
+        .check-form-headline {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 5px 0;
+        }
+        hr {
+            border: 2px solid #1a1a1a;
+            margin: 20px 0px;
+        }
         .check-booking-component {
-            border-radius: 15px;
-            background: dimgrey;
-            padding: 10px;
-        }
-        .check-booking-component h1 {
-            text-align: center;
-        }
-        .check-booking-component .button {
-            text-align: center;
-            display: block;
-            margin-right: 5px;
-            margin-left: auto;
+            background-color: #333333;
+            margin: 30px 0;
+            padding: 20px 0;
+            border-radius: 20px;
+            height: 180px;
         }
         .phone-email-box {
             width: 50%;
             height: 30px;
         }
-        .input-area {
-            display: flex;
-            justify-content: space-between;
+
+        .table-form input {
+            height: 25px;
+        }
+        .table-form textarea {
+            height: 25px;
+        }
+        .table-form {
+            padding: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .table-form td {
+            padding: 0 40px 40px 0;
         }
         .booking-table th {
             border-bottom: 1px solid #364043;
@@ -70,6 +85,10 @@
             text-align: left;
             width: 100%;
         }
+        .next-btn {
+            margin-top: 40px;
+            text-align: center;
+        }
     </style>
     <script>
     </script>
@@ -77,7 +96,7 @@
 <body>
 <div id="wrapper">
     <?php
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     {
         include "components/header_userloginsess.html";
     }
@@ -92,16 +111,37 @@
         </p>
         <br>
         <div class="check-booking-component">
-            <h1>
-                Check your bookings
-            </h1>
+            <p class="check-form-headline">Check your bookings</p>
             <hr>
-            <form method="post">
-                <div class="input-area">
-                    <label>Email Address*: <input type="email" name="booking-email" class="phone-email-box"></label>
-                    <label>Phone Number*: <input type="text" name="booking-number" class="phone-email-box"></label><br><br>
+            <form action="check_bookings.php" method="post">
+                <div class="feedback-table">
+                    <table class="table-form" border="0">
+                        <tr>
+                            <td><label for="email-address">Email Address/Phone Number* :</label></td>
+                            <td><input
+                                    type="text"
+                                    name="booking-email"
+                                    id="email-address"
+                                    rows="1"
+                                    cols="20"
+                                    required
+                            ></td>
+                            <td> <label for="phone-number">Phone Number* :</label></td>
+                            <td><textarea
+                                        name="booking-number"
+                                        id="phone-number"
+                                        rows="1"
+                                        cols="20"
+                                        required
+                                ></textarea></td>
+                        </tr>
+                    </table>
                 </div>
-                <input class="button" type="submit" value="Check">
+
+                <div class="next-btn">
+                    <input class="button" type="submit" value="Check">
+                    <br>
+                </div>
             </form>
         </div>
         
@@ -114,6 +154,7 @@
                 if (isset($email) && isset($phone_number)) {
 
         echo '<div>
+        <br><br>
             <h2>Your Bookings</h2>
             <table class="booking-table">
                 <thead class="booking-table-headers">

@@ -1,0 +1,115 @@
+h2 {
+    color: #ffd701;
+}
+.details-title {
+    color: #999;
+    font-size: 14px;
+}
+.details-description {
+    font-size: 14px;
+}
+.movie-details h4 {
+    margin: 0px;
+    color: #ffd701;
+}
+.date-content table {
+    margin-top: 20px;
+    width: 100%;
+}
+.date-content table td {
+    padding: 10px;
+    color: #a0a0a0;
+    text-align: center;
+    background-color: #333333;
+}
+.date-content table td a {
+    /*color: #a0a0a0;*/
+    color: white;
+}
+.date-content table td:hover {
+    background-color: #EA2127;
+}
+.date-content table td.active{
+    background-color: #EA2127;
+}
+.date-content table td.active a{
+    color: #FFFFFF;
+}
+.showtimes-content table {
+    width: 100%;
+}
+.showtimes-content table {
+    border: 2px solid #1a1a1a;
+}
+.showtimes-content table {
+    padding-bottom: 50px;
+}
+.showtimes-content td.table-poster {
+    width: 250px;
+}
+.showtimes-content td.table-movie {
+    text-align: start;
+    vertical-align: top;
+    height: 10px;
+}
+.showtimes-content td.table-showtime {
+    text-align: start;
+    vertical-align: top;
+    background-color: #333333;
+}
+
+.showtimes-content ul {
+    list-style-type: none;
+    padding-left: 10px
+}
+.showtimes-content ul li {
+    display: inline-block;
+    background-color: #FFFFFF;
+    color: #000000;
+    margin: 5px 10px;
+    padding: 15px 40px;
+    border-radius: 15px;
+}
+.showtimes-content ul li:hover {
+    background-color: #EA2127;
+    color: #FFFFFF;
+    -moz-transition: all .3s ease-in;
+    -o-transition: all .3s ease-in;
+    -webkit-transition: all .3s ease-in;
+    transition: all .3s ease-in;
+}
+h2 {
+    color: #ffd701;
+}
+.cinema-details{
+    overflow: hidden;
+}
+.cinema-details table {
+    width: 70%;
+    display: inline-block;
+    margin-right: 30px;
+    vertical-align: top;
+    border-spacing: 0 1em;
+}
+
+.cinema-details td {
+    vertical-align: top;
+    padding-right: 20px;
+}
+.details-title {
+    color: #999;
+    font-size: 14px;
+}
+.details-description {
+    font-size: 14px;
+}
+.transport-tag {
+    background: darkgrey;
+    padding: 5px;
+    margin-right: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+}
