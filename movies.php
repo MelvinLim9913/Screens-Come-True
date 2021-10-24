@@ -58,9 +58,20 @@
         </p>
         <br><br>
         <div class="tab">
-            <a class="tablinks" onclick="openMoviesTab(event, 'nowShowing')" id="defaultOpen">Now Showing</a>&nbsp;&nbsp;&nbsp;
-            <a class="tablinks" onclick="openMoviesTab(event, 'comingSoon')">Coming Soon</a>
+            <a class="tablinks" name="nowShowing" onclick="openMoviesTab(event, 'nowShowing')" id="defaultOpen">Now Showing</a>&nbsp;&nbsp;&nbsp;
+            <a class="tablinks" name="comingSoon" onclick="openMoviesTab(event, 'comingSoon')">Coming Soon</a>
         </div>
+        <script>
+            let urlparams = new URLSearchParams(window.location.search);
+            let action = urlparams.get('action');
+            if (action == "comingSoon") {
+                document.getElementsByName("comingSoon")[0].id = "defaultOpen";
+                document.getElementsByName("nowShowing")[0].removeAttribute("id");
+            }
+            else {
+                document.getElementsByName("nowShowing")[0].id = "defaultOpen";
+            }
+        </script>
         <hr><br>
         <div id="nowShowing" class="tabcontent">
             <?php

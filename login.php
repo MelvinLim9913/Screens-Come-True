@@ -85,7 +85,7 @@
             border-radius: 5px;
         }
         .tabcontent .button {
-            height: 180%;
+            height: 60px;
         }
         hr {
             color: #FFC300;
@@ -97,8 +97,25 @@
             border-spacing: 0;
         }
     </style>
+     <script>
+        function openTab(evt, actionType) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i ++) {
+                tablinks[i].className = tablinks[i].className.replace("active", "");
+                tablinks[i].className = tablinks[i].className.replace("tablinks-current", "");
+            }
+            document.getElementById(actionType).style.display = "grid";
+            evt.currentTarget.className += " tablinks-current";
+        }
+    </script>
 </head>
-<body onload="document.getElementById('defaultOpen').click();" id="wrapper">
+<body onload="document.getElementById('defaultOpen').click();">
+<div id="wrapper">
     <?php include "components/header_loginpage.html"; ?>
     <div class="content" >
        
@@ -106,29 +123,30 @@
             <table border="0">
                 <tr>
                     <td>
-                        <img src="img/login-poster.png" alt="title" height="500" width="400" class="title">
+                        <img src="img/login-poster.jpg" alt="title" height="500" width="400" class="title">
                     </td>
                     <td >
                         <div class="rightcontent">
                             <!-- Tab links -->
                             <div class="tab">
-                                <button class="tablinks" name="login" type="button" onclick="openTab(event, 'login')">Login</button>
+                                <button class="tablinks" name="login" type="button" onclick="openTab(event, 'login')" id="defaultOpen">Login</button>
                                 <button class="tablinks" name="register" type="button" onclick="openTab(event, 'register')">Register</button>
-                                <script>
+                            </div>
+                            <script>
                                     let urlparams = new URLSearchParams(window.location.search);
                                     let action = urlparams.get('action');
                                     if (action == "register") {
                                         document.getElementsByName("register")[0].id = "defaultOpen";
+                                        document.getElementsByName("login")[0].removeAttribute("id");
                                     }
                                     else {
                                         document.getElementsByName("login")[0].id = "defaultOpen";
                                     }
                                 </script>
-                            </div>
                             <hr>
                             <!-- Tab content -->
                             <div id="login" class="tabcontent">
-                                <h1 class="title">Welcome back! <br> </h1>
+                                <h2 class="title">Welcome back! <br> </h2>
                                 <form action="userlogin.php" method="post" id="formlogin" name="formlogin">
                                     <label for="email">Email:</label>
                                     <input type="text" name="loginemail" id="loginemail" size="30px" required> <br><br>
@@ -139,7 +157,7 @@
                             </div>
                             
                             <div id="register" class="tabcontent">
-                                <h1 class="title">Join Us Today!</h3>
+                                <h2 class="title">Join Us Today!</h2>
                                 <form action="register.php" method="post" id="formregister" name="formregister" onsubmit="return validateForm()">
                                     <label for="name">Name:</label>
                                     <input type="text" name="name" id="name" size="30px" required> <br><br>
@@ -161,6 +179,6 @@
 
         </div>
     </div>
-
+</div>
 </body>
 </html>

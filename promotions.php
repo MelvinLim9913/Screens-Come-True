@@ -54,19 +54,30 @@
         </p>
         <br>
         <div class="tab">
-            <a class="tablinks" onclick="openPromoTab(event, 'food_beverages')" id="defaultOpen">
+            <a class="tablinks" name="food" onclick="openPromoTab(event, 'food_beverages')" id="defaultOpen">
                 <div class="icon-container">
                     <img src="img/promotion/cutlery.png" alt="logo">
                 </div>
                 <h2 style="text-align: center">Food & Beverages</h2>
             </a>&nbsp;&nbsp;&nbsp;
-            <a class="tablinks" onclick="openPromoTab(event, 'merchandise')">
+            <a class="tablinks" name="merchandise" onclick="openPromoTab(event, 'merchandise')">
                 <div class="icon-container">
                     <img src="img/promotion/bag.png" alt="logo">
                 </div>
                 <h2 style="text-align: center">Merchandise</h2>
             </a>
         </div>
+        <script>
+            let urlparams = new URLSearchParams(window.location.search);
+            let action = urlparams.get('action');
+            if (action == "merchandise") {
+                document.getElementsByName("merchandise")[0].id = "defaultOpen";
+                document.getElementsByName("food")[0].removeAttribute("id");
+            }
+            else {
+                document.getElementsByName("food")[0].id = "defaultOpen";
+            }
+        </script>
 
         <div id="food_beverages" class="tabcontent">
             <div class="promotion-gallery">
