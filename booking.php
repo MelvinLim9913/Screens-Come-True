@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="css/header.css">
+    <title>Screens Come True</title>
+    <?php
+    session_start();
+    if (isset($_SESSION['userID']))
+    { ?>
+        <link rel="stylesheet" href="css/header_userloginsess.css">
+    <?php
+    }
+    else { ?>
+        <link rel="stylesheet" href="css/header.css">
+    <?php
+    }
+    ?>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -213,52 +224,12 @@
             color: #EA2127;
         }
     </style>
-    <!-- <script>
-        function selectSeat(cinemaSeatID) {
-
-            movieID = urlparams.get('movieid');
-            cinemaID = urlparams.get('cinemaid');
-            cinemaHallID = urlparams.get('cinemahallid');
-            showDate = urlparams.get('showdate');
-            showTime = urlparams.get('showtime');
-
-            console.log(cinemaSeatID);
-            if (document.getElementById(cinemaSeatID).src == "http://192.168.56.2/f32ee/Screens-Come-True/img/seat-selected.png") {
-                document.getElementById(cinemaSeatID).src="./img/seat-available.png"
-                document.getElementById(cinemaSeatID).removeAttribute("class");
-            } else {
-                document.getElementById(cinemaSeatID).src="./img/seat-selected.png"
-                document.getElementById(cinemaSeatID).setAttribute('class', 'selected');
-            }
-            if (document.getElementsByClassName("selected")) {
-                var selectedClass = document.getElementsByClassName("selected");
-                var selectedID = ''
-                var selectedName = ''
-                for (var i=0; i<selectedClass.length; i++) {
-                    selectedID += selectedClass[i].id + ' ';
-                    selectedName += selectedClass[i].name + ' ';
-                    console.log(selectedID)
-                    console.log(selectedName)
-                }
-                
-                var no_selected = document.getElementsByClassName("selected").length;
-                if (no_selected != 0) {
-                    document.getElementById('no-seat-selected').innerHTML="<h2>Selected: " + selectedName + "</h2>";
-                    document.getElementById('next-btn').innerHTML="<button class=\"button\" onclick=\"location.href='./booking_particulars.php?movieid=" + movieID + "&cinemaid=" + cinemaID + "&cinemahallid=" + cinemaHallID + "&showdate=" + showDate + "&showtime=" + showTime + "&cinemaseatid=" + selectedID +"'\"=>Next</button><br><br>";
-                } else {
-                    document.getElementById('no-seat-selected').innerHTML="";
-                }
-                
-            }
-        }
-    </script> -->
 </head>
 <body>
     <div id="wrapper">
-        <?php
+    <?php
             session_start();
-            //unset($_SESSION['ticket-cart']);
-            if (isset($_SESSION['valid_user']))
+            if (isset($_SESSION['userID']))
             {
                 include "components/header_userloginsess.html";
             }

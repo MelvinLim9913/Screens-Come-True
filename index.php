@@ -5,7 +5,7 @@
     <title>Screens Come True</title>
     <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
     <?php
@@ -67,7 +67,7 @@
 <div id="wrapper">
 <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     {
         include "components/header_userloginsess.html";
     }
@@ -99,7 +99,7 @@
                         for ($i=0; $i<$numShowtimeDate; $i++) {
                             $row = $showtimeDate->fetch_assoc();
 
-                            $queryMovie = "SELECT DISTINCT Movie.title AS title FROM `Movie`, `Showtime` WHERE date(Showtime.startTime) = '" . $row["datelist"] . "'";
+                            $queryMovie = "SELECT title FROM `Movie` WHERE MovieID IN (SELECT DISTINCT MovieID FROM `Showtime` WHERE date(Showtime.startTime) = '" . $row["datelist"] . "')";
                             $movieList = $dbcnx->query($queryMovie);
 
                             $numMovieList = $movieList->num_rows;
@@ -114,10 +114,14 @@
                         }
                         foreach ($dateToMovieArray as $date=>$movieList) {
                             foreach ($movieList as $movie) {
-                                $queryCinema = "SELECT DISTINCT Cinema.name
-                                                AS location
-                                                FROM `Showtime`, `Cinema_Hall`, `Cinema`, `Movie`
-                                                WHERE date(Showtime.startTime)='" . $date . "' AND Movie.title='" . $movie . "'";
+                                $queryCinema = "SELECT name AS location FROM `Cinema` WHERE cinemaID IN
+                                                (SELECT DISTINCT cinemaID FROM `Cinema_Hall` WHERE cinemaHallID IN 
+                                                (SELECT DISTINCT Showtime.cinemaHallID AS Cinema_Hall FROM `Showtime`, `Movie` 
+                                                WHERE date(Showtime.startTime)='" . $date . "'
+                                                AND Showtime.movieID = (SELECT movieID From Movie WHERE title='".$movie."')))
+                                                ";
+
+
                                 $cinemaList = $dbcnx->query($queryCinema);
 
                                 $numCinemaList = $cinemaList->num_rows;
@@ -136,7 +140,9 @@
                                 foreach ($cinemaList as $cinema) {
                                     $queryShowTime = "SELECT DISTINCT Showtime.startTime AS showtime
                                                       FROM `Showtime`, `Cinema_Hall`, `Cinema`, `Movie`
-                                                      WHERE date(Showtime.startTime)='" . $date . "' AND Cinema.name='" . $cinema . "' AND Movie.title='" . $movie . "'";
+                                                      WHERE date(Showtime.startTime)='" . $date . "' AND Cinema.name='" . $cinema . "'
+                                                      AND Showtime.cinemaHallID IN (SELECT cinemaHallID FROM Cinema_Hall WHERE CinemaID = (SELECT cinemaID FROM Cinema WHERE name='".$cinema."')) 
+                                                      AND Showtime.movieID = (SELECT movieID From Movie WHERE title='".$movie."')";
                                     $showTimeList = $dbcnx->query($queryShowTime);
 
                                     $numShowTimeList = $showTimeList->num_rows;
@@ -303,7 +309,6 @@
 <script>
 
     var allMoviesObject = <?php echo json_encode($dateToMovieArray, JSON_HEX_APOS); ?>;
-    console.log(allMoviesObject);
 
     function removeOptions(selectElement) {
         let options = selectElement;

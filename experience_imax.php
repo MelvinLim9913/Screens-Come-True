@@ -5,7 +5,7 @@
     <title>Imax</title>
     <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
     <?php
@@ -22,7 +22,7 @@
 <body>
 <div id="wrapper">
     <?php
-        if (isset($_SESSION['valid_user']))
+        if (isset($_SESSION['userID']))
         {
             include "components/header_userloginsess.html";
         }

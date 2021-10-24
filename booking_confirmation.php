@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="css/header.css">
+    <title>Screens Come True</title>
+    <?php
+    session_start();
+    if (isset($_SESSION['userID']))
+    { ?>
+        <link rel="stylesheet" href="css/header_userloginsess.css">
+    <?php
+    }
+    else { ?>
+        <link rel="stylesheet" href="css/header.css">
+    <?php
+    }
+    ?>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -91,6 +102,10 @@
         .radio-btn label{
             padding-right: 20px;
         }
+        .autofill-btn {
+            margin-bottom: 40px;
+            text-align: center;
+        }
         .next-btn {
             margin: 30px;
             text-align: center;
@@ -177,12 +192,13 @@
             opacity: 1;
         }
     </style>
+    
 </head>
 <body>
     <div id="wrapper">
         <?php
             session_start();
-            if (isset($_SESSION['valid_user']))
+            if (isset($_SESSION['userID']))
             {
                 include "components/header_userloginsess.html";
             }
@@ -405,6 +421,28 @@
                             </div>
                             
                             ';
+
+                            $userName;
+                            $userEmail;
+                            $userPhone;
+                            if (isset($_SESSION['userID']))
+                            {
+                                $userID = $_SESSION['userID'];
+                                $queryUserDetails = "SELECT name, email, phone FROM User WHERE userID=".$userID."";
+
+                                $resultUserDetails = $dbcnx->query($queryUserDetails);
+
+                                $num_resultUserDetails = $resultUserDetails->num_rows;
+
+                                for ($i=0; $i <$num_resultUserDetails; $i++) {
+                                    $row = $resultUserDetails->fetch_assoc();
+                                    $userName = $row["name"];
+                                    $userEmail = $row["email"];
+                                    $userPhone = $row["phone"];
+                                }
+
+                            }
+
             
                                 echo '                 
                                 <div class="submission">
@@ -414,19 +452,25 @@
                                             <table class="table-form" border="0">
                                                 <tr>
                                                     <td>Name:</td>
-                                                    <td><input type="text" name="name" size="50" required></td>
+                                                    <td><input type="text" name="name" id="name" size="50" required></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Email:</td>
-                                                    <td><input type="email" name="email" size="50" required></td>
+                                                    <td><input type="email" name="email" id="email" size="50" required></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Phone Number:</td>
-                                                    <td><input type="text" name="phone" size="50" required></td>
+                                                    <td><input type="text" name="phone" id="phone" size="50" required></td>
                                                 </tr>
                                             </table>
-                                        </div>
-                                        <p>Select payment method</p>
+                                        </div>';
+                                        if (isset($_SESSION['userID'])) {
+                                            echo '<div class="autofill-btn">
+                                                    <input class="button" id="autofill" type="button" value="Autofill" onclick="userAutofill()">
+                                                </div>'; 
+                                        }
+                                        
+                                        echo ' <p>Select payment method</p>
                                         <div class="radio-btn">
                                             <label>
                                                 <input type="radio" name="paymentmethod" value="creditcard" required>
@@ -452,8 +496,9 @@
                                 $name = $_POST['name'];
                                 $email = $_POST['email'];
                                 $phone = $_POST['phone'];
+                                
                                 $paymentmethod = $_POST['paymentmethod'];
-
+                                    
 
                                 if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['paymentmethod'])) {
 
@@ -476,9 +521,9 @@
                                     if ($available) {
 
                                     $bookingID = uniqid();
-                                    if (isset($_SESSION['valid_user']))
+                                    if (isset($_SESSION['userID']))
                                     {
-                                        $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, userID, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', '".$_SESSION['valid_user']."'".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
+                                        $insertBooking = "INSERT INTO Booking (bookingID, numberOfSeats, userID, showtimeID, name, email, phone, price) VALUES ('".$bookingID."', '".count($_SESSION['ticket-cart'])."', ".$_SESSION['userID'].", '".$showtimeID."', '".$name."', '".$email."', '".$phone."', '".(1.5+$ticket_price*count($_SESSION['ticket-cart'])+$promotion_total)."')";
                                         $dbcnx->query($insertBooking);
                                     }
                                     else {
@@ -542,46 +587,56 @@
                         </div>
                     </div> ';
 
-                    echo '
-                    <div class="pop-up-screen">
-                        <div class="pop-up-box">
-                            <div class="confirmation-message">
-                                <p>Payment successful.</p>
-                                <p>Your Booking Reference ID is '.$bookingID.'.</p>
-                                <p>E-ticket(s) and transaction receipt have sent to your email.</p>
-                                <p>Enjoy the movie!</p>
-                            </div>
-                            <div class="back-to-home-btn">
-                                <button class="button" type="button" onclick="document.location.href=\'./index.php\'">Back To Home</button>
-                            </div>
-                        </div>
-                    </div>
-                    ';}
+                    // echo '
+                    // <div class="pop-up-screen">
+                    //     <div class="pop-up-box">
+                    //         <div class="confirmation-message">
+                    //             <p>Payment successful.</p>
+                    //             <p>Your Booking Reference ID is '.$bookingID.'.</p>
+                    //             <p>E-ticket(s) and transaction receipt have sent to your email.</p>
+                    //             <p>Enjoy the movie!</p>
+                    //         </div>
+                    //         <div class="back-to-home-btn">
+                    //             <button class="button" type="button" onclick="document.location.href=\'./index.php\'">Back To Home</button>
+                    //         </div>
+                    //     </div>
+                    // </div>
+                    // ';}
                     
-                    else {
-                        echo '
-                                </div>
-                            </div>
-                        </div>
-                    </div> ';
+                    // else {
+                    //     echo '
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    // </div> ';
 
-                    echo '
-                    <div class="pop-up-screen">
-                        <div class="pop-up-box">
-                            <div class="confirmation-message">
-                                <p>The seat(s) chosen have been taken.</p>
-                                <p>Please select seats again. Sorry for the inconvenience caused.</p>
-                            </div>
-                            <div class="back-to-home-btn">
-                                <button class="button" type="button" onclick="document.location.href=\'./booking.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'\'">Back To Seat Selection</button>
-                            </div>
-                        </div>
-                    </div>
-                    ';
+                    // echo '
+                    // <div class="pop-up-screen">
+                    //     <div class="pop-up-box">
+                    //         <div class="confirmation-message">
+                    //             <p>The seat(s) chosen have been taken.</p>
+                    //             <p>Please select seats again. Sorry for the inconvenience caused.</p>
+                    //         </div>
+                    //         <div class="back-to-home-btn">
+                    //             <button class="button" type="button" onclick="document.location.href=\'./booking.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'\'">Back To Seat Selection</button>
+                    //         </div>
+                    //     </div>
+                    // </div>
+                    // ';
                      }
                     }
                     
                 ?>
+                <script>
+                    function userAutofill() {
+                        var userName = "<?php echo $userName ?>"; 
+                        var userEmail = "<?php echo $userEmail ?>";
+                        var userPhone = "<?php echo $userPhone ?>";
+                        document.getElementById("name").value = userName;
+                        document.getElementById("email").value = userEmail;
+                        document.getElementById("phone").value = userPhone;
+                    }
+                </script>
               </div>
               </div>
               </div>

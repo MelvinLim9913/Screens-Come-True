@@ -5,7 +5,7 @@
     <title>Our Cinema</title>
     <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
     <?php
@@ -31,7 +31,7 @@
              color: white;
              text-align: left;
              height: 45px;
-             background-color: #000000;
+             background-color: #333333;
          }
          .location-list table td a {
              color: white;
@@ -91,7 +91,7 @@
 <body>
 <div id="wrapper">
     <?php
-        if (isset($_SESSION['valid_user']))
+        if (isset($_SESSION['userID']))
         {
             include "components/header_userloginsess.html";
         }

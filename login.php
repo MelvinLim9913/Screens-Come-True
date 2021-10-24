@@ -115,14 +115,13 @@
                                 <button class="tablinks" name="login" type="button" onclick="openTab(event, 'login')">Login</button>
                                 <button class="tablinks" name="register" type="button" onclick="openTab(event, 'register')">Register</button>
                                 <script>
-                                    var url = document.location.toString();
-                                    if (url.match('#')) { 
-                                        tab = url.split('#')[1];
-                                        if (tab == "login") {
-                                            document.getElementsByName("login")[0].id = "defaultOpen";
-                                        } else {
-                                            document.getElementsByName("register")[0].id = "defaultOpen";
-                                        }
+                                    let urlparams = new URLSearchParams(window.location.search);
+                                    let action = urlparams.get('action');
+                                    if (action == "register") {
+                                        document.getElementsByName("register")[0].id = "defaultOpen";
+                                    }
+                                    else {
+                                        document.getElementsByName("login")[0].id = "defaultOpen";
                                     }
                                 </script>
                             </div>
@@ -130,11 +129,11 @@
                             <!-- Tab content -->
                             <div id="login" class="tabcontent">
                                 <h1 class="title">Welcome back! <br> </h1>
-                                <form action="login.php" method="post" id="formlogin" name="formlogin">
+                                <form action="userlogin.php" method="post" id="formlogin" name="formlogin">
                                     <label for="email">Email:</label>
                                     <input type="text" name="loginemail" id="loginemail" size="30px" required> <br><br>
                                     <label for="password">Password:</label>
-                                    <input type="password" name="loginpassword" id="loginpassword" size="30px" required> <br><br>
+                                    <input type="password" autocomplete="on" name="loginpassword" id="loginpassword" size="30px" required> <br><br>
                                     <input type="submit" value="LOGIN" class="button">
                                 </form>
                             </div>
@@ -149,9 +148,9 @@
                                     <label for="phone">Phone Number:</label>
                                     <input type="text" name="phone" id="phone" size="30px" required> <br><br>
                                     <label for="password">Password:</label>
-                                    <input type="password" name="password" id="registerpassword" size="30px" required onchange="validateValidPassword();"> <br><br>
+                                    <input type="password" autocomplete="on" name="password" id="registerpassword" size="30px" required onchange="validateValidPassword();"> <br><br>
                                     <label for="confirmpassword">Confirm Password:</label>
-                                    <input type="password" name="confirmpassword" id="registerconfirmpassword" size="30px" required onchange="validatePassword();"> <br><br>
+                                    <input type="password" autocomplete="on" name="confirmpassword" id="registerconfirmpassword" size="30px" required onchange="validatePassword();"> <br><br>
                                     <input type="submit" value="REGISTER" id="submitbtn" class="button">
                                 </form>
                             </div>

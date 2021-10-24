@@ -25,16 +25,16 @@ $result = mysqli_query($conn, $checkemail);
 if (mysqli_num_rows($result) > 0) {
     echo '<script>
             alert("Email already exist");
-            window.location.href="login.php#login";
+            window.location.href="./login.php?action=login";
         </script>';
 }
 else {
     $sql = "INSERT INTO User (name, email, phone, password) VALUES ('".$name."', '".$email."', '".$phone."', '".$hashed_password."')";
 
     if (mysqli_query($conn, $sql)) {
-        $_SESSION['valid_user'] = $email;
         echo '<script>
-                window.location.href="index.php";
+            alert("Register successfully. Please login.");
+            window.location.href="./login.php?action=login";
             </script>';
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);

@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="css/header.css">
+    <title>Screens Come True</title>
+    <?php
+    session_start();
+    if (isset($_SESSION['userID']))
+    { ?>
+        <link rel="stylesheet" href="css/header_userloginsess.css">
+    <?php
+    }
+    else { ?>
+        <link rel="stylesheet" href="css/header.css">
+    <?php
+    }
+    ?>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -172,7 +183,7 @@
     <div id="wrapper">
         <?php
             session_start();
-            if (isset($_SESSION['valid_user']))
+            if (isset($_SESSION['userID']))
             {
                 include "components/header_userloginsess.html";
             }

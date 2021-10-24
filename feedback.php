@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+     <title>Screens Come True</title>
     <?php
     session_start();
-    if (isset($_SESSION['valid_user']))
+    if (isset($_SESSION['userID']))
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
     <?php
@@ -27,7 +27,7 @@
             margin: 20px 0px;
         }
         .feedback-form {
-            background-color: #302c2d;
+            background-color: #333333;
             margin: 30px 0;
             padding: 20px 0;
             border-radius: 20px;
@@ -108,7 +108,7 @@
 <body>
 <div id="wrapper">
     <?php
-        if (isset($_SESSION['valid_user']))
+        if (isset($_SESSION['userID']))
         {
             include "components/header_userloginsess.html";
         }

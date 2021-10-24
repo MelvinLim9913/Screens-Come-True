@@ -31,6 +31,13 @@ footer {
     color: #FFFFFF;
     text-decoration: None;
 }
+#footer a.title {
+    font-size: 22px;
+}
+#footer p {
+    font-size: 14px;
+    color: #FFFFFF;
+}
 #footer a:hover {
     color: #EA2127;
     -moz-transition: all .3s ease-in;
