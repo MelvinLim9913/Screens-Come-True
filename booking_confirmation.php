@@ -587,42 +587,42 @@
                         </div>
                     </div> ';
 
-                    // echo '
-                    // <div class="pop-up-screen">
-                    //     <div class="pop-up-box">
-                    //         <div class="confirmation-message">
-                    //             <p>Payment successful.</p>
-                    //             <p>Your Booking Reference ID is '.$bookingID.'.</p>
-                    //             <p>E-ticket(s) and transaction receipt have sent to your email.</p>
-                    //             <p>Enjoy the movie!</p>
-                    //         </div>
-                    //         <div class="back-to-home-btn">
-                    //             <button class="button" type="button" onclick="document.location.href=\'./index.php\'">Back To Home</button>
-                    //         </div>
-                    //     </div>
-                    // </div>
-                    // ';}
+                    echo '
+                    <div class="pop-up-screen">
+                        <div class="pop-up-box">
+                            <div class="confirmation-message">
+                                <p>Payment successful.</p>
+                                <p>Your Booking Reference ID is '.$bookingID.'.</p>
+                                <p>E-ticket(s) and transaction receipt have sent to your email.</p>
+                                <p>Enjoy the movie!</p>
+                            </div>
+                            <div class="back-to-home-btn">
+                                <button class="button" type="button" onclick="document.location.href=\'./index.php\'">Back To Home</button>
+                            </div>
+                        </div>
+                    </div>
+                    ';}
                     
-                    // else {
-                    //     echo '
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // </div> ';
+                    else {
+                        echo '
+                                </div>
+                            </div>
+                        </div>
+                    </div> ';
 
-                    // echo '
-                    // <div class="pop-up-screen">
-                    //     <div class="pop-up-box">
-                    //         <div class="confirmation-message">
-                    //             <p>The seat(s) chosen have been taken.</p>
-                    //             <p>Please select seats again. Sorry for the inconvenience caused.</p>
-                    //         </div>
-                    //         <div class="back-to-home-btn">
-                    //             <button class="button" type="button" onclick="document.location.href=\'./booking.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'\'">Back To Seat Selection</button>
-                    //         </div>
-                    //     </div>
-                    // </div>
-                    // ';
+                    echo '
+                    <div class="pop-up-screen">
+                        <div class="pop-up-box">
+                            <div class="confirmation-message">
+                                <p>The seat(s) chosen have been taken.</p>
+                                <p>Please select seats again. Sorry for the inconvenience caused.</p>
+                            </div>
+                            <div class="back-to-home-btn">
+                                <button class="button" type="button" onclick="document.location.href=\'./booking.php?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'\'">Back To Seat Selection</button>
+                            </div>
+                        </div>
+                    </div>
+                    ';
                      }
                     }
                     
