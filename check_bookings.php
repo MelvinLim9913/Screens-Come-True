@@ -111,7 +111,7 @@
                 <div class="feedback-table">
                     <table class="table-form" border="0">
                         <tr>
-                            <td><label for="email-address">Email Address/Phone Number* :</label></td>
+                            <td><label for="email-address">Email Address* :</label></td>
                             <td><input
                                     type="text"
                                     name="booking-email"

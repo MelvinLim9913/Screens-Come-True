@@ -9,6 +9,7 @@
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
     <?php
+    echo $_SESSION['userID'];
     }
     else { ?>
         <link rel="stylesheet" href="css/header.css">
@@ -601,7 +602,9 @@
                             </div>
                         </div>
                     </div>
-                    ';}
+                    ';
+                        
+                    }
                     
                     else {
                         echo '
@@ -624,6 +627,8 @@
                     </div>
                     ';
                      }
+                     unset($_SESSION['ticket-cart']);
+                     unset($_SESSION['promotion-cart']);
                     }
                     
                 ?>
