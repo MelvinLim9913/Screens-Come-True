@@ -97,11 +97,17 @@ hr {
     border-top: 30px solid transparent;
     border-bottom: 30px solid transparent;
 }
-#pointer:hover {
+#pointer:hover{
     background: #FFFFFF;
+}
+#pointer:hover h2{
+    color: #EA2127;
 }
 #pointer a:hover {
     color: #EA2127;
+}
+#pointer:hover::before {
+    border-left: 30px solid #FFFFFF;
 }
 .movie-running-time {
     color: #8c8c8c;

@@ -45,6 +45,9 @@ footer {
     -webkit-transition: all .3s ease-in;
     transition: all .3s ease-in;
 }
+#footer a.title:hover {
+    color: #FFFFFF;
+}
 #email-address {
     text-decoration: #FFFFFF;
 }
