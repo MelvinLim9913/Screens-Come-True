@@ -79,11 +79,13 @@
         }
         .seating-plan img {
             padding: 4px 2px;
+            height: 25px;
+            width: 25px;
         }
-        .seat-sold {
-            padding-left: 3.1px;
-            padding-right: 3.6px;
-        }
+        /*.seat-sold {*/
+        /*    padding-left: 3.1px;*/
+        /*    padding-right: 3.6px;*/
+        /*}*/
         .legend {
             padding: 20px 0px;
             padding-right: 20px
@@ -223,6 +225,7 @@
             background-color: #FFFFFF;
             color: #EA2127;
         }
+
     </style>
 </head>
 <body>
@@ -609,16 +612,18 @@
                                     echo '&nbsp;&nbsp;';
                                 }
                                 if (in_array($getCinemaSeatID[$i][$j], $occupiedSeat, TRUE)) {
-                                    echo '<span class="seat-sold"><img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-sold.png" alt="seat-sold" width="25" height="25" ></span>';
+                                    echo '<a>
+                                            <img class="seats-icon" id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-sold.png" alt="seat-sold">
+                                          </a>';
                                 }
                                 else if (in_array($getCinemaSeatID[$i][$j], $_SESSION['ticket-cart'], TRUE)) {
                                     echo '<a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'&drop='.$getCinemaSeatID[$i][$j].'">
-                                            <img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-selected.png" alt="seat-selected" width="25" height="25">
+                                            <img class="seats-icon" id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-selected.png" alt="seat-selected" >
                                         </a>';
                                 }
                                 else {
                                     echo '<a href="'.$_SERVER['PHP_SELF'].'?movieid='.$movieID.'&cinemaid='.$cinemaID.'&cinemahallid='.$cinemaHallID.'&showdate='.$showDate.'&showtime='.$showTime.'&buy='.$getCinemaSeatID[$i][$j].'">
-                                            <img id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-available.png" alt="seat-available" width="25" height="25">
+                                            <img class="seats-icon" id="'.$getCinemaSeatID[$i][$j].'" name="'.$alphabet[$i-1].':'.$j.'" src="./img/seat-available.png" alt="seat-available">
                                         </a>';
                                 }
                             }
