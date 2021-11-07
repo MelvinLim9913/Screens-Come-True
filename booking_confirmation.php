@@ -9,7 +9,6 @@
     { ?>
         <link rel="stylesheet" href="css/header_userloginsess.css">
     <?php
-    echo $_SESSION['userID'];
     }
     else { ?>
         <link rel="stylesheet" href="css/header.css">
@@ -162,9 +161,9 @@
             padding-left: 330px;
             display: flex;
             align-items: center;
-            width: calc(100% - 370px);
-            margin-left: 20px;
-            margin-right: 20px;
+            width: calc(100% - 395px);
+            margin-left: 30px;
+            margin-right: 30px;
         }
         .step-caption {
             padding-left: 330px;
@@ -173,7 +172,7 @@
             width: calc(100% - 330px);
         }
         .step-caption h3{
-            width: 10%;
+            width: 13%;
             text-align: center;
             text-wrap: normal;
             color: #FFD60A;
@@ -219,9 +218,9 @@
                     <div class="circle active">3</div>
                 </div>
                 <div class="step-caption">
-                    <h3 class="caption active">Seat<br>Selection</h3>
-                    <h3 class="caption active">Enter<br>Particulars</h3>
-                    <h3 class="caption active">Confirmation</h3>
+                    <h3 class="caption active">Select&nbsp;seats</h3>
+                    <h3 class="caption active">Food &<br>Beverage</h3>
+                    <h3 class="caption active">Payment&nbsp;&<br>Confirmation</h3>
                 </div>
                 <br>
 
@@ -556,10 +555,10 @@
 
                                     $to      = $email;
                                     $subject = 'Screens Come True - Movies Purchase Confirmation';
-                                    $message = 'This is an automatically generated meggage. Please do not reply to this address.'
+                                    $message = 'This is an automatically generated message. Please do not reply to this address.'
                                                 ."\r\n"."\r\n".
-                                                'Hi '.$name.', thank you for your purchase!'
-                                                ."\r\n".
+                                                'Hi '.$name.', thank you for your purchase! Your Booking Reference ID is '.$bookingID
+                                                .".\r\n".
                                                 $movieName
                                                 ."\r\n".
                                                 date('Y-m-d', strtotime($showDate)).', '.date('H:i', strtotime($showTime))
@@ -580,7 +579,6 @@
                                         'X-Mailer: PHP/' . phpversion();
 
                                     mail($to, $subject, $message, $headers,'-ff32ee@localhost');
-                                    echo ("mail sent to : ".$to);
 
                                 echo '
                                 </div>

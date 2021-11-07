@@ -133,9 +133,9 @@
             padding-left: 330px;
             display: flex;
             align-items: center;
-            width: calc(100% - 370px);
-            margin-left: 20px;
-            margin-right: 20px;
+            width: calc(100% - 395px);
+            margin-left: 30px;
+            margin-right: 30px;
         }
         .step-caption {
             padding-left: 330px;
@@ -144,7 +144,7 @@
             width: calc(100% - 330px);
         }
         .step-caption h3{
-            width: 10%;
+            width: 13%;
             text-align: center;
             text-wrap: normal;
             color: #FFD60A;
@@ -203,9 +203,9 @@
                     <div class="circle">3</div>
                 </div>
                 <div class="step-caption">
-                    <h3 class="caption active">Seat<br>Selection</h3>
-                    <h3 class="caption active">Enter<br>Particulars</h3>
-                    <h3 class="caption">Confirmation</h3>
+                    <h3 class="caption active">Select&nbsp;seats</h3>
+                    <h3 class="caption active">Food &<br>Beverage</h3>
+                    <h3 class="caption">Payment&nbsp;&<br>Confirmation</h3>
                 </div>
                 <br>
 
